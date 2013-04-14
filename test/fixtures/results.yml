@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  race_id: 1
+  driver_id: 1
+  position: 1
+  fastest_lap: false
+
+two:
+  race_id: 1
+  driver_id: 1
+  position: 1
+  fastest_lap: false

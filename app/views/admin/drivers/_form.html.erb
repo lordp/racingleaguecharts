@@ -1,0 +1,5 @@
+<%= f.label :name %>
+<%= f.text_field :name %>
+
+<%= f.label :team %>
+<%= f.collection_select :team_id, Team.all, :id, :name %>

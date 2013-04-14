@@ -1,0 +1,29 @@
+<h1>Results</h1>
+<p><%= link_to 'Create', new_admin_result_path %></p>
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>League</th>
+      <th>Race</th>
+      <th>Driver</th>
+      <th>Team</th>
+      <th>Position</th>
+      <th>Pole Position</th>
+      <th>Fastest Lap</th>
+    </tr>
+  </thead>
+  <tbody>
+<% @results.each do |result| %>
+  <tr>
+    <td><%= result.race.league_name %></td>
+    <td><%= link_to(result.race_name, edit_admin_result_path(result)) %></td>
+    <td><%= result.driver_name %></td>
+    <td><%= result.team_name %></td>
+    <td><%= result.position > 0 ? result.position.ordinalize : 'Ret' %></td>
+    <td><%= result.pole_position? ? 'Yes' : 'No' %></td>
+    <td><%= result.fastest_lap? ? 'Yes' : 'No' %></td>
+  </tr>
+<% end %>
+  </tbody>
+</table>

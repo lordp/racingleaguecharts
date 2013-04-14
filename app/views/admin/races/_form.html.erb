@@ -1,0 +1,8 @@
+<%= f.label :name %>
+<%= f.text_field :name %>
+
+<%= f.label :short_name %>
+<%= f.text_field :short_name %>
+
+<%= f.label :league_id %>
+<%= f.collection_select :league_id, League.all, :id, :name %>

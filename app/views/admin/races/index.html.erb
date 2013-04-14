@@ -1,0 +1,19 @@
+<h1>Races</h1>
+<p><%= link_to 'Create', new_admin_race_path %></p>
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>League</th>
+    </tr>
+  </thead>
+  <tbody>
+<% @races.each do |race| %>
+  <tr>
+    <td><%= link_to(race.name, edit_admin_race_path(race)) %></td>
+    <td><%= race.league_name %></td>
+  </tr>
+<% end %>
+  </tbody>
+</table>
