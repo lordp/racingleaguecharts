@@ -2,5 +2,5 @@
 
 <%= form_for(:result, :url => admin_result_path(@result), :method => :put) do |f| %>
   <%= render(:partial => 'form', :locals => { :f => f }) %>
-  <p><%= f.submit 'Save', :class => 'btn btn-primary' %></p>
+  <p><%= f.submit 'Save', :class => 'btn btn-primary' %> <%= link_to('Cancel', league_path(@result.race.league), :class => 'btn btn-danger') %></p>
 <% end %>
