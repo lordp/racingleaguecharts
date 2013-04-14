@@ -9,6 +9,7 @@
 
 <%= f.label :team_id %>
 <%= f.collection_select :team_id, Team.all, :id, :name %>
+<span class="help-block">The team this driver was in at the time.</span>
 
 <%= f.label :pole_position, :class => 'checkbox' do %>
   <%= f.check_box :pole_position %> Pole Position?
