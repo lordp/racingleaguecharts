@@ -9,7 +9,7 @@
       <th>Name</th>
       <th>Points</th>
       <% @league.races.each do |race| %>
-      <th><%= race.short_name %></th>
+      <th title="<%= race.name %>"><%= race.short_name %></th>
       <% end %>
       <th>Split</th>
     </tr>
@@ -20,11 +20,11 @@
       <td><%= index %></td>
       <td><%= driver.team_name %></td>
       <td><%= driver.name %></td>
-      <td><%= driver.points %></td>
+      <td id="driver-points-<%= index %>"><%= driver.points %></td>
       <% @league.races.each do |race| %>
         <%= driver_race_result(driver, race) %>
       <% end %>
-      <td>?</td>
+      <td id="driver-split-<%= index%>" class="split-target split-target-driver">?</td>
     </tr>
     <% end %>
   </tbody>
@@ -38,7 +38,7 @@
       <th>Name</th>
       <th>Points</th>
       <% @league.races.each do |race| %>
-      <th><%= race.short_name %></th>
+      <th title="<%= race.name %>"><%= race.short_name %></th>
       <% end %>
       <th>Split</th>
     </tr>
@@ -48,11 +48,11 @@
     <tr>
       <td><%= index %></td>
       <td><%= team.name %></td>
-      <td><%= team.points(@league.id) %></td>
+      <td id="team-points-<%= index %>"><%= team.points(@league.id) %></td>
       <% @league.races.each do |race| %>
         <td><% cache "team_#{team.id}_race_#{race.id}" do %><%= team_race_points(team, race) %><% end %></td>
       <% end %>
-      <td>?</td>
+      <td id="team-split-<%= index %>" class="split-target split-target-team">?</td>
     </tr>
     <% end %>
   </tbody>
