@@ -7,7 +7,7 @@ set :repository,  "git@github.com:lordp/virtualwdc.git"
 # Or: `accurev`, `bzr`, `cvs`, `darcs`, `git`, `mercurial`, `perforce`, `subversion` or `none`
 
 set :user, 'darrylh'
-set :domain, 'virtualwdc.addict.net.nz'
+set :domain, 'formula1.addict.net.nz'
 set :use_sudo, false
 
 set :deploy_to, "/var/www/#{application}"
