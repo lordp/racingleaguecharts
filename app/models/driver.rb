@@ -17,7 +17,7 @@ class Driver < ActiveRecord::Base
   end
 
   def update_points
-    self.points = self.results.reject { |result| !(1..8).include?(result.position) }.inject(0) do |sum, result|
+    self.points = self.results.where('position between 1 and 8').inject(0) do |sum, result|
       sum += POINTS[result.position - 1]
     end
   end

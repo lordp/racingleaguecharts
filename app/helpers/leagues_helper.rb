@@ -42,7 +42,7 @@ module LeaguesHelper
   end
 
   def team_race_points(team, race)
-    team.results.where(:race_id => race).reject { |result| !(1..8).include?(result.position) }.inject(0) do |sum, result|
+    team.results.where(:race_id => race).where('position between 1 and 8').inject(0) do |sum, result|
       sum += Driver::POINTS[result.position - 1]
     end
   end
