@@ -35,10 +35,10 @@ module LeaguesHelper
 
       value = link_to(value, edit_admin_result_path(result), :title => title)
     else
-      value = link_to('-', new_admin_result_path(:race_id => race, :driver_id => driver))
+      value = link_to('-', '#result-modal-new', 'data-toggle' => 'modal', 'data-race' => race.id, 'data-driver' => driver.id)
     end
 
-    content_tag('td', value, { :style => styles.join(';') })
+    content_tag('td', value, { :style => styles.join(';'), :id => "driver_#{driver.id}_race_#{race.id}" })
   end
 
   def team_race_points(team, race)

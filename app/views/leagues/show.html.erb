@@ -30,6 +30,39 @@
   </tbody>
 </table>
 
+<div class="hide modal" id="result-modal-new">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+    <h2>Add result</h2>
+  </div>
+
+  <div class="modal-body">
+    <%= form_for(Result.new, :url => admin_results_path(), :class => 'form-horizontal well', 'data-async' => '', 'data-target' => "#result-modal", :remote => true) do |f| %>
+      <%= f.hidden_field(:driver_id) %>
+      <%= f.hidden_field(:race_id) %>
+      <p>
+      <%= f.label(:position) %>
+      <%= f.text_field(:position, :style => 'width:auto;', :size => 1) %>
+      </p>
+      <p>
+      <%= f.label(:fastest_lap, :class => 'checkbox') do %>
+        <%= f.check_box(:fastest_lap) %> Fastest Lap?
+      <% end %>
+      </p>
+      <p>
+      <%= f.label(:pole_position, :class => 'checkbox') do %>
+        <%= f.check_box(:pole_position) %> Pole Position?
+      <% end %>
+      </p>
+
+      <p>
+      <%= f.submit('Save', :class => 'btn btn-primary') %>
+      <%= link_to('Cancel', '#', :class => 'btn btn-danger', 'data-dismiss' => 'modal') %>
+      </p>
+    <% end %>
+  </div>
+</div>
+
 <h2>Constructors Championship</h2>
 <table class="table table-bordered table-condensed">
   <thead>

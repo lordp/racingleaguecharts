@@ -1,0 +1,2 @@
+$('#result-modal-new').modal('hide');
+$('#driver_<%= @result.driver_id %>_race_<%= @result.race_id %>').replaceWith('<%= driver_race_result(@result.driver, @result.race) %>');
