@@ -10,7 +10,8 @@ $(document).ready(function() {
 
     var index = this.id.replace(target_type + '-split-', '');
     if (index > 1) {
-      var split_value = $('#' + target_type + '-points-' + (index - 1).toString()).html() - $('#' + target_type + '-points-' + index.toString()).html();
+      var target = $('#' + target_type + '-points-' + index.toString());
+      var split_value = $(target).parent().prev().find('td:eq('+ $(target).index() +')').html() - $(target).html();
       $(this).html(split_value);
     }
     else {
