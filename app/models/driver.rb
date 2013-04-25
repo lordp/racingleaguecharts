@@ -1,5 +1,5 @@
 class Driver < ActiveRecord::Base
-  attr_accessible :name, :team_id
+  attr_accessible :name, :team_id, :country
 
   belongs_to :team
   has_many :results
