@@ -40,6 +40,7 @@
     <%= form_for(Result.new, :url => admin_results_path(), :class => 'form-horizontal well', 'data-async' => '', 'data-target' => "#result-modal", :remote => true) do |f| %>
       <%= f.hidden_field(:driver_id) %>
       <%= f.hidden_field(:race_id) %>
+      <%= f.hidden_field(:team_id) %>
       <p>
       <%= f.label(:position) %>
       <%= f.text_field(:position, :style => 'width:auto;', :size => 1) %>

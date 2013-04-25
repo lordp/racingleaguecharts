@@ -22,5 +22,6 @@ $(document).ready(function() {
   $('#result-modal-new').on('show', function() {
     $('#result_driver_id').val($(this).data('modal').options.driver);
     $('#result_race_id').val($(this).data('modal').options.race);
+    $('#result_team_id').val($(this).data('modal').options.team);
   });
 });
