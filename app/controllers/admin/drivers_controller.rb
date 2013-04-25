@@ -3,7 +3,7 @@ class Admin::DriversController < ApplicationController
   before_filter :find_driver, :only => [ :edit, :update, :show, :destroy ]
 
   def index
-    @drivers = Driver.all
+    @drivers = Driver.order(:name).all
   end
 
   def show
