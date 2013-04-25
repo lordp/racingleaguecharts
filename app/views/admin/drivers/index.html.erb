@@ -6,6 +6,7 @@
     <tr>
       <th>Name</th>
       <th>Team</th>
+      <th>Country</th>
     </tr>
   </thead>
   <tbody>
@@ -13,6 +14,7 @@
   <tr>
     <td><%= link_to(driver.name, edit_admin_driver_path(driver)) %></td>
     <td><%= link_to(driver.team_name, edit_admin_team_path(driver.team)) %></td>
+    <td><%= driver.country %></td>
   </tr>
 <% end %>
   </tbody>

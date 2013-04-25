@@ -1,5 +1,5 @@
 class Team < ActiveRecord::Base
-  attr_accessible :name
+  attr_accessible :name, :flair, :country
 
   has_many :drivers
   has_many :results
