@@ -1,0 +1,7 @@
+<pre>|||Season race results|||
+:-:|-|-|-|:-:|
+Round|Grand Prix|Winner|Fastest Lap|Turnout
+<% @table.to_enum.with_index(1).each do |race, index| %>
+<%= index %>|[](/flag-<%= race['name'].downcase %> "<%= race['name'] %>")<%= race['name'] %>|[](/flag-<%= race['winner'].driver.country %> "<%= full_country(race['winner'].driver.country) %>") <%= race['winner'].driver.name %>|[](/flag-<%= race['fastest_lap'].driver.country %> "<%= full_country(race['fastest_lap'].driver.country) %>") <%= race['fastest_lap'].driver.name %>|[link] ()
+<% end %>
+</pre>

@@ -1,6 +1,7 @@
 <h1><%= @league.name %></h1>
 
 <h2>Drivers Championship</h2>
+<p><%= link_to('Generate drivers table', generate_drivers_table_league_path(@league)) %></p>
 <table class="table table-bordered table-condensed">
   <thead>
     <tr>
@@ -65,6 +66,7 @@
 </div>
 
 <h2>Constructors Championship</h2>
+<p><%= link_to('Generate constructors table', generate_teams_table_league_path(@league)) %></p>
 <table class="table table-bordered table-condensed">
   <thead>
     <tr>
@@ -91,3 +93,6 @@
     <% end %>
   </tbody>
 </table>
+
+<p><%= link_to('Generate results table', generate_winners_table_league_path(@league)) %></p>
+

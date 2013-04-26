@@ -11,4 +11,13 @@ class Race < ActiveRecord::Base
   def name_and_league
     "#{self.league_name} - #{self.name}"
   end
+
+  def winner
+    Result.where(:race_id => self.id).where(:position => 1).first
+  end
+
+  def fastest_lap
+    Result.where(:race_id => self.id).where(:fastest_lap => true).first
+  end
+
 end

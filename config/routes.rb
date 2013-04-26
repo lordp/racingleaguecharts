@@ -1,6 +1,12 @@
 Virtualwdc::Application.routes.draw do
 
-  resources :leagues
+  resources :leagues do
+    member do
+      get :generate_drivers_table
+      get :generate_teams_table
+      get :generate_winners_table
+    end
+  end
 
   namespace :admin do
     resources :drivers, :teams, :races, :leagues, :results

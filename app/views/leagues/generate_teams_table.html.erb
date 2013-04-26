@@ -1,0 +1,11 @@
+<pre>||Constructors Championship||
+:-:|-|:-:|
+Position|Team|Points
+<% position = 0 %>
+<% last_points = -1 %>
+<% @table.each do |team| %>
+<% position += 1 if last_points != team.points(@league.id) %>
+<%= position.ordinalize %>|[](/flag-<%= team.country %> "<%= full_country(team.country) %>")<%= team.name %>|<%= team.points(@league.id) %>|
+<% last_points = team.points(@league.id) %>
+<% end %>
+</pre>

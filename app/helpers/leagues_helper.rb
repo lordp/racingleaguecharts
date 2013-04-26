@@ -47,4 +47,15 @@ module LeaguesHelper
     end
   end
 
+  def full_country(shorthand)
+    case shorthand
+    when nil then ''
+    when 'us' then 'United States of America'
+    when 'uk' then 'United Kingdom'
+    when 'nz' then 'New Zealand'
+    when 'lit' then 'Lithuania'
+    else shorthand.humanize
+    end
+  end
+
 end
