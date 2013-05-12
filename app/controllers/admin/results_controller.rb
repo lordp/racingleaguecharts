@@ -1,5 +1,4 @@
 class Admin::ResultsController < ApplicationController
-  respond_to :html, :json, :js
   before_filter :find_result, :only => [ :edit, :update, :show, :destroy ]
 
   def index
@@ -15,7 +14,10 @@ class Admin::ResultsController < ApplicationController
 
   def create
     @result = Result.create(params[:result])
-    respond_with @result
+    respond_to do |format|
+      format.html { redirect_to(admin_results_path()) }
+      format.js
+    end
   end
 
   def edit
