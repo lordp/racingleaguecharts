@@ -2,7 +2,12 @@ class Admin::RacesController < ApplicationController
   before_filter :find_race, :only => [ :edit, :update, :show, :destroy ]
 
   def index
-    @races = Race.all
+    @races = {}
+    races = Race.all
+    races.each do |r|
+      @races[r.league] ||= []
+      @races[r.league] << r
+    end
   end
 
   def show

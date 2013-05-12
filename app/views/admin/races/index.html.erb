@@ -1,19 +1,23 @@
 <h1>Races</h1>
 <p><%= link_to 'Create', new_admin_race_path %></p>
 
-<table class="table table-bordered">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>League</th>
-    </tr>
-  </thead>
-  <tbody>
-<% @races.each do |race| %>
-  <tr>
-    <td><%= link_to(race.name, edit_admin_race_path(race)) %></td>
-    <td><%= race.league_name %></td>
-  </tr>
-<% end %>
-  </tbody>
-</table>
+<div class="accordion" id="accordion">
+  <% @races.each do |league, races| %>
+  <div class="accordion-group">
+    <div class="accordion-heading">
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#league-<%= league.id %>">
+        <%= league.name %>
+      </a>
+    </div>
+    <div id="league-<%= league.id %>" class="accordion-body collapse">
+      <div class="accordion-inner">
+        <ol>
+          <% races.each do |race| %>
+            <li><%= link_to(race.name, edit_admin_race_path(race)) %></li>
+          <% end %>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <% end %>
+</div>
