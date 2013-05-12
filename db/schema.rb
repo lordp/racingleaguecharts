@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130512023107) do
+ActiveRecord::Schema.define(:version => 20130512034055) do
 
   create_table "drivers", :force => true do |t|
     t.string   "name"
