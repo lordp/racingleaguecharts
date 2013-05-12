@@ -2,7 +2,21 @@ class Admin::ResultsController < ApplicationController
   before_filter :find_result, :only => [ :edit, :update, :show, :destroy ]
 
   def index
-    @results = Result.order(:race_id, :position)
+    @results = {}
+    results = Result.order(:race_id, :position)
+    old_race = nil
+    results.each do |r|
+      @results[r.race.league] ||= {}
+      @results[r.race.league][r.race] ||= []
+      @results[r.race.league][r.race] << {
+        :id            => r.id,
+        :position      => r.position,
+        :driver        => r.driver,
+        :team          => r.team,
+        :fastest_lap   => r.fastest_lap,
+        :pole_position => r.pole_position
+      }
+    end
   end
 
   def show
