@@ -3,7 +3,7 @@ class Admin::ResultsController < ApplicationController
 
   def index
     @results = {}
-    results = Result.order(:race_id, :position)
+    results = Result.order(:race_id, 'position = -1', :position)
     old_race = nil
     results.each do |r|
       @results[r.race.league] ||= {}
