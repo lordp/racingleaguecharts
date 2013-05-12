@@ -9,7 +9,7 @@
       <th>Team</th>
       <th>Name</th>
       <th>Points</th>
-      <% @league.races.each do |race| %>
+      <% @league.races.order(:start_date).each do |race| %>
       <th title="<%= race.name %>"><%= race.short_name %></th>
       <% end %>
       <th>Split</th>
@@ -22,7 +22,7 @@
       <td><%= driver.team_name %></td>
       <td><%= driver.name %></td>
       <td id="driver-points-<%= driver.id %>"><%= driver.points %></td>
-      <% @league.races.each do |race| %>
+      <% @league.races.order(:start_date).each do |race| %>
         <%= driver_race_result(driver, race) %>
       <% end %>
       <td id="driver-split-<%= driver.id %>" class="split-target split-target-driver">?</td>
@@ -73,7 +73,7 @@
       <th>Pos.</th>
       <th>Name</th>
       <th>Points</th>
-      <% @league.races.each do |race| %>
+      <% @league.races.order(:start_date).each do |race| %>
       <th title="<%= race.name %>"><%= race.short_name %></th>
       <% end %>
       <th>Split</th>
@@ -85,7 +85,7 @@
       <td><%= index %></td>
       <td><%= team.name %></td>
       <td id="team-points-<%= team.id %>"><%= team.points(@league.id) %></td>
-      <% @league.races.each do |race| %>
+      <% @league.races.order(:start_date).each do |race| %>
         <td><% cache "team_#{team.id}_race_#{race.id}" do %><%= team_race_points(team, race) %><% end %></td>
       <% end %>
       <td id="team-split-<%= team.id %>" class="split-target split-target-team">?</td>

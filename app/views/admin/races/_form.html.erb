@@ -6,3 +6,9 @@
 
 <%= f.label :league_id %>
 <%= f.collection_select :league_id, League.all, :id, :name %>
+
+<%= f.label :flag %>
+<%= f.text_field :flag %>
+
+<%= f.label :start_date %>
+<%= f.text_field :start_date %>

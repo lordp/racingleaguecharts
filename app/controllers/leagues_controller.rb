@@ -16,7 +16,7 @@ class LeaguesController < ApplicationController
   end
 
   def generate_winners_table
-    @table = @league.races.collect { |race| { 'name' => race.name, 'winner' => race.winner, 'fastest_lap' => race.fastest_lap } }.reject { |r| r['winner'].nil? }
+    @table = @league.races.order(:start_date).collect { |race| { 'race' => race, 'winner' => race.winner, 'fastest_lap' => race.fastest_lap } }.reject { |r| r['winner'].nil? }
   end
 
   private

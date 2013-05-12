@@ -11,11 +11,22 @@
     </div>
     <div id="league-<%= league.id %>" class="accordion-body collapse">
       <div class="accordion-inner">
-        <ol>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Race</th>
+              <th>Start Date</th>
+            </tr>
+          </thead>
+          <tbody>
           <% races.each do |race| %>
-            <li><%= link_to(race.name, edit_admin_race_path(race)) %></li>
+            <tr>
+              <td><%= link_to(race.name, edit_admin_race_path(race)) %></td>
+              <td><%= race.start_date %></td>
+            </tr>
           <% end %>
-        </ol>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>

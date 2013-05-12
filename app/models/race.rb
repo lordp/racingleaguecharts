@@ -1,5 +1,5 @@
 class Race < ActiveRecord::Base
-  attr_accessible :name, :short_name, :league_id
+  attr_accessible :name, :short_name, :league_id, :flag, :start_date
 
   has_one :result
   belongs_to :league

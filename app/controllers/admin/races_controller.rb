@@ -3,7 +3,7 @@ class Admin::RacesController < ApplicationController
 
   def index
     @races = {}
-    races = Race.all
+    races = Race.order(:start_date)
     races.each do |r|
       @races[r.league] ||= []
       @races[r.league] << r
