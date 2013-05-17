@@ -5,6 +5,9 @@ class LeaguesController < ApplicationController
   end
 
   def show
+    @results = @league.results.includes(:driver, :race, :team).collect do |result|
+      { driver: result.driver, race: result.race, pos: result.position, fl: result.fastest_lap, pp: result.pole_position }
+    end
   end
 
   def generate_drivers_table

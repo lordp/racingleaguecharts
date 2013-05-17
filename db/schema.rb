@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130512034055) do
+ActiveRecord::Schema.define(:version => 20130517013225) do
 
   create_table "drivers", :force => true do |t|
     t.string   "name"
@@ -20,6 +20,14 @@ ActiveRecord::Schema.define(:version => 20130512034055) do
     t.datetime "updated_at", :null => false
     t.integer  "points"
     t.string   "country"
+  end
+
+  create_table "league_teams", :force => true do |t|
+    t.integer  "league_id"
+    t.integer  "team_id"
+    t.integer  "points"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "leagues", :force => true do |t|

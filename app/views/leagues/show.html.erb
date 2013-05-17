@@ -16,14 +16,14 @@
     </tr>
   </thead>
   <tbody>
-    <% @league.drivers.sort { |a,b| a.points <=> b.points }.reverse.to_enum.with_index(1).each do |driver, index| %>
+    <% @league.drivers.includes(:team).order('points desc').to_enum.with_index(1).each do |driver, index| %>
     <tr>
       <td><%= index %></td>
       <td><%= driver.team_name %></td>
       <td><%= driver.name %></td>
       <td id="driver-points-<%= driver.id %>"><%= driver.points %></td>
       <% @league.races.order(:start_date).each do |race| %>
-        <%= driver_race_result(driver, race) %>
+        <%= driver_race_result(@results, driver, race) %>
       <% end %>
       <td id="driver-split-<%= driver.id %>" class="split-target split-target-driver">?</td>
     </tr>
@@ -80,11 +80,11 @@
     </tr>
   </thead>
   <tbody>
-    <% @league.teams.sort { |a,b| a.points(@league.id) <=> b.points(@league.id) }.reverse.to_enum.with_index(1).each do |team, index| %>
+    <% @league.teams.includes(:league_teams).order('league_teams.points desc').to_enum.with_index(1).each do |team, index| %>
     <tr>
       <td><%= index %></td>
       <td><%= team.name %></td>
-      <td id="team-points-<%= team.id %>"><%= team.points(@league.id) %></td>
+      <td id="team-points-<%= team.id %>"><%= team.points(@league) %></td>
       <% @league.races.order(:start_date).each do |race| %>
         <td><% cache "team_#{team.id}_race_#{race.id}" do %><%= team_race_points(team, race) %><% end %></td>
       <% end %>

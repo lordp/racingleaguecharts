@@ -4,7 +4,9 @@ class Team < ActiveRecord::Base
   has_many :drivers
   has_many :results
 
+  has_many :league_teams
+
   def points(league)
-    League.find(league).results.where(:team_id => self.id).sum(:points)
+    league_teams.where(:league_id => league).first.points
   end
 end
