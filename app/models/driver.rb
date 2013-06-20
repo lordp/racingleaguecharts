@@ -7,6 +7,7 @@ class Driver < ActiveRecord::Base
   has_many :races, :through => :results
 
   before_save :update_points
+  after_save :update_team_points
 
   delegate :name, :to => :team, :prefix => true
   delegate :name, :to => :league, :prefix => true, :allow_nil => true
@@ -18,4 +19,9 @@ class Driver < ActiveRecord::Base
       sum += POINTS[result.position - 1]
     end
   end
+
+  def update_team_points
+    self.team.update_points(self.league)
+  end
+
 end

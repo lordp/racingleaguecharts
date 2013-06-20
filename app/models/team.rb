@@ -8,6 +8,10 @@ class Team < ActiveRecord::Base
   has_many :leagues, :through => :league_teams
 
   def points(league)
-    league_teams.where(:league_id => league).first.points
+    league_teams.where(league_id: league).first.points
+  end
+
+  def update_points(league)
+    self.league_teams.where(league_id: league).first.update_attribute(:points, self.drivers.where(league_id: league).sum(:points))
   end
 end
