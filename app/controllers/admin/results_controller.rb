@@ -4,18 +4,10 @@ class Admin::ResultsController < ApplicationController
   def index
     @results = {}
     results = Result.order(:race_id, 'position = -1', :position)
-    old_race = nil
     results.each do |r|
       @results[r.race.league] ||= {}
       @results[r.race.league][r.race] ||= []
-      @results[r.race.league][r.race] << {
-        :id            => r.id,
-        :position      => r.position,
-        :driver        => r.driver,
-        :team          => r.team,
-        :fastest_lap   => r.fastest_lap,
-        :pole_position => r.pole_position
-      }
+      @results[r.race.league][r.race] << r
     end
   end
 
@@ -28,7 +20,6 @@ class Admin::ResultsController < ApplicationController
 
   def create
     @result = Result.create(params[:result])
-    @results = [{ driver: @result.driver, race: @result.race, pos: @result.position, fl: @result.fastest_lap, pp: @result.pole_position, id: @result.id }]
     expire_fragment("team_#{@result.team_id}_race_#{@result.race_id}")
     respond_to do |format|
       format.html { redirect_to(admin_results_path()) }

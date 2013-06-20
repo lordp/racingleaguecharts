@@ -4,36 +4,37 @@ module LeaguesHelper
     styles = []
     title = ''
 
-    if result = results.select { |r| r[:driver] == driver && r[:race] == race }.first
-      case result[:pos]
+    result = results.select { |r| r.driver == driver && r.race == race }.first
+    if result
+      case result.position
       when -1 then
         value = 'Ret'
         styles << 'background: rgb(239, 207, 255)'
       when 1 then
-        value = result[:pos]
-        title = pluralize(Driver::POINTS[result[:pos] - 1], 'point')
+        value = result.position
+        title = pluralize(Driver::POINTS[result.position - 1], 'point')
         styles << 'background: rgb(255, 255, 191)'
       when 2 then
-        value = result[:pos]
-        title = pluralize(Driver::POINTS[result[:pos] - 1], 'point')
+        value = result.position
+        title = pluralize(Driver::POINTS[result.position - 1], 'point')
         styles << 'background: rgb(223, 223, 223)'
       when 3 then
-        value = result[:pos]
-        title = pluralize(Driver::POINTS[result[:pos] - 1], 'point')
+        value = result.position
+        title = pluralize(Driver::POINTS[result.position - 1], 'point')
         styles << 'background: rgb(255, 223, 159)'
       when 4..8 then
-        value = result[:pos]
-        title = pluralize(Driver::POINTS[result[:pos] - 1], 'point')
+        value = result.position
+        title = pluralize(Driver::POINTS[result.position - 1], 'point')
         styles << 'background: rgb(223, 255, 223)'
       else
-        value = result[:pos]
+        value = result.position
         styles << 'background: rgb(207, 207, 255)'
       end
 
-      styles << 'font-style: italic' if result[:fl]
-      styles << 'font-weight: bold' if result[:pp]
+      styles << 'font-style: italic' if result.fastest_lap
+      styles << 'font-weight: bold' if result.pole_position
 
-      value = link_to(value, edit_admin_result_path(result[:id]), :title => title)
+      value = link_to(value, edit_admin_result_path(result), :title => title)
     else
       value = link_to('-', '#result-modal-new', 'data-toggle' => 'modal', 'data-race' => race.id, 'data-driver' => driver.id, 'data-team' => driver.team_id)
     end
