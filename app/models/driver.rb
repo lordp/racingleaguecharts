@@ -1,20 +1,17 @@
 class Driver < ActiveRecord::Base
-  attr_accessible :name, :team_id, :country
+  attr_accessible :name, :team_id, :country, :league_id
 
   belongs_to :team
+  belongs_to :league
   has_many :results
   has_many :races, :through => :results
-  has_many :leagues, :through => :races, :uniq => true
 
   before_save :update_points
 
   delegate :name, :to => :team, :prefix => true
+  delegate :name, :to => :league, :prefix => true, :allow_nil => true
 
   POINTS = [10, 8, 6, 5, 4, 3, 2, 1]
-
-  def league
-    self.leagues.first
-  end
 
   def update_points
     self.points = self.results.where('position between 1 and 8').inject(0) do |sum, result|
