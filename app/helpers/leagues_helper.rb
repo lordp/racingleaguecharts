@@ -33,7 +33,7 @@ module LeaguesHelper
       styles << 'font-style: italic' if result[:fl]
       styles << 'font-weight: bold' if result[:pp]
 
-      value = link_to(value, edit_admin_result_path(result), :title => title)
+      value = link_to(value, edit_admin_result_path(result[:id]), :title => title)
     else
       value = link_to('-', '#result-modal-new', 'data-toggle' => 'modal', 'data-race' => race.id, 'data-driver' => driver.id, 'data-team' => driver.team_id)
     end

@@ -28,6 +28,7 @@ class Admin::ResultsController < ApplicationController
 
   def create
     @result = Result.create(params[:result])
+    @results = [{ driver: @result.driver, race: @result.race, pos: @result.position, fl: @result.fastest_lap, pp: @result.pole_position, id: @result.id }]
     expire_fragment("team_#{@result.team_id}_race_#{@result.race_id}")
     respond_to do |format|
       format.html { redirect_to(admin_results_path()) }
