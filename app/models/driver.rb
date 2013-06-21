@@ -3,14 +3,14 @@ class Driver < ActiveRecord::Base
 
   belongs_to :team
   belongs_to :league
-  has_many :results
-  has_many :races, :through => :results
+  has_many :results, dependent: :destroy
+  has_many :races, through: :results
 
   before_save :update_points
   after_save :update_team_points
 
-  delegate :name, :to => :team, :prefix => true
-  delegate :name, :to => :league, :prefix => true, :allow_nil => true
+  delegate :name, to: :team, prefix: true
+  delegate :name, to: :league, prefix: true, allow_nil: true
 
   POINTS = [10, 8, 6, 5, 4, 3, 2, 1]
 
