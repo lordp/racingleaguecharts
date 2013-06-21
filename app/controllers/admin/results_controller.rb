@@ -3,7 +3,7 @@ class Admin::ResultsController < ApplicationController
 
   def index
     @results = {}
-    results = Result.order(:race_id, 'position = -1, position = -2', :position)
+    results = Result.includes(:race).order('races.start_date', 'position = -1, position = -2', :position)
     results.each do |r|
       @results[r.race.league] ||= {}
       @results[r.race.league][r.race] ||= []

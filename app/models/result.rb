@@ -14,12 +14,12 @@ class Result < ActiveRecord::Base
 
   def describe_position
     case position
-    when (1..8)
-      position.ordinalize
     when -1
       'Retired'
     when -2
       'Disqualified'
+    else
+      position.ordinalize
     end
   end
 
