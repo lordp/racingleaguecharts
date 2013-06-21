@@ -7,6 +7,9 @@ module LeaguesHelper
     result = results.select { |r| r.driver == driver && r.race == race }.first
     if result
       case result.position
+      when -2 then
+        value = 'DSQ'
+        styles << 'background: rgb(0, 0, 0)'
       when -1 then
         value = 'Ret'
         styles << 'background: rgb(239, 207, 255)'
