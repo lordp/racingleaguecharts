@@ -1,10 +1,10 @@
 class Race < ActiveRecord::Base
   attr_accessible :name, :short_name, :league_id, :flag, :start_date
 
-  has_one :result
+  has_many :results
   belongs_to :league
 
-  has_many :drivers, :through => :result
+  has_many :drivers, :through => :results
 
   delegate :name, :to => :league, :prefix => true
 

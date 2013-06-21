@@ -86,7 +86,7 @@
       <td><%= team.name %></td>
       <td id="team-points-<%= team.id %>"><%= team.points(@league) %></td>
       <% @league.races.order(:start_date).each do |race| %>
-        <td><% cache "team_#{team.id}_race_#{race.id}" do %><%= team_race_points(team, race) %><% end %></td>
+        <td><% cache "league_#{@league.id}_team_#{team.id}_race_#{race.id}" do %><%= team.race_points(race) %><% end %></td>
       <% end %>
       <td id="team-split-<%= team.id %>" class="split-target split-target-team">?</td>
     </tr>
