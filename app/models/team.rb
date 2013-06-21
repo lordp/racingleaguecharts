@@ -12,7 +12,10 @@ class Team < ActiveRecord::Base
   end
 
   def update_points(league)
-    self.league_teams.where(league_id: league).first.update_attribute(:points, self.drivers.where(league_id: league).sum(:points))
+    points = league.races.inject(0) do |sum, race|
+      sum += self.race_points(race)
+    end
+    league_teams.where(league_id: league).first.update_attribute(:points, points)
   rescue
     0
   end
