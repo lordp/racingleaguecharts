@@ -13,6 +13,8 @@ class Team < ActiveRecord::Base
 
   def update_points(league)
     self.league_teams.where(league_id: league).first.update_attribute(:points, self.drivers.where(league_id: league).sum(:points))
+  rescue
+    0
   end
 
   def race_points(race)
