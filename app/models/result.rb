@@ -12,6 +12,17 @@ class Result < ActiveRecord::Base
   delegate :name, :to => :race, :prefix => true
   delegate :name, :to => :team, :prefix => true, :allow_nil => true
 
+  def describe_position
+    case position
+    when (1..8)
+      position.ordinalize
+    when -1
+      'Retired'
+    when -2
+      'Disqualified'
+    end
+  end
+
   private
 
     def update_points
