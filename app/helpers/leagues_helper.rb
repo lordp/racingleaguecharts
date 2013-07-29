@@ -1,7 +1,7 @@
 module LeaguesHelper
 
   def driver_race_result(results, driver, race)
-    styles = []
+    classes = []
     title = ''
 
     result = results.select { |r| r.driver == driver && r.race == race }.first
@@ -9,40 +9,40 @@ module LeaguesHelper
       case result.position
       when -2 then
         value = 'DSQ'
-        styles << 'background: rgb(0, 0, 0)'
+        classes << 'disqualified'
       when -1 then
         value = 'Ret'
-        styles << 'background: rgb(239, 207, 255)'
+        classes << 'retired'
       when 1 then
         value = result.position
         title = pluralize(Driver::POINTS[result.position - 1], 'point')
-        styles << 'background: rgb(255, 255, 191)'
+        classes << 'first-place'
       when 2 then
         value = result.position
         title = pluralize(Driver::POINTS[result.position - 1], 'point')
-        styles << 'background: rgb(223, 223, 223)'
+        classes << 'second-place'
       when 3 then
         value = result.position
         title = pluralize(Driver::POINTS[result.position - 1], 'point')
-        styles << 'background: rgb(255, 223, 159)'
+        classes << 'third-place'
       when 4..8 then
         value = result.position
         title = pluralize(Driver::POINTS[result.position - 1], 'point')
-        styles << 'background: rgb(223, 255, 223)'
+        classes << 'fourth-to-eighth-place'
       else
         value = result.position
-        styles << 'background: rgb(207, 207, 255)'
+        classes << 'other-places'
       end
 
-      styles << 'font-style: italic' if result.fastest_lap
-      styles << 'font-weight: bold' if result.pole_position
+      classes << 'fastest-lap' if result.fastest_lap
+      classes << 'pole-position' if result.pole_position
 
       value = link_to(value, edit_admin_result_path(result), :title => title)
     else
       value = link_to('-', '#result-modal-new', 'data-toggle' => 'modal', 'data-race' => race.id, 'data-driver' => driver.id, 'data-team' => driver.team_id)
     end
 
-    content_tag('td', value, { :style => styles.join(';'), :id => "driver_#{driver.id}_race_#{race.id}" })
+    content_tag('td', value, { :classes => classes.join(' '), :id => "driver_#{driver.id}_race_#{race.id}" })
   end
 
   def team_race_points(team, race)
