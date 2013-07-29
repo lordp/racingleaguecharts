@@ -26,7 +26,11 @@ class Result < ActiveRecord::Base
   private
 
     def update_points
-      self.points = Driver::POINTS[self.position - 1] if (1..8).include?(self.position)
+      if (1..8).include?(self.position)
+        self.points = Driver::POINTS[self.position - 1]
+      else
+        self.points = 0
+      end
     end
 
     def update_driver_points
