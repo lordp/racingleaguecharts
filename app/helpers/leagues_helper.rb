@@ -42,7 +42,7 @@ module LeaguesHelper
       value = link_to('-', '#result-modal-new', 'data-toggle' => 'modal', 'data-race' => race.id, 'data-driver' => driver.id, 'data-team' => driver.team_id)
     end
 
-    content_tag('td', value, { :classes => classes.join(' '), :id => "driver_#{driver.id}_race_#{race.id}" })
+    content_tag('td', value, { :class => classes.join(' '), :id => "driver_#{driver.id}_race_#{race.id}" })
   end
 
   def team_race_points(team, race)
