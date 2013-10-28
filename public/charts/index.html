@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <style type="text/css">
+      #error {
+        display: none;
+        text-align: center;
+      }
+      .chart {
+        width:100%;
+        height:800px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="error" class="alert alert-danger"></div>
+    <ul class="nav nav-tabs">
+      <li class="active"><a id="tab-laps" href="#container-laps" data-toggle="tab">Laps</a></li>
+      <li><a id="tab-gaps" href="#container-gaps" data-toggle="tab">Gaps</a></li>
+      <li><a id="tab-diffs" href="#container-diffs" data-toggle="tab">Diffs</a></li>
+    </ul>
+
+    <div class="tab-content">
+      <div class="tab-pane active chart" id="container-laps"></div>
+      <div class="tab-pane chart" id="container-gaps"></div>
+      <div class="tab-pane chart" id="container-diffs"></div>
+    </div>
+
+    <script type="text/javascript" src="//code.jquery.com/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/highcharts.js"></script>
+    <script type="text/javascript" src="js/charts.js"></script>
+  </body>
+</html>
+
