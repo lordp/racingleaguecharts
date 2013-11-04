@@ -3,11 +3,15 @@ load 'deploy/assets'
 set :application, "virtualwdc"
 set :repository,  "git@github.com:lordp/virtualwdc.git"
 
+set :default_environment, {
+    'PATH' => "$HOME/.rbenv/shims:$HOME/.rbenv/bin:$PATH"
+}
+
 # set :scm, :git # You can set :scm explicitly or Capistrano will make an intelligent guess based on known version control directory names
 # Or: `accurev`, `bzr`, `cvs`, `darcs`, `git`, `mercurial`, `perforce`, `subversion` or `none`
 
 set :user, 'darrylh'
-set :domain, 'formula1.addict.net.nz'
+set :domain, '120.138.18.249'
 set :use_sudo, false
 
 set :deploy_to, "/var/www/#{application}"
