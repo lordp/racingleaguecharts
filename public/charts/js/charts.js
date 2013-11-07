@@ -37,7 +37,7 @@ function graph_two_formatter() {
 }
 
 function graph_four_formatter() {
-  return this.y.toFixed(3);
+  return this.y.toFixed(3) + " (lap " + this.series.options.laps[this.point.x] + ")";
 }
 
 // Helper function to get information from the URL
@@ -72,6 +72,19 @@ function hide_driver(params, driver) {
 
 function sort_sector(a, b) {
   return a[1] > b[1];
+}
+
+function fastest_sector_time(driver, sector) {
+  var fastest_time = 999;
+  var fastest_lap = 0;
+  $.each(driver['sector' + sector], function(i, lap) {
+    if (lap < fastest_time) {
+      fastest_lap = i + 1;
+      fastest_time = lap;
+    }
+  });
+
+  return [driver.name, fastest_time, fastest_lap];
 }
 
 // Base options
@@ -224,6 +237,11 @@ $(function () {
       options.plotOptions.bar = {
         dataLabels: {
           enabled: true,
+          align: 'right',
+          color: 'white',
+          style: {
+            fontWeight: 'bold',
+          },
           formatter: graph_four_formatter
         }
       };
@@ -234,26 +252,27 @@ $(function () {
 
       var sectors = [[], [], []];
       $.each(data, function (i, driver) {
-        sectors[0].push([driver.name, driver.sector1.sort()[0]]);
-        sectors[1].push([driver.name, driver.sector2.sort()[0]]);
-        sectors[2].push([driver.name, driver.sector3.sort()[0]]);
+        sectors[0].push(fastest_sector_time(driver, 1));
+        sectors[1].push(fastest_sector_time(driver, 2));
+        sectors[2].push(fastest_sector_time(driver, 3));
       });
 
       $.each(sectors, function(i, sector) {
         var sorted = sector.sort(sort_sector);
         var data = [];
         var cats = [];
+        var laps = [];
 
         $.each(sorted, function(i, value) {
           cats.push(value[0]);
           data.push(value[1]);
+          laps.push(value[2]);
         });
 
-        options.series = [ { data: data } ];
+        options.series = [ { data: data, laps: laps } ];
         options.xAxis.categories = cats;
 
         options.yAxis.min = Math.floor(data[0] - 1);
-        options.yAxis.max = Math.ceil(data[data.length - 1]);
         options.title.text = result.title + ' - Sector ' + (i + 1);
 
         $('#container-sectors-sector' + (i + 1)).highcharts(options);
