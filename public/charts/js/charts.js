@@ -36,6 +36,10 @@ function graph_two_formatter() {
   return s;
 }
 
+function graph_four_formatter() {
+  return this.y.toFixed(3);
+}
+
 // Helper function to get information from the URL
 function getQueryString() {
   var ret = {};
@@ -64,6 +68,10 @@ function hide_driver(params, driver) {
       (params.show && $.inArray(driver, params.show.split(',')) == -1)) {
       return true;
   }
+}
+
+function sort_sector(a, b) {
+  return a[1] > b[1];
 }
 
 // Base options
@@ -209,6 +217,48 @@ $(function () {
 
     options.title.text = result.title + ' - Lap diffs';
     $('#container-diffs').highcharts(options);
+
+    // 4th charts - various Bar charts
+    if (data[0].sector1) {
+      options.chart.type = 'bar';
+      options.plotOptions.bar = {
+        dataLabels: {
+          enabled: true,
+          formatter: graph_four_formatter
+        }
+      };
+      options.legend = { enabled: false };
+      options.xAxis.title.text = 'Driver';
+      options.yAxis.title.text = 'Time';
+      options.tooltip.enabled = false;
+
+      var sectors = [[], [], []];
+      $.each(data, function (i, driver) {
+        sectors[0].push([driver.name, driver.sector1.sort()[0]]);
+        sectors[1].push([driver.name, driver.sector2.sort()[0]]);
+        sectors[2].push([driver.name, driver.sector3.sort()[0]]);
+      });
+
+      $.each(sectors, function(i, sector) {
+        var sorted = sector.sort(sort_sector);
+        var data = [];
+        var cats = [];
+
+        $.each(sorted, function(i, value) {
+          cats.push(value[0]);
+          data.push(value[1]);
+        });
+
+        options.series = [ { data: data } ];
+        options.xAxis.categories = cats;
+
+        options.yAxis.min = Math.floor(data[0] - 1);
+        options.yAxis.max = Math.ceil(data[data.length - 1]);
+        options.title.text = result.title + ' - Sector ' + (i + 1);
+
+        $('#container-sectors-sector' + (i + 1)).highcharts(options);
+      });
+    }
   }).fail(function(jqxhr, textStatus, error) {
     // Deal with AJAX errors semi-nicely
     $('#error').html(error).show();
