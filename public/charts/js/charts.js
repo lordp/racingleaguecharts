@@ -37,7 +37,12 @@ function graph_two_formatter() {
 }
 
 function graph_four_formatter() {
-  return this.y.toFixed(3) + " (lap " + this.series.options.laps[this.point.x] + ")";
+  if (this.series.options.laps) {
+    return this.y.toFixed(3) + " (lap " + this.series.options.laps[this.point.x] + ")";
+  }
+  else {
+    return this.y.toFixed(3);
+  }
 }
 
 // Helper function to get information from the URL
@@ -77,6 +82,7 @@ function sort_sector(a, b) {
 function fastest_sector_time(driver, sector) {
   var fastest_time = 999;
   var fastest_lap = 0;
+
   $.each(driver['sector' + sector], function(i, lap) {
     if (lap < fastest_time) {
       fastest_lap = i + 1;
@@ -84,7 +90,9 @@ function fastest_sector_time(driver, sector) {
     }
   });
 
-  return [driver.name, fastest_time, fastest_lap];
+  var avg = array_sum(driver['sector' + sector]) / driver['sector' + sector].length;
+
+  return [driver.name, fastest_time, fastest_lap, avg];
 }
 
 // Base options
@@ -119,6 +127,13 @@ var options = {
   series: []
 };
 
+var fastest_overall_lap = {
+  driver: '',
+  time: 0,
+  lap: 0,
+  sectors: [],
+};
+
 // When the browser/page has been loaded...
 $(function () {
   // Figure out what race/league the user wants from the URL
@@ -138,11 +153,27 @@ $(function () {
     data = result.laps;
     options.title.text = result.title;
 
-    // Convert each lap into seconds so the highcharts can understand it
-    $.each(data, function (i, driver) {
+    // Loop through each driver
+    $.each(data, function (j, driver) {
       driver.data = [];
+      // Loop through each lap
       $.each(driver.laps, function (i, lap) {
+        // Convert each lap into seconds so the highcharts can understand it
         driver.data[i] = convert_lap(lap);
+
+        // Save the fastest lap
+        if (driver.data[i] < fastest_overall_lap.time || fastest_overall_lap.time == 0) {
+          fastest_overall_lap = {
+            time: driver.data[i],
+            driver: j,
+            lap: i,
+            sectors: [
+              driver.sector1[i],
+              driver.sector2[i],
+              driver.sector3[i],
+            ],
+          };
+        }
       });
 
       // Hide or show drivers if applicable.
@@ -257,25 +288,51 @@ $(function () {
         sectors[2].push(fastest_sector_time(driver, 3));
       });
 
+      var fl = "Fastest Lap (" + data[fastest_overall_lap.driver].name + ")";
       $.each(sectors, function(i, sector) {
         var sorted = sector.sort(sort_sector);
         var data = [];
         var cats = [];
         var laps = [];
+        var avgs = [];
 
         $.each(sorted, function(i, value) {
           cats.push(value[0]);
           data.push(value[1]);
           laps.push(value[2]);
+          avgs.push([value[0], value[3]]);
         });
 
-        options.series = [ { data: data, laps: laps } ];
-        options.xAxis.categories = cats;
+        data.unshift(fastest_overall_lap.sectors[i]);
+        cats.unshift(fl);
+        laps.unshift(fastest_overall_lap.lap + 1);
 
+        options.series = [{ data: data, laps: laps }];
+
+        options.plotOptions.series.stacking = 'normal';
+        options.xAxis.categories = cats;
         options.yAxis.min = Math.floor(data[0] - 1);
         options.title.text = result.title + ' - Sector ' + (i + 1);
+        options.chart.renderTo = 'container-sectors-sector' + (i + 1);
 
-        $('#container-sectors-sector' + (i + 1)).highcharts(options);
+        var chart = new Highcharts.Chart(options);
+        chart.series[0].data[0].graphic.attr({
+          fill: '#FF0000'
+        });
+
+        // Sector average charts
+        var averages = avgs.sort(sort_sector);
+        var average_cats = [];
+        $.each(averages, function(i, s) {
+          average_cats.push(s[0]);
+        });
+
+        options.title.text = result.title + ' - Sector ' + (i + 1) + ' - Average Time';
+        options.chart.renderTo = 'container-sectors-sector' + (i + 1) + '-average';
+        options.series = [{ data: avgs }];
+        options.xAxis.categories = average_cats;
+
+        var chart = new Highcharts.Chart(options);
       });
     }
   }).fail(function(jqxhr, textStatus, error) {
