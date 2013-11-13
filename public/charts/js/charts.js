@@ -311,7 +311,7 @@ $(function () {
 
         options.plotOptions.series.stacking = 'normal';
         options.xAxis.categories = cats;
-        options.yAxis.min = Math.floor(data[0] - 1);
+        options.yAxis.min = Math.floor(data[0] - 1.5);
         options.title.text = result.title + ' - Sector ' + (i + 1);
         options.chart.renderTo = 'container-sectors-sector' + (i + 1);
 
