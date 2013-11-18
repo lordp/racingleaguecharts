@@ -44,5 +44,6 @@ namespace :deploy do
   end
 end
 
-after 'deploy:update_code', 'deploy:migrate', 'deploy:bundle_install'
+#after 'deploy:update_code', 'deploy:migrate'
 before 'deploy:assets:symlink', 'deploy:symlink_shared'
+after 'deploy:symlink_shared', 'deploy:bundle_install'
