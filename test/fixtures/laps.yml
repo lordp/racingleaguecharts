@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  session_id: 1
+  race_id: 1
+  driver_id: 1
+  lap_number: 1
+  sector_1: 1.5
+  sector_2: 1.5
+  sector_3: 1.5
+  total: 1.5
+
+two:
+  session_id: 1
+  race_id: 1
+  driver_id: 1
+  lap_number: 1
+  sector_1: 1.5
+  sector_2: 1.5
+  sector_3: 1.5
+  total: 1.5
