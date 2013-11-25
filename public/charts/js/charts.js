@@ -148,6 +148,26 @@ $(function () {
     $('#container-' + params.tab).addClass('active');
   }
 
+  // Load nav bar items (available races)
+  $.getJSON('races.json').done(function(leagues) {
+    $.each(leagues, function(league, races) {
+      var race_menu = $('<ul/>', { class: 'dropdown-menu' });
+      $.each(races, function(i, race) {
+        race_menu.append($('<li/>').append(
+          $('<a/>', { href: '?league=' + league + '&race=' + race.toLowerCase().replace(' ', '-'), text: race })
+        ));
+      });
+
+      $('#nav').append(
+        $('<li/>', { class: 'dropdown' }).append(
+          $('<a/>', { href: '#', class: 'dropdown-toggle', "data-toggle": 'dropdown', text: league + " " }).append(
+            $('<strong/>', { class: 'caret' })
+          )
+        ).append(race_menu)
+      );
+    });
+  });
+
   // Pull in the data from a JSON object via AJAX
   $.getJSON(filename).done(function (result) {
     data = result.laps;
@@ -168,9 +188,9 @@ $(function () {
             driver: j,
             lap: i,
             sectors: [
-              driver.sector1[i],
-              driver.sector2[i],
-              driver.sector3[i],
+              driver.sector1 ? driver.sector1[i] : 0,
+              driver.sector2 ? driver.sector2[i] : 0,
+              driver.sector3 ? driver.sector3[i] : 0,
             ],
           };
         }

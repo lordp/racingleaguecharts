@@ -11,60 +11,40 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130620231639) do
+ActiveRecord::Schema.define(:version => 20131122205606) do
 
   create_table "drivers", :force => true do |t|
     t.string   "name"
-    t.integer  "team_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-    t.integer  "points"
-    t.string   "country"
-    t.integer  "league_id"
-  end
-
-  create_table "league_teams", :force => true do |t|
-    t.integer  "league_id"
-    t.integer  "team_id"
-    t.integer  "points"
+    t.string   "ip"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
 
-  create_table "leagues", :force => true do |t|
-    t.string   "name"
+  create_table "laps", :force => true do |t|
+    t.integer  "session_id"
+    t.integer  "race_id"
+    t.integer  "driver_id"
+    t.integer  "lap_number"
+    t.float    "sector_1"
+    t.float    "sector_2"
+    t.float    "sector_3"
+    t.float    "total"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
 
   create_table "races", :force => true do |t|
     t.string   "name"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-    t.integer  "league_id"
-    t.string   "short_name"
-    t.string   "flag"
-    t.datetime "start_date"
+    t.float    "track_length"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
   end
 
-  create_table "results", :force => true do |t|
-    t.integer  "race_id"
-    t.integer  "driver_id"
-    t.integer  "position"
-    t.boolean  "fastest_lap"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
-    t.boolean  "pole_position"
-    t.integer  "team_id"
-    t.integer  "points"
-  end
-
-  create_table "teams", :force => true do |t|
-    t.string   "name"
+  create_table "sessions", :force => true do |t|
+    t.string   "token"
+    t.float    "type"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
-    t.string   "flair"
-    t.string   "country"
   end
 
 end

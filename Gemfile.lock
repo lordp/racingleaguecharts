@@ -1,3 +1,10 @@
+GIT
+  remote: https://github.com/hpoydar/chronic_duration.git
+  revision: 68c23568ce9c5ed3ff666e6dae1f1eebdab1534d
+  specs:
+    chronic_duration (0.10.2)
+      numerizer (~> 0.1.1)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -52,6 +59,7 @@ GEM
       treetop (~> 1.4.8)
     mime-types (1.25)
     multi_json (1.8.2)
+    numerizer (0.1.1)
     pg (0.17.0)
     polyglot (0.3.3)
     rack (1.4.5)
@@ -107,6 +115,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  chronic_duration!
   coffee-rails (~> 3.2.1)
   jquery-rails
   pg

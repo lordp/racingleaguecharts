@@ -22,6 +22,8 @@ end
 
 gem 'jquery-rails'
 
+gem 'chronic_duration', :git => 'https://github.com/hpoydar/chronic_duration.git'
+
 #gem 'rack-mini-profiler'
 
 # To use ActiveModel has_secure_password
