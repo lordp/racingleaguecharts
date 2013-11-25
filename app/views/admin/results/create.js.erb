@@ -1,3 +1,0 @@
-$('#result-modal-new').modal('hide').removeData('modal');
-$('#driver_<%= @result.driver_id %>_race_<%= @result.race_id %>').replaceWith('<%= driver_race_result([@result], @result.driver, @result.race) %>');
-$('#driver-points-<%= @result.driver_id %>').html('<%= @result.driver.points %>');

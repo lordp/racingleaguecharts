@@ -1,6 +1,0 @@
-<h1>New team</h1>
-
-<%= form_for(:team, :url => admin_teams_path) do |f| %>
-  <%= render(:partial => 'form', :locals => { :f => f }) %>
-  <p><%= f.submit 'Save', :class => 'btn btn-primary' %> <%= link_to('Cancel', admin_teams_path, :class => 'btn btn-danger') %></p>
-<% end %>

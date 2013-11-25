@@ -1,0 +1,46 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <a href="#" data-toggle="collapse" data-target="#session-<%= index + 1 %>">Session #<%= index + 1 %></a>
+    <span id="short-session-<%= index + 1 %>"> - Recorded: <%= Time.at(session.token.to_i(36)) %>, Track: <%= session.races.first.name %>, Laps: <%= session.laps.size %></span>
+  </div>
+  <div class="panel-body collapse session-collapsible" id="session-<%= index + 1 %>">
+    <table class="table table-condensed">
+      <tbody>
+        <tr>
+          <td><strong>Recorded:</strong></td>
+          <td><%= Time.at(session.token.to_i(36)) %></td>
+        </tr>
+        <tr>
+          <td><strong>Track:</strong></td>
+          <td><%= session.races.first.name %></td>
+        </tr>
+        <tr>
+          <td><strong>Laps:</strong></td>
+          <td><%= session.laps.size %></td>
+        </tr>
+      </tbody>
+    </table>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Number</th>
+          <th>Sector 1</th>
+          <th>Sector 2</th>
+          <th>Sector 3</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+      <% find_best_times(session.laps.order(:lap_number)).each do |lap| %>
+        <tr>
+          <td><%= lap.lap_number + 1 %></td>
+          <td><%= nice_time(lap.sector_1) %></td>
+          <td><%= nice_time(lap.sector_2) %></td>
+          <td><%= nice_time(lap.sector_3) %></td>
+          <td><%= nice_time(lap.total) %></td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

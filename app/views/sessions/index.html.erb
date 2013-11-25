@@ -1,0 +1,5 @@
+<h1>Sessions</h1>
+
+<% @sessions.each_with_index do |session, index| %>
+  <%= render(:partial => 'sessions/session', :object => session, :locals => { :index => index }) %>
+<% end %>
