@@ -73,6 +73,8 @@ function hide_driver(params, driver) {
       (params.show && $.inArray(driver, params.show.split(',')) == -1)) {
       return true;
   }
+
+  return false;
 }
 
 function sort_sector(a, b) {
@@ -131,7 +133,7 @@ var fastest_overall_lap = {
   driver: '',
   time: 0,
   lap: 0,
-  sectors: [],
+  sectors: []
 };
 
 // When the browser/page has been loaded...
@@ -190,8 +192,8 @@ $(function () {
             sectors: [
               driver.sector1 ? driver.sector1[i] : 0,
               driver.sector2 ? driver.sector2[i] : 0,
-              driver.sector3 ? driver.sector3[i] : 0,
-            ],
+              driver.sector3 ? driver.sector3[i] : 0
+            ]
           };
         }
       });
@@ -291,7 +293,7 @@ $(function () {
           align: 'right',
           color: 'white',
           style: {
-            fontWeight: 'bold',
+            fontWeight: 'bold'
           },
           formatter: graph_four_formatter
         }
@@ -352,7 +354,7 @@ $(function () {
         options.series = [{ data: avgs }];
         options.xAxis.categories = average_cats;
 
-        var chart = new Highcharts.Chart(options);
+        new Highcharts.Chart(options);
       });
     }
   }).fail(function(jqxhr, textStatus, error) {
