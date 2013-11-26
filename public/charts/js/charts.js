@@ -142,6 +142,10 @@ $(function () {
   params = getQueryString();
   filename = params.league + "-" + params.race + ".json";
 
+  if (params.league == '2013') {
+    $('.sectors').css('height', '900px');
+  }
+
   // Work out what tab the user wants from the URL
   if (params.tab) {
     $('li.active').removeClass('active').siblings().children('a#tab-' + params.tab).parent().addClass('active');
@@ -356,6 +360,8 @@ $(function () {
 
         new Highcharts.Chart(options);
       });
+
+
     }
   }).fail(function(jqxhr, textStatus, error) {
     // Deal with AJAX errors semi-nicely
