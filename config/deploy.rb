@@ -1,49 +1,43 @@
-load 'deploy/assets'
+set :application, 'virtualwdc'
+set :repo_url, 'git@github.com:lordp/virtualwdc.git'
 
-set :application, "virtualwdc"
-set :repository,  "git@github.com:lordp/virtualwdc.git"
+# ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }
 
-set :default_environment, {
-    'PATH' => "$HOME/.rbenv/shims:$HOME/.rbenv/bin:$PATH"
-}
+set :deploy_to, '/var/www/virtualwdc'
+set :scm, :git
 
-# set :scm, :git # You can set :scm explicitly or Capistrano will make an intelligent guess based on known version control directory names
-# Or: `accurev`, `bzr`, `cvs`, `darcs`, `git`, `mercurial`, `perforce`, `subversion` or `none`
+set :format, :pretty
+# set :log_level, :debug
+# set :pty, true
 
-set :user, 'darrylh'
-set :domain, '120.138.18.249'
-set :use_sudo, false
+set :linked_files, %w{config/database.yml}
+set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
 
-set :deploy_to, "/var/www/#{application}"
-set :deploy_via, :remote_cache
+# set :default_env, { path: "/opt/ruby/bin:$PATH" }
+# set :keep_releases, 5
 
-set :rails_env, 'production'
+set :rbenv_type, :user # or :system, depends on your rbenv setup
+set :rbenv_ruby, '2.0.0-p247'
 
-role :web, domain                   # Your HTTP server, Apache/etc
-role :app, domain                   # This may be the same as your `Web` server
-role :db,  domain, :primary => true # This is where Rails migrations will run
-
-# if you want to clean up old releases on each deploy uncomment this:
-after 'deploy:restart', 'deploy:cleanup'
-
-# if you're still using the script/reaper helper you will need
-# these http://github.com/rails/irs_process_scripts
-
-# If you are using Passenger mod_rails uncomment this:
 namespace :deploy do
-  task :restart, :roles => :app, :except => { :no_release => true } do
-    run "touch #{File.join(current_path,'tmp','restart.txt')}"
+
+  desc 'Restart application'
+  task :restart do
+    on roles(:app), in: :sequence, wait: 5 do
+      # Your restart mechanism here, for example:
+      # execute :touch, release_path.join('tmp/restart.txt')
+    end
   end
 
-  task :symlink_shared do
-    run "ln -sfn #{shared_path}/config/database.yml #{release_path}/config/database.yml"
+  after :restart, :clear_cache do
+    on roles(:web), in: :groups, limit: 3, wait: 10 do
+      # Here we can do anything such as:
+      # within release_path do
+      #   execute :rake, 'cache:clear'
+      # end
+    end
   end
 
-  task :bundle_install, :roles => :app do
-    run "cd #{release_path} && bundle install"
-  end
+  after :finishing, 'deploy:cleanup'
+
 end
-
-#after 'deploy:update_code', 'deploy:migrate'
-before 'deploy:assets:symlink', 'deploy:symlink_shared'
-after 'deploy:symlink_shared', 'deploy:bundle_install'

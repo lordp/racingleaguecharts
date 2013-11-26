@@ -24,6 +24,13 @@ gem 'jquery-rails'
 
 gem 'chronic_duration', :git => 'https://github.com/hpoydar/chronic_duration.git'
 
+group :development do
+  gem 'capistrano', '~> 3.0'
+  gem 'capistrano-rbenv', github: "capistrano/rbenv"
+  gem 'capistrano-bundler'
+  gem 'capistrano-rails', '~> 1.1.0'
+end
+
 #gem 'rack-mini-profiler'
 
 # To use ActiveModel has_secure_password
