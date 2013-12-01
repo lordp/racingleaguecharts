@@ -1,0 +1,61 @@
+<h1>Session Chart</h1>
+<div id="container"></div>
+<script type="text/javascript" src="/charts/js/highcharts.js"></script>
+<script type="text/javascript">
+  function graph_one_formatter() {
+    var s = '<b>Lap ' + this.x + '</b>';
+
+    $.each(this.points, function (i, point) {
+      // Converts seconds to mm:ss.ddd format - ie 106.322 = 1:46.322
+      var t1 = Math.floor(point.y / 60);
+      var t2 = (point.y % 60).toFixed(3);
+      s += '<br/><span style="color: ' + point.series.color + ';">' + point.series.name + '</span>: ' + t1 + 'm' + (t2 < 10 ? '0' + t2 : t2);
+    });
+
+    return s;
+  }
+
+  var options = {
+    chart: {
+      type: 'spline'
+    },
+    title: {
+      text: ""
+    },
+    plotOptions: {
+      series: {
+        animation: false
+      },
+      spline: {
+        pointStart: 1
+      }
+    },
+    xAxis: {
+      title: {
+        text: 'Lap'
+      }
+    },
+    yAxis: {
+      title: {
+        text: ''
+      },
+      labels: {
+        formatter: function() {
+          var t1 = Math.floor(this.value / 60);
+          var t2 = Math.floor(this.value % 60);
+          return t1 + 'm' + (t2 < 10 ? '0' + t2 : t2);
+        }
+      }
+    },
+    tooltip: {
+      shared: true,
+      formatter: graph_one_formatter,
+    },
+    series: [{
+      name: "<%= @session.drivers.first.name %>",
+      data: [ <%= @session.laps.order(:lap_number).collect(&:total).join(",") %> ]
+    }]
+  };
+
+  $('#container').highcharts(options);
+</script>

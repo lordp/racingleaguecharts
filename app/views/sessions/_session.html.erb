@@ -18,6 +18,10 @@
           <td><strong>Laps:</strong></td>
           <td><%= session.laps.size %></td>
         </tr>
+        <tr>
+          <td><strong>Chart:</strong></td>
+          <td><%= link_to('View', session_chart_path(session)) %></td>
+        </tr>
       </tbody>
     </table>
     <table class="table table-bordered">

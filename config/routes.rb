@@ -4,7 +4,10 @@ Virtualwdc::Application.routes.draw do
     put 'claim'
   end
 
-  resources :sessions, :laps, :races
+  resources :laps, :races
+  resources :sessions do
+    get 'chart'
+  end
 
   root :to => 'sessions#index'
 end

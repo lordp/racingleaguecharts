@@ -7,4 +7,8 @@ class SessionsController < ApplicationController
   def show
     @session = Session.find(params[:id])
   end
+
+  def chart
+    @session = Session.find(params[:session_id])
+  end
 end
