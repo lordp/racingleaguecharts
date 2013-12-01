@@ -1,7 +1,7 @@
 <div class="panel panel-default">
   <div class="panel-heading">
     <a href="#" data-toggle="collapse" data-target="#session-<%= index + 1 %>">Session #<%= index + 1 %></a>
-    <span id="short-session-<%= index + 1 %>"> - Recorded: <%= Time.at(session.token.to_i(36)) %>, Track: <%= session.races.first.name %>, Laps: <%= session.laps.size %></span>
+    <span id="short-session-<%= index + 1 %>"> - Recorded: <%= Time.at(session.token.to_i(36)) %>, Track: <%= session.races.first.try(:name) %>, Laps: <%= session.laps.size %></span>
   </div>
   <div class="panel-body collapse session-collapsible" id="session-<%= index + 1 %>">
     <table class="table table-condensed">
@@ -12,7 +12,7 @@
         </tr>
         <tr>
           <td><strong>Track:</strong></td>
-          <td><%= session.races.first.name %></td>
+          <td><%= session.races.first.try(:name) %></td>
         </tr>
         <tr>
           <td><strong>Laps:</strong></td>
