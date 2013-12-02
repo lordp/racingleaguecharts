@@ -4,7 +4,8 @@ module ApplicationHelper
     return '?' if time.nil?
     nice = ""
     nice = "#{time.floor / 60}:" if time > 60
-    "#{nice}#{number_with_precision(time % 60, :precision => 3)}"
+    mod = time % 60
+    "#{nice}#{mod < 10 ? '0' : ''}#{number_with_precision(mod, :precision => 3)}"
   end
 
   def find_best_times(laps)
