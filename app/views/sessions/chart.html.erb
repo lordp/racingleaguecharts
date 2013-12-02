@@ -45,7 +45,12 @@
           var t2 = Math.floor(this.value % 60);
           return t1 + 'm' + (t2 < 10 ? '0' + t2 : t2);
         }
-      }
+      },
+      plotBands: [{
+        from: <%= @session.average_lap %>,
+        to: <%= @session.average_lap + 0.1 %>,
+        color: 'red'
+      }]
     },
     tooltip: {
       shared: true,
