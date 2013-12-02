@@ -1,5 +1,5 @@
 require 'csv'
-require 'chronic_duration'
+#require 'chronic_duration'
 require 'std_dev'
 
 class Telemetry
@@ -93,7 +93,7 @@ namespace :scan do
         sector_1 << time_sector_1
         sector_2 << time_sector_2
         sector_3 << time_sector_3
-        puts "[#{ChronicDuration.output(t.time.round(3), :format => :chrono)}] Lap #{t.completed_laps_in_race.to_i}: S1: #{time_sector_1.round(3)}, S2: #{time_sector_2.round(3)}, S3: #{time_sector_3.round(3)}, T: #{ChronicDuration.output(t.previous_lap_time.round(3), :format => :chrono, :keep_zeros => true)}"
+        #puts "[#{ChronicDuration.output(t.time.round(3), :format => :chrono)}] Lap #{t.completed_laps_in_race.to_i}: S1: #{time_sector_1.round(3)}, S2: #{time_sector_2.round(3)}, S3: #{time_sector_3.round(3)}, T: #{ChronicDuration.output(t.previous_lap_time.round(3), :format => :chrono, :keep_zeros => true)}"
         prev_lap = t.completed_laps_in_race
       end
     end
