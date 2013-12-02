@@ -7,6 +7,7 @@ gem 'rails', '3.2.15'
 
 gem 'pg'
 
+gem 'puma'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -27,6 +28,7 @@ group :development do
   gem 'capistrano-rbenv', github: "capistrano/rbenv"
   gem 'capistrano-bundler'
   gem 'capistrano-rails', '~> 1.1.0'
+  gem 'capistrano-puma', github: "seuros/capistrano-puma"
 end
 
 #gem 'rack-mini-profiler'
