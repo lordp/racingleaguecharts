@@ -22,8 +22,6 @@ end
 
 gem 'jquery-rails'
 
-gem 'chronic_duration', :git => 'https://github.com/hpoydar/chronic_duration.git'
-
 group :development do
   gem 'capistrano', '~> 3.0'
   gem 'capistrano-rbenv', github: "capistrano/rbenv"

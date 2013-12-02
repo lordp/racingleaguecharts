@@ -6,13 +6,6 @@ GIT
       capistrano (~> 3.0)
       sshkit (~> 1.2.0)
 
-GIT
-  remote: https://github.com/hpoydar/chronic_duration.git
-  revision: 68c23568ce9c5ed3ff666e6dae1f1eebdab1534d
-  specs:
-    chronic_duration (0.10.2)
-      numerizer (~> 0.1.1)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -80,7 +73,6 @@ GEM
     net-scp (1.1.2)
       net-ssh (>= 2.6.5)
     net-ssh (2.7.0)
-    numerizer (0.1.1)
     pg (0.17.0)
     polyglot (0.3.3)
     rack (1.4.5)
@@ -147,7 +139,6 @@ DEPENDENCIES
   capistrano-bundler
   capistrano-rails (~> 1.1.0)
   capistrano-rbenv!
-  chronic_duration!
   coffee-rails (~> 3.2.1)
   jquery-rails
   pg
