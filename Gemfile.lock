@@ -8,9 +8,9 @@ GIT
 
 GIT
   remote: git://github.com/seuros/capistrano-puma.git
-  revision: e61a1f2a40d00984a07d23b12e914ede0da9f1a6
+  revision: c2b029f49ebdabf401167fad09d8feae2f7cdc7e
   specs:
-    capistrano-puma (0.1.0)
+    capistrano-puma (0.1.2)
       capistrano (~> 3.0.0)
 
 GEM
