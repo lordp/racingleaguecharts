@@ -26,15 +26,19 @@ function convert_lap(lap) {
   }
 }
 
+function convert_seconds_to_lap(seconds) {
+  var t1 = Math.floor(seconds / 60);
+  var t2 = (seconds % 60).toFixed(3);
+  return t1 + ":" + (t2 < 10 ? "0" + t2 : t2);
+}
+
 // The tooltip formatter for the first graph (laps)
 function graph_one_formatter() {
   var s = '<b>Lap ' + this.x + '</b>';
 
   $.each(this.points, function (i, point) {
     // Converts seconds to mm:ss.ddd format - ie 106.322 = 1:46.322
-    var t1 = Math.floor(point.y / 60);
-    var t2 = (point.y % 60).toFixed(3);
-    s += '<br/><span style="color: ' + point.series.color + ';">' + point.series.name + '</span>: ' + t1 + 'm' + (t2 < 10 ? '0' + t2 : t2);
+    s += '<br/><span style="color: ' + point.series.color + ';">' + point.series.name + '</span>: ' + convert_seconds_to_lap(point.y);
   });
 
   return s;
@@ -348,6 +352,12 @@ $(function () {
           sectors[2].push(fastest_sector_time(driver, 3));
         });
 
+        var tb = {
+          "sector1": {},
+          "sector2": {},
+          "sector3": {},
+          "total": 0,
+        };
         var fl = "Fastest Lap (" + data[fastest_overall_lap.driver].name + ")";
         $.each(sectors, function(i, sector) {
           var sorted = sector.sort(sort_sector);
@@ -362,6 +372,8 @@ $(function () {
             laps.push(value[2]);
             avgs.push([value[0], value[3]]);
           });
+
+          tb["sector" + parseInt(i + 1)] = { "time": data[0], "driver": cats[0] };
 
           data.unshift(fastest_overall_lap.sectors[i]);
           cats.unshift(fl);
@@ -394,6 +406,13 @@ $(function () {
 
           new Highcharts.Chart(options);
         });
+
+        for (i = 1; i <= 3; i++) {
+          tb["total"] += tb["sector" + i].time;
+          $("#tb-" + i + "-driver").html(tb["sector" + i].driver);
+          $("#tb-" + i + "-time").html(tb["sector" + i].time);
+        }
+        $("#tb-total").html(convert_seconds_to_lap(tb["total"].toFixed(3)) + " (" + parseFloat(fastest_overall_lap.time - tb["total"]).toFixed(3) + " faster)");
       }
     }).fail(function(jqxhr, textStatus, error) {
       // Deal with AJAX errors semi-nicely
