@@ -1,0 +1,12 @@
+{
+  "seasons": {
+    "2012": {
+      "1400": [ "Korea", "Japan", "India", "Abu Dhabi", "Brazil" ],
+      "2100": [ "Korea", "Japan", "India", "Abu Dhabi", "USA", "Brazil" ]
+    },
+    "2013-OS": {
+      "1400": [ "Japan" ],
+      "2100": [ "Japan" ]
+    }
+  }
+}
