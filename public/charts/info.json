@@ -5,8 +5,8 @@
       "2100": [ "Korea", "Japan", "India", "Abu Dhabi", "USA", "Brazil" ]
     },
     "2013-OS": {
-      "1400": [ "Japan" ],
-      "2100": [ ]
+      "1400": [ "Japan", "USA" ],
+      "2100": [ "USA" ]
     }
   }
 }
