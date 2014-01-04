@@ -10,6 +10,8 @@
 <% end %>
 
 <h2>Sessions</h2>
-<% @driver.sessions.order(:token).each_with_index do |session, index| %>
+<%= paginate @sessions %>
+<% @sessions.each_with_index do |session, index| %>
   <%= render(:partial => 'sessions/session', :object => session, :locals => { :index => index }) %>
 <% end %>
+<%= paginate @sessions %>

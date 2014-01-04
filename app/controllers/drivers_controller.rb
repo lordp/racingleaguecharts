@@ -7,6 +7,7 @@ class DriversController < ApplicationController
   end
 
   def show
+    @sessions = @driver.sessions.order(:token).page(params[:page].to_i).per(15)
   end
 
   def claim
