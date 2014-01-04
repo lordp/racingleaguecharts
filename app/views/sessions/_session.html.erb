@@ -1,6 +1,6 @@
 <div class="panel panel-default">
   <div class="panel-heading">
-    <a data-toggle="collapse" data-target="#session-<%= index + 1 %>">Session #<%= index + 1 %></a>
+    <a data-toggle="collapse" data-target="#session-<%= index + 1 %>">Session #<%= session.id %></a>
     <span id="short-session-<%= index + 1 %>"> - Recorded: <%= Time.at(session.token.to_i(36)) %>, Track: <%= session.races.first.try(:name) %>, Laps: <%= session.laps.size %></span>
   </div>
   <div class="panel-body collapse session-collapsible" id="session-<%= index + 1 %>">
