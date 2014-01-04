@@ -11,7 +11,7 @@ class DriversController < ApplicationController
 
   def claim
     @driver.update_attribute(:name, params[:driver][:name])
-    redirect_to(drivers_path())
+    redirect_to(drivers_path)
   end
 
   private
