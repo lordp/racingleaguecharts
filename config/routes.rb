@@ -1,12 +1,16 @@
 Virtualwdc::Application.routes.draw do
 
   resources :drivers do
-    put 'claim'
+    member do
+      put 'claim'
+    end
   end
 
   resources :laps, :races
   resources :sessions do
-    get 'chart'
+    member do
+      get 'chart'
+    end
   end
 
   root :to => 'sessions#index'

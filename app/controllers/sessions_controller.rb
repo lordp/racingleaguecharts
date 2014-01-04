@@ -9,6 +9,6 @@ class SessionsController < ApplicationController
   end
 
   def chart
-    @session = Session.find(params[:session_id])
+    @session = Session.find(params[:id])
   end
 end
