@@ -4,4 +4,13 @@ class Lap < ActiveRecord::Base
   belongs_to :session
   belongs_to :race
   belongs_to :driver
+
+  def self.convert_lap(lap)
+    time = lap.match(/((\d):)?([\d\.]+)/)
+    if time[2].nil?
+      time[3].to_f
+    else
+      (time[2].to_i * 60) + time[3].to_f
+    end
+  end
 end

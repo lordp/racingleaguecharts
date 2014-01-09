@@ -1,0 +1,5 @@
+<h1>Edit Screenshot</h1>
+<%#= @screenshot.inspect %>
+<%= form_for(@screenshot, :url => session_screenshot_path(@session, @screenshot), :html => { :multipart => true }) do |f| %>
+  <%= render(:partial => 'form', :locals => { :f => f }) %>
+<% end %>

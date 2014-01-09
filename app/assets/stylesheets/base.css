@@ -1,3 +1,16 @@
+body {
+  padding: 15px;
+}
+
 a {
   cursor: pointer;
+}
+
+.cm-vrl-st-correct-calc-wrong {
+  font-weight: bold;
+  color: #F00;
+}
+.cm-vrl-st-correct-calc-correct {
+  font-weight: bold;
+  color: #00F;
 }

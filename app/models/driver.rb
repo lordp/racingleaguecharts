@@ -1,8 +1,7 @@
 class Driver < ActiveRecord::Base
   attr_accessible :ip, :name
 
-  has_many :laps
-  has_many :sessions, :through => :laps, :uniq => true
+  has_many :sessions
 
   def claimed?
     if name.blank?

@@ -10,6 +10,15 @@ gem 'puma'
 gem 'kaminari'
 gem 'kaminari-bootstrap', '~> 3.0.1'
 
+#gem 'sidekiq'
+
+gem 'codemirror-rails', github: 'T145/codemirror-rails'
+gem 'paperclip', '~> 3.5.2'
+gem 'delayed_paperclip'
+
+gem 'tesseract-ocr'
+gem 'mini_magick'
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
@@ -26,10 +35,11 @@ gem 'jquery-rails'
 
 group :development do
   gem 'capistrano', '~> 3.0'
-  gem 'capistrano-rbenv', github: "capistrano/rbenv"
+  #gem 'capistrano-rbenv', github: "capistrano/rbenv"
+  gem 'capistrano-rbenv', '~> 2.0.0'
   gem 'capistrano-bundler'
   gem 'capistrano-rails', '~> 1.1.0'
-  gem 'capistrano-puma', github: "seuros/capistrano-puma"
+  gem 'capistrano3-puma'
 end
 
 #gem 'rack-mini-profiler'

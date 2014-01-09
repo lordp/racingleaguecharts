@@ -11,6 +11,7 @@ Virtualwdc::Application.routes.draw do
     member do
       get 'chart'
     end
+    resources :screenshots
   end
 
   root :to => 'sessions#index'

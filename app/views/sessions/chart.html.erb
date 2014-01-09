@@ -57,7 +57,7 @@
       formatter: graph_one_formatter,
     },
     series: [{
-      name: "<%= @session.drivers.first.name %>",
+      name: "<%= @session.driver.name %>",
       data: [ <%= @session.laps.order(:lap_number).collect(&:total).join(",") %> ]
     }]
   };

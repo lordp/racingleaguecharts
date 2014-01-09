@@ -1,6 +1,6 @@
 class DriversController < ApplicationController
 
-  before_filter :find_driver, :except => [ :index ]
+  before_filter :find_driver, :except => [ :index, :create, :new ]
 
   def index
     @drivers = Driver.all
@@ -15,11 +15,30 @@ class DriversController < ApplicationController
     redirect_to(drivers_path)
   end
 
+  def new
+    @driver = Driver.new
+  end
+
+  def create
+    @driver = Driver.new(params[:driver])
+    if @driver.save
+      redirect_to(driver_path(@driver), :notice => "Driver created")
+    end
+  end
+
+  def edit
+  end
+
+  def update
+    if @driver.update_attributes(params[:driver])
+      redirect_to(driver_path(@driver), :notice => "Driver updated")
+    end
+  end
+
   private
 
     def find_driver
       @driver = Driver.find(params[:id].to_i) if params[:id]
-      @driver = Driver.find(params[:driver_id].to_i) if params[:driver_id]
     end
 
 end

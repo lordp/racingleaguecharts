@@ -1,0 +1,4 @@
+<h1>New Screenshot</h1>
+<%= form_for(@screenshot, :url => session_screenshots_path(@session), :html => { :multipart => true }) do |f| %>
+  <%= render(:partial => 'form', :locals => { :f => f }) %>
+<% end %>
