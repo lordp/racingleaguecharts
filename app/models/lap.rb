@@ -5,6 +5,12 @@ class Lap < ActiveRecord::Base
   belongs_to :race
   belongs_to :driver
 
+  def converted_total
+    t1 = (total / 60).floor
+    t2 = (total % 60).round(3)
+    "#{t1}:#{(t2 < 10 ? "0#{t2}" : t2)}"
+  end
+
   def self.convert_lap(lap)
     time = lap.match(/((\d):)?([\d\.]+)/)
     if time[2].nil?

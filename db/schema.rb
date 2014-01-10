@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140108234158) do
+ActiveRecord::Schema.define(:version => 20140110001242) do
 
   create_table "drivers", :force => true do |t|
     t.string "name", :limit => 50
@@ -30,14 +30,14 @@ ActiveRecord::Schema.define(:version => 20140108234158) do
   end
 
   create_table "races", :force => true do |t|
-    t.string "name",   :limit => 50
-    t.float  "length"
+    t.string   "name",       :limit => 50
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "screenshots", :force => true do |t|
     t.integer  "session_id"
     t.text     "parsed"
-    t.string   "image"
     t.datetime "created_at",         :null => false
     t.datetime "updated_at",         :null => false
     t.string   "image_file_name"
@@ -51,6 +51,7 @@ ActiveRecord::Schema.define(:version => 20140108234158) do
     t.float   "session_type"
     t.integer "driver_id"
     t.integer "track_id"
+    t.integer "race_id"
   end
 
   create_table "tracks", :force => true do |t|

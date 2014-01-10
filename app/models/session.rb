@@ -7,7 +7,13 @@ class Session < ActiveRecord::Base
   belongs_to :track
   belongs_to :driver
 
+  belongs_to :race
+
   before_save :set_token
+
+  def name
+    "#{driver.try(:name)} on #{track.try(:name)} at #{Time.at(token.to_i(36))}"
+  end
 
   def average_lap
     laps.average(:total)

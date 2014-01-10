@@ -1,0 +1,56 @@
+<script type="text/javascript">
+  var race = {
+    "title": "<%= @race.sessions.first.track.name %>", "laps": [
+    <% @race.sessions.each do |session| %>
+    {
+      "name": "<%= session.driver.name %>",
+      "laps": <%= session.laps.collect(&:total) %>,
+      "sector1": <%= session.laps.collect(&:sector_1) %>,
+      "sector2": <%= session.laps.collect(&:sector_2) %>,
+      "sector3": <%= session.laps.collect(&:sector_3) %>
+    },
+    <% end %>
+    ]
+  };
+</script>
+<ul class="nav nav-tabs">
+  <li class="active"><a id="tab-laps" href="#container-laps" data-toggle="tab">Laps</a></li>
+  <li><a id="tab-gaps" href="#container-gaps" data-toggle="tab">Gaps</a></li>
+  <li><a id="tab-diffs" href="#container-diffs" data-toggle="tab">Diffs</a></li>
+  <li><a id="tab-sectors" href="#container-sectors" data-toggle="tab">Sectors</a></li>
+</ul>
+
+<div class="tab-content">
+  <div class="tab-pane active chart" id="container-laps"></div>
+  <div class="tab-pane chart" id="container-gaps"></div>
+  <div class="tab-pane chart" id="container-diffs"></div>
+  <div class="tab-pane chart" id="container-sectors">
+    <div>
+      <div style="width: 620px; margin-left: 617px;">
+        <table class="table table-bordered table-condensed" style="margin:5px;">
+          <thead>
+          <tr>
+            <th>Sector</th>
+            <th>Driver</th>
+            <th>Sector Time</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr><td>1</td><td id="tb-1-driver"></td><td id="tb-1-time"></td></tr>
+          <tr><td>2</td><td id="tb-2-driver"></td><td id="tb-2-time"></td></tr>
+          <tr><td>3</td><td id="tb-3-driver"></td><td id="tb-3-time"></td></tr>
+          <tr><td></td><td>Total</td><td id="tb-total"></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div id="container-sectors-sector1" class="sectors"></div>
+      <div id="container-sectors-sector2" class="sectors"></div>
+      <div id="container-sectors-sector3" class="sectors"></div>
+    </div>
+    <div>
+      <div id="container-sectors-sector1-average" class="sectors"></div>
+      <div id="container-sectors-sector2-average" class="sectors"></div>
+      <div id="container-sectors-sector3-average" class="sectors"></div>
+    </div>
+  </div>
+</div>

@@ -1,2 +1,4 @@
-<h1>Races#new</h1>
-<p>Find me in app/views/races/new.html.erb</p>
+<h1>New Race</h1>
+<%= form_for(@race) do |f| %>
+  <%= render(:partial => 'form', :locals => { :f => f }) %>
+<% end %>

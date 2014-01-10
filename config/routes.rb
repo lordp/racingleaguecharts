@@ -6,7 +6,13 @@ Virtualwdc::Application.routes.draw do
     end
   end
 
-  resources :laps, :races
+  resources :laps
+  resources :races do
+    member do
+      get 'chart'
+    end
+  end
+
   resources :sessions do
     member do
       get 'chart'
