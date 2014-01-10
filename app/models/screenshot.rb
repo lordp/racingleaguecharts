@@ -1,10 +1,10 @@
 class Screenshot < ActiveRecord::Base
-  attr_accessible :image, :parsed, :session_id
+  attr_accessible :image, :parsed, :session_id, :confirmed
 
   has_attached_file :image, :styles => { :three_quarters => "75%x75%>" }, :processors => [ :parse_image, :thumbnail ]
   belongs_to :session
 
-  after_save :create_laps
+  after_save :create_laps, :if => lambda { |s| s.confirmed? }
 
   def create_laps
     self.parsed.split(/\r\n/).each do |line|

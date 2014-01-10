@@ -11,6 +11,12 @@
 
 <div class="clearfix"></div>
 
+<div class="checkbox">
+  <%= f.label(:confirmed) do %>
+    <%= f.check_box(:confirmed) %> Lap times are correct?
+  <% end %>
+</div>
+
 <div class="form-group">
   <%= f.label(:image) %>
   <%= f.file_field(:image, :class => 'form-control') %>
