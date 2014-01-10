@@ -1,20 +1,24 @@
 <table class="table table-condensed">
   <tbody>
-  <tr>
-    <td><strong>Recorded:</strong></td>
-    <td><%= Time.at(sess.token.to_i(36)) %></td>
-  </tr>
-  <tr>
-    <td><strong>Track:</strong></td>
-    <td><%= sess.track.try(:name) %></td>
-  </tr>
-  <tr>
-    <td><strong>Laps:</strong></td>
-    <td><%= sess.laps.size %></td>
-  </tr>
-  <tr>
-    <td><strong>Chart:</strong></td>
-    <td><%= link_to('View', chart_session_path(sess)) %></td>
-  </tr>
+    <tr>
+      <td><strong>Recorded:</strong></td>
+      <td><%= Time.at(sess.token.to_i(36)) %></td>
+    </tr>
+    <tr>
+      <td><strong>Track:</strong></td>
+      <td><%= sess.track.try(:name) %></td>
+    </tr>
+    <tr>
+      <td><strong>Laps:</strong></td>
+      <td><%= sess.laps.size %></td>
+    </tr>
+    <tr>
+      <td><strong>Chart:</strong></td>
+      <td><%= link_to('View', chart_session_path(sess)) %></td>
+    </tr>
+    <tr>
+      <td><strong>Edit:</strong></td>
+      <td><%= link_to('Edit', edit_session_path(sess)) %></td>
+    </tr>
   </tbody>
 </table>

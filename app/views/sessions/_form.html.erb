@@ -9,12 +9,12 @@
 </div>
 
 <div class="form-group">
-  <%= f.label(:driver_id) %>
+  <%= f.label(:driver_id) %> (Not listed? <%= link_to('Add them!', new_driver_path) %>)
   <%= f.select(:driver_id, Driver.all.collect { |d| [d.claimed?, d.id] }, {}, { :class => 'form-control' }) %>
 </div>
 
 <div class="form-group">
-  <%= f.label(:track_id) %>
+  <%= f.label(:track_id) %> (Not listed? <%= link_to('Add it!', new_track_path) %>)
   <%= f.select(:track_id, Track.all.collect { |d| [d.name, d.id] }, {}, { :class => 'form-control' }) %>
 </div>
 
@@ -25,12 +25,12 @@
   <% end %>
   <ul>
   <% @session.screenshots.each do |screenshot| %>
-    <li><%= link_to(screenshot.image, edit_session_screenshot_path(@session, screenshot)) %></li>
+    <li><%= link_to(screenshot.image_file_name, edit_session_screenshot_path(@session, screenshot)) %></li>
   <% end %>
   </ul>
 </div>
 
 <div class="form-group">
-  <%= f.submit('Save', :class => 'btn btn-default') %>
+  <%= f.submit('Save', :class => 'btn btn-default') %> <%= link_to('Cancel', sessions_path()) %>
 </div>
 
