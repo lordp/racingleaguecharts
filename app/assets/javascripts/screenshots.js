@@ -34,8 +34,10 @@ $(function() {
   });
 
   var myTextArea = document.getElementById('screenshot_parsed');
-  var myCodeMirror = CodeMirror.fromTextArea(myTextArea, { mode: "vrl" });
-  myCodeMirror.on("blur", function() {
-    myCodeMirror.save();
-  });
+  if (myTextArea != null) {
+    var myCodeMirror = CodeMirror.fromTextArea(myTextArea, { mode: "vrl" });
+    myCodeMirror.on("blur", function() {
+      myCodeMirror.save();
+    });
+  }
 });
