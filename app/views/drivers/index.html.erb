@@ -5,7 +5,6 @@
     <tr>
       <th>Driver</th>
       <th>Sessions</th>
-      <th>Total Laps</th>
     </tr>
   </thead>
   <tbody>
@@ -13,7 +12,6 @@
     <tr>
       <td><%= link_to(driver.claimed?, driver_path(driver)) %></td>
       <td><%= driver.sessions.size %></td>
-      <td><%= driver.laps.size %></td>
     </tr>
   <% end %>
   </tbody>
