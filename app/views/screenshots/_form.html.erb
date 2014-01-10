@@ -13,7 +13,7 @@
 
 <div class="checkbox">
   <%= f.label(:confirmed) do %>
-    <%= f.check_box(:confirmed) %> Lap times are correct?
+    <%= f.check_box(:confirmed, { :disabled => @screenshot.image.nil? || @screenshot.parsed.blank? }) %> Lap times are correct?
   <% end %>
 </div>
 
