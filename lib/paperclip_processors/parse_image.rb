@@ -18,7 +18,7 @@ module Paperclip
 
       info = i.verbose.match(/([\d]+)x([\d]+)\+[\d]+\+[\d]+/)
       if info[1] == '1920' && info[2] == '1080'
-        i.crop('1340x450+240+360') # 1080p
+        i.crop('1415x315+205+435') # 1080p
       elsif info[1] == '1440' && info[2] == '810'
         i.crop('1065x235+150+325') # 810p
       end
