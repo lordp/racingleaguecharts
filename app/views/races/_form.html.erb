@@ -1,11 +1,19 @@
+<script type="text/javascript" charset="utf-8">
+  var sessions = <%= @sessions.to_json.html_safe %>;
+</script>
 <div class="form-group">
   <%= f.label(:name) %>
   <%= f.text_field(:name, :class => 'form-control', :placeholder => 'Name') %>
 </div>
 
 <div class="form-group">
+  <%= f.label(:track_id, 'Track') %>
+  <%= f.select(:track_id, options_from_collection_for_select(Track.where('name is not null').where('name != ?', '').order(:name), "id", "name", @race.track_id), { :include_blank => true }, { :class => 'form-control' }) %>
+</div>
+
+<div class="form-group">
   <%= f.label(:session_ids, 'Sessions') %>
-  <%= f.select(:session_ids, Session.all.collect { |s| [s.name, s.id] }, {}, { :multiple => true, :class => 'form-control', :size => 20 }) %>
+  <%= f.select(:session_ids, options_from_collection_for_select(Session.order('created_at desc').where(:track_id => @race.track_id), "id", "name"), {}, { :multiple => true, :class => 'form-control', :size => 20 }) %>
 </div>
 
 <div class="form-group">

@@ -1,6 +1,7 @@
 class RacesController < ApplicationController
 
   before_filter :find_race, :only => [ :edit, :update, :destroy, :show, :chart ]
+  before_filter :get_sessions, :only => [ :edit, :new ]
 
   def index
     @races = Race.all
@@ -39,6 +40,16 @@ class RacesController < ApplicationController
 
     def find_race
       @race = Race.find(params[:id].to_i) if params[:id]
+    end
+
+    def get_sessions
+      @sessions = {}
+      Session.where('track_id is not null').each do |session|
+        @sessions[session.track_id || 0] ||= []
+        @sessions[session.track_id || 0] << { :id => session.id, :name => session.name }
+      end
+
+      @sessions
     end
 
 end

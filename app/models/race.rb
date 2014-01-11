@@ -1,6 +1,6 @@
 class Race < ActiveRecord::Base
-  attr_accessible :name, :session_ids
+  attr_accessible :name, :session_ids, :track_id
 
   has_many :sessions
-  #accepts_nested_attributes_for :sessions
+  belongs_to :track
 end
