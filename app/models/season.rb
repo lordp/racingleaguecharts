@@ -1,5 +1,6 @@
 class Season < ActiveRecord::Base
-  attr_accessible :league_id, :name
+  attr_accessible :name, :league_ids
 
-  belongs_to :league
+  has_many :league_seasons
+  has_many :leagues, :through => :league_seasons
 end
