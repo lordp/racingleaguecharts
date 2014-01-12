@@ -13,7 +13,7 @@
 
 <div class="form-group">
   <%= f.label(:session_ids, 'Sessions') %>
-  <%= f.select(:session_ids, options_from_collection_for_select(Session.order('created_at desc').where(:track_id => @race.track_id), "id", "name"), {}, { :multiple => true, :class => 'form-control', :size => 20 }) %>
+  <%= f.select(:session_ids, options_from_collection_for_select(Session.where(:track_id => @race.track_id), "id", "name"), {}, { :multiple => true, :class => 'form-control', :size => 20 }) %>
 </div>
 
 <div class="form-group">
