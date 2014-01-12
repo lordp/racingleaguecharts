@@ -6,7 +6,7 @@ Virtualwdc::Application.routes.draw do
     end
   end
 
-  resources :laps, :tracks
+  resources :laps, :tracks, :seasons, :leagues
   resources :races do
     member do
       get 'chart'

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140110041519) do
+ActiveRecord::Schema.define(:version => 20140110205509) do
 
   create_table "drivers", :force => true do |t|
     t.string "name", :limit => 50
@@ -29,10 +29,18 @@ ActiveRecord::Schema.define(:version => 20140110041519) do
     t.integer "session_id"
   end
 
+  create_table "leagues", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "races", :force => true do |t|
     t.string   "name",       :limit => 50
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "season_id"
+    t.integer  "track_id"
   end
 
   create_table "screenshots", :force => true do |t|
@@ -46,6 +54,13 @@ ActiveRecord::Schema.define(:version => 20140110041519) do
     t.integer  "image_file_size"
     t.datetime "image_updated_at"
     t.boolean  "confirmed"
+  end
+
+  create_table "seasons", :force => true do |t|
+    t.string   "name"
+    t.integer  "league_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "sessions", :force => true do |t|
