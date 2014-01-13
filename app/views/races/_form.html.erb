@@ -8,7 +8,7 @@
 
 <div class="form-group">
   <%= f.label(:season_id, 'Season') %> (Not listed? <%= link_to('Add it!', new_super_league_league_season_path) %>)
-  <%= f.select(:season_id, options_from_collection_for_select(Season.all, "id", "full_name", @race.season_id), { :include_blank => true }, { :class => 'form-control' }) %>
+  <%= f.select(:season_id, options_from_collection_for_select(Season.all, "id", "full_name", @race.season_id || @season.id), { :include_blank => true }, { :class => 'form-control' }) %>
 </div>
 
 <div class="form-group">
