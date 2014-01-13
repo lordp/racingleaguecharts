@@ -28,7 +28,15 @@
               <% end %>
             </li>
           <% end %>
+          <li>
+            <%= link_to(new_super_league_league_path(super_league)) do %>
+              <span class="glyphicon"></span>
+              <em>Create League in <%= super_league.name %></em>
+          <% end %>
+          </li>
         <% end %>
+          <li class="divider"></li>
+          <li><%= link_to('Create Super League', new_super_league_path) %></li>
         </ul>
       </li>
       <% end %>
@@ -44,6 +52,8 @@
             <% end %>
           </li>
         <% end %>
+          <li class="divider"></li>
+          <li><%= link_to('Create Season', new_super_league_league_season_path(@super_league, @league)) %></li>
         </ul>
       </li>
       <% end %>
@@ -59,6 +69,8 @@
                 <% end %>
               </li>
             <% end %>
+            <li class="divider"></li>
+            <li><%= link_to('Create Race', new_super_league_league_season_race_path(@super_league, @league, @season)) %></li>
           </ul>
         </li>
       <% end %>

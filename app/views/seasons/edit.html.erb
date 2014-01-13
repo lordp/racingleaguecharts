@@ -1,2 +1,4 @@
-<h1>Seasons#edit</h1>
-<p>Find me in app/views/seasons/edit.html.erb</p>
+<h1>Edit Season</h1>
+<%= form_for(@season, :url => super_league_league_season_path(@super_league, @league, @season)) do |f| %>
+  <%= render(:partial => 'form', :locals => { :f => f }) %>
+<% end %>

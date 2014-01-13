@@ -1,2 +1,4 @@
-<h1>Seasons#new</h1>
-<p>Find me in app/views/seasons/new.html.erb</p>
+<h1>New Season</h1>
+<%= form_for(@season, :url => super_league_league_seasons_path(@super_league, @league)) do |f| %>
+  <%= render(:partial => 'form', :locals => { :f => f }) %>
+<% end %>

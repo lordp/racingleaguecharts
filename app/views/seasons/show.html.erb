@@ -1,2 +1,2 @@
-<h1>Seasons#show</h1>
-<p>Find me in app/views/seasons/show.html.erb</p>
+<h1><%= @season.name %></h1>
+<p><%= link_to('Edit', edit_super_league_league_season_path(@super_league, @league, @season)) %></p>
