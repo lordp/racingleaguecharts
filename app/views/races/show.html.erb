@@ -1,0 +1,5 @@
+<h1><%= @race.name %></h1>
+<h3><%= link_to('View Chart', chart_super_league_league_season_race_path(@super_league, @league, @season, @race)) %></h3>
+<% @race.sessions.each_with_index do |session, index| %>
+  <%= render(:partial => 'sessions/session', :object => session, :locals => { :index => index }) %>
+<% end %>

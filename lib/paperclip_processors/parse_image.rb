@@ -21,6 +21,8 @@ module Paperclip
         i.crop('1415x315+205+435') # 1080p
       elsif info[1] == '1440' && info[2] == '810'
         i.crop('1065x235+150+325') # 810p
+      elsif info[1] == '1280' && info[2] == '720'
+        i.crop('945x210+135+290') # 720p
       end
 
       i.resize('150%')

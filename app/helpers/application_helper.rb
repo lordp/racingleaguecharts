@@ -9,8 +9,11 @@ module ApplicationHelper
   end
 
   def find_best_times(laps)
-    
     return laps
+  end
+
+  def is_current?(obj, at_obj)
+    "glyphicon-ok" if obj == at_obj
   end
 
 end

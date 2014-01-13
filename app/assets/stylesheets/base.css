@@ -26,3 +26,7 @@ a {
   border: solid 1px #F90;
   margin: 1px;
 }
+
+#wrapper {
+  margin-top: 50px;
+}

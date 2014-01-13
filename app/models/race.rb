@@ -3,4 +3,5 @@ class Race < ActiveRecord::Base
 
   has_many :sessions
   belongs_to :track
+  belongs_to :season
 end

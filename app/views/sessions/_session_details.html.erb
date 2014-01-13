@@ -5,6 +5,10 @@
       <td><%= Time.at(sess.token.to_i(36)) %></td>
     </tr>
     <tr>
+      <td><strong>Driver:</strong></td>
+      <td><%= sess.driver.try(:name) %></td>
+    </tr>
+    <tr>
       <td><strong>Track:</strong></td>
       <td><%= sess.track.try(:name) %></td>
     </tr>

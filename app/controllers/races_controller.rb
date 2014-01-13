@@ -1,5 +1,6 @@
 class RacesController < ApplicationController
 
+  before_filter :setup, :only => [ :show, :edit, :new, :index, :chart ]
   before_filter :find_race, :only => [ :edit, :update, :destroy, :show, :chart ]
   before_filter :get_sessions, :only => [ :edit, :new ]
 
@@ -50,6 +51,13 @@ class RacesController < ApplicationController
       end
 
       @sessions
+    end
+
+    def setup
+      @season = Season.find(params[:season_id].to_i)
+      @league = League.find(params[:league_id].to_i)
+      @super_league = SuperLeague.find(params[:super_league_id].to_i)
+      build_menu(@super_league, @league, @season)
     end
 
 end

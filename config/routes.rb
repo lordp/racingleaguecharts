@@ -1,12 +1,26 @@
 Virtualwdc::Application.routes.draw do
 
+  get "welcome/index"
+
   resources :drivers do
     member do
       put 'claim'
     end
   end
 
-  resources :laps, :tracks, :seasons, :leagues
+  resources :laps, :tracks
+  resources :super_leagues do
+    resources :leagues do
+      resources :seasons do
+        resources :races do
+          member do
+            get 'chart'
+          end
+        end
+      end
+    end
+  end
+
   resources :races do
     member do
       get 'chart'
@@ -20,5 +34,5 @@ Virtualwdc::Application.routes.draw do
     resources :screenshots
   end
 
-  root :to => 'sessions#index'
+  root :to => 'welcome#index'
 end
