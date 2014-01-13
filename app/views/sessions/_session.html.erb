@@ -1,7 +1,7 @@
 <div class="panel panel-default">
   <div class="panel-heading">
     <a data-toggle="collapse" data-target="#session-<%= index + 1 %>">Session #<%= session.id %></a>
-    <span id="short-session-<%= index + 1 %>"> - Recorded: <%= Time.at(session.token.to_i(36)) %>, Driver: <%= session.driver.name %>, Track: <%= session.track.try(:name) %>, Laps: <%= session.laps.size %></span>
+    <span id="short-session-<%= index + 1 %>"> - Recorded: <%= Time.at(session.token.to_i(36)) %>, Driver: <%= session.driver.try(:name) %>, Race: <%= session.race.try(:name) %>, Track: <%= session.track.try(:name) %>, Laps: <%= session.laps.size %></span>
   </div>
   <div class="panel-body collapse session-collapsible" id="session-<%= index + 1 %>">
     <%= render(:partial => 'sessions/session_details', :locals => { :sess => session }) %>
