@@ -16,4 +16,11 @@ module ApplicationHelper
     "glyphicon-ok" if obj == at_obj
   end
 
+  def bootstrap_alert(name)
+    case name
+    when :notice
+      "alert alert-success"
+    end
+  end
+
 end
