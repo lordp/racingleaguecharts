@@ -3,4 +3,8 @@ class Season < ActiveRecord::Base
 
   belongs_to :league
   has_many :races
+
+  def full_name
+    "#{league.name} - #{name}"
+  end
 end
