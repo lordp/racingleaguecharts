@@ -30,7 +30,7 @@ class SessionsController < ApplicationController
   def update
     @session = Session.find(params[:id].to_i)
     if @session.update_attributes(params[:session])
-      redirect_to(session_path(@session), :notice => "Session created")
+      redirect_to(session_path(@session), :notice => "Session updated")
     end
   end
 end
