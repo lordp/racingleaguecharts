@@ -1,12 +1,11 @@
 class Session < ActiveRecord::Base
-  attr_accessible :token, :session_type, :driver_id, :track_id
+  attr_accessible :token, :session_type, :driver_id, :track_id, :race_id
 
   has_many :laps
   has_many :screenshots
 
   belongs_to :track
   belongs_to :driver
-
   belongs_to :race
 
   before_save :set_token
