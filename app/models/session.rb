@@ -1,5 +1,5 @@
 class Session < ActiveRecord::Base
-  attr_accessible :token, :session_type, :driver_id, :track_id, :race_id
+  attr_accessible :token, :session_type, :driver_id, :track_id, :race_id, :winner
 
   has_many :laps
   has_many :screenshots
