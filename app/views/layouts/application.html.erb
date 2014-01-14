@@ -22,7 +22,7 @@
           <li class="dropdown-header"><%= super_league.name %></li>
           <% super_league.leagues.each do |league| %>
             <li>
-              <%= link_to(super_league_league_path(@super_league, league)) do %>
+              <%= link_to(super_league_league_path(super_league, league)) do %>
                 <span class="glyphicon <%= is_current?(league, @league) %>"></span>
                 <%= league.name %>
               <% end %>
