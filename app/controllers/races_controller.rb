@@ -18,7 +18,7 @@ class RacesController < ApplicationController
   def create
     @race = Race.new(params[:race])
     if @race.save
-      redirect_to(races_path, :notice => "Race created")
+      redirect_to(:back, :notice => "Race created")
     end
   end
 
@@ -27,7 +27,7 @@ class RacesController < ApplicationController
 
   def update
     if @race.update_attributes(params[:race])
-      redirect_to(races_path, :notice => "Race updated")
+      redirect_to(:back, :notice => "Race updated")
     end
   end
 
