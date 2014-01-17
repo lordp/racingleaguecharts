@@ -208,6 +208,7 @@ $(function () {
 
     // Clear out the series for the second chart
     options.series = [];
+    options.yAxis.labels.formatter = null;
 
     // Determine the average time for the winner (first array value)
     var winner_laps = [];
