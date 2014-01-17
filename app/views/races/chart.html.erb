@@ -1,7 +1,7 @@
 <script type="text/javascript">
   var race = {
     "title": "<%= @race.sessions.first.track.name %>", "laps": [
-    <% @race.sessions.order(:winner).each do |session| %>
+    <% @race.sessions.order('winner desc').each do |session| %>
     {
       "name": "<%= session.driver.name %>",
       "laps": <%= session.laps.collect(&:total) %>,
