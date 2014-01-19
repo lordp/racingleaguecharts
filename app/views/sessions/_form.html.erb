@@ -15,7 +15,7 @@
 
 <div class="form-group">
   <%= f.label(:race_id) %> (Not listed? <%= link_to('Add it!', new_race_path) %>)
-  <%= f.select(:race_id, Race.all.collect { |r| [r.name, r.id] }, {}, { :class => 'form-control' }) %>
+  <%= f.select(:race_id, Race.all.collect { |r| [r.full_name, r.id] }, {}, { :class => 'form-control' }) %>
 </div>
 
 <div class="checkbox">

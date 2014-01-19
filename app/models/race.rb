@@ -4,4 +4,12 @@ class Race < ActiveRecord::Base
   has_many :sessions
   belongs_to :track
   belongs_to :season
+
+  def full_name
+    nm = []
+    nm << (self.season.nil? ? 'No season' : self.season.name)
+    nm << (self.name.nil? ? 'No name' : self.name)
+
+    nm.join('/')
+  end
 end
