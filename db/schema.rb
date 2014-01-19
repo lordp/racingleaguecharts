@@ -54,6 +54,7 @@ ActiveRecord::Schema.define(:version => 20140113234356) do
   create_table "screenshots", :force => true do |t|
     t.integer  "session_id"
     t.text     "parsed"
+    t.string   "image"
     t.datetime "created_at",         :null => false
     t.datetime "updated_at",         :null => false
     t.string   "image_file_name"
@@ -71,12 +72,15 @@ ActiveRecord::Schema.define(:version => 20140113234356) do
   end
 
   create_table "sessions", :force => true do |t|
-    t.string  "token",        :limit => 50
-    t.float   "session_type"
-    t.integer "driver_id"
-    t.integer "track_id"
-    t.integer "race_id"
-    t.boolean "winner"
+    t.string   "token",        :limit => 50
+    t.float    "session_type"
+    t.integer  "position"
+    t.integer  "driver_id"
+    t.integer  "track_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "race_id"
+    t.boolean  "winner"
   end
 
   create_table "super_leagues", :force => true do |t|
