@@ -10,7 +10,7 @@ gem 'puma'
 gem 'kaminari'
 gem 'kaminari-bootstrap', '~> 3.0.1'
 
-#gem 'sidekiq'
+gem 'sidekiq'
 
 gem 'codemirror-rails', github: 'T145/codemirror-rails'
 gem 'paperclip', '~> 3.5.2'
