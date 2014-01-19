@@ -19,6 +19,8 @@ gem 'delayed_paperclip'
 gem 'tesseract-ocr'
 gem 'mini_magick'
 
+gem 'jquery-fileupload-rails'
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
