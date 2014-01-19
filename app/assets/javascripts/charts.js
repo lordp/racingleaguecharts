@@ -91,7 +91,7 @@ function hide_driver(params, driver) {
 }
 
 function sort_sector(a, b) {
-  return a[1] > b[1];
+  return a[1] == b[1] ? 0 : a[1] < b[1] ? -1 : 1;
 }
 
 function fastest_sector_time(driver, sector) {
