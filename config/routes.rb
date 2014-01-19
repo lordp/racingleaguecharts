@@ -34,5 +34,7 @@ Virtualwdc::Application.routes.draw do
     resources :screenshots
   end
 
+  resources :screenshots
+
   root :to => 'welcome#index'
 end

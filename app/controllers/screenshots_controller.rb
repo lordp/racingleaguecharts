@@ -16,10 +16,9 @@ class ScreenshotsController < ApplicationController
   end
 
   def create
-    @screenshot = Screenshot.new(params[:screenshot])
-    @screenshot.session_id = @session.id
-    if @screenshot.save
-      redirect_to(edit_session_screenshot_path(@session, @screenshot), :notice => "Screenshot created")
+    @screenshot = Screenshot.create(params[:screenshot])
+    respond_to do |format|
+      format.js
     end
   end
 
@@ -35,11 +34,11 @@ class ScreenshotsController < ApplicationController
   private
 
     def find_session
-      @session = Session.find(params[:session_id].to_i)
+      @session = Session.find(params[:session_id].to_i) if params[:session_id]
     end
 
-  def find_screenshot
-    @screenshot = Screenshot.find(params[:id].to_i)
-  end
+    def find_screenshot
+      @screenshot = Screenshot.find(params[:id].to_i)
+    end
 
 end

@@ -40,4 +40,47 @@ $(function() {
       myCodeMirror.save();
     });
   }
+
+  $('#session_image').fileupload({
+    dataType: 'script',
+    url: '/screenshots',
+    type: 'POST',
+    add: function(e, data) {
+      var file, types;
+      types = /(\.|\/)(gif|jpe?g|pdf|png|mov|mpeg|mpeg4|avi)$/i;
+      file = data.files[0];
+      if (types.test(file.type) || types.test(file.name)) {
+        data.context = $(tmpl("template-upload", file));
+        $('#screenshot_upload').append(data.context);
+        return data.submit();
+      } else {
+        return alert("" + file.name + " is not a gif, jpg or png image file");
+      }
+    },
+    submit: function(e, data) {
+      // HACK: Replace the method on the form so saving the screenshot works
+      $.each(data.form[0], function(index, input) {
+        if (input.name == '_method') {
+          data.form[0][index].value = null;
+        }
+      });
+      return true;
+    },
+    done: function(e, data) {
+      // Revert the above HACK
+      $.each(data.form[0], function(index, input) {
+        if (input.name == '_method') {
+          data.form[0][index].value = 'put';
+        }
+      });
+    },
+    progress: function(e, data) {
+      var progress;
+      if (data.context) {
+        progress = parseInt(data.loaded / data.total * 100, 10);
+        return data.context.find('.bar').css('width', progress + '%');
+      }
+    }
+  });
+
 });

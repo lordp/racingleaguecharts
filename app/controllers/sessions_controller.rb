@@ -17,6 +17,7 @@ class SessionsController < ApplicationController
   end
 
   def create
+    params[:session][:screenshot_ids] = params[:session][:screenshot_ids].split(/,/)
     @session = Session.new(params[:session])
     if @session.save
       redirect_to(session_path(@session), :notice => "Session created")
@@ -28,6 +29,7 @@ class SessionsController < ApplicationController
   end
 
   def update
+    params[:session][:screenshot_ids] = params[:session][:screenshot_ids].split(/,/)
     @session = Session.find(params[:id].to_i)
     if @session.update_attributes(params[:session])
       redirect_to(session_path(@session), :notice => "Session updated")

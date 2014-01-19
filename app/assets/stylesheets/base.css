@@ -30,3 +30,8 @@ a {
 #wrapper {
   margin-top: 50px;
 }
+
+.progress .bar {
+  height: 20px;
+  background: #3ec144;
+}
