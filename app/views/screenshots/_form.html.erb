@@ -1,27 +1,31 @@
-<div class="form-group">
-  <div class="pull-left">
-    <%= f.label(:parsed) %>
-    <%= f.text_area(:parsed, :class => 'form-control', :placeholder => 'Parsed Text') %>
+<div>
+  <div class="pull-left" style="margin-right: 10px">
+    <div class="form-group">
+      <%= f.label(:parsed) %>
+      <div style="border: solid 1px #000;">
+      <%= f.text_area(:parsed, :class => 'form-control', :placeholder => 'Parsed Text') %>
+      </div>
+    </div>
+
+    <div class="checkbox">
+      <%= f.label(:confirmed) do %>
+        <%= f.check_box(:confirmed, { :disabled => @screenshot.image.nil? || @screenshot.parsed.blank? }) %> Lap times are correct?
+      <% end %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label(:image) %>
+      <%= f.file_field(:image, :class => 'form-control') %>
+    </div>
+
+    <div class="form-group">
+      <%= f.submit('Save', :class => 'btn btn-default') %> <%= link_to('Cancel', edit_session_path(@session)) %>
+    </div>
   </div>
+
   <div class="pull-left">
     <p><strong>Image</strong></p>
     <%= image_tag(@screenshot.image.url(:three_quarters)) %>
   </div>
-</div>
 
-<div class="clearfix"></div>
-
-<div class="checkbox">
-  <%= f.label(:confirmed) do %>
-    <%= f.check_box(:confirmed, { :disabled => @screenshot.image.nil? || @screenshot.parsed.blank? }) %> Lap times are correct?
-  <% end %>
-</div>
-
-<div class="form-group">
-  <%= f.label(:image) %>
-  <%= f.file_field(:image, :class => 'form-control') %>
-</div>
-
-<div class="form-group">
-  <%= f.submit('Save', :class => 'btn btn-default') %> <%= link_to('Cancel', edit_session_path(@session)) %>
 </div>
