@@ -4,10 +4,10 @@
     <% @race.sessions.order('winner desc').each do |session| %>
     {
       "name": "<%= session.driver.name %>",
-      "laps": <%= session.laps.collect(&:total) %>,
-      "sector1": <%= session.laps.collect(&:sector_1) %>,
-      "sector2": <%= session.laps.collect(&:sector_2) %>,
-      "sector3": <%= session.laps.collect(&:sector_3) %>
+      "laps": <%= session.laps.order(:lap_number).collect(&:total) %>,
+      "sector1": <%= session.laps.order(:lap_number).collect(&:sector_1) %>,
+      "sector2": <%= session.laps.order(:lap_number).collect(&:sector_2) %>,
+      "sector3": <%= session.laps.order(:lap_number).collect(&:sector_3) %>
     },
     <% end %>
     ]
