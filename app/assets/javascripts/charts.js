@@ -118,6 +118,9 @@ var options = {
   title: {
     text: ""
   },
+  subtitle: {
+    text: ""
+  },
   plotOptions: {
     series: {
       animation: false
@@ -199,7 +202,7 @@ $(function () {
     });
 
     // Set basic options and instruct highcharts to render the chart
-    options.title.text = race.title + " - Laps";
+    options.subtitle.text = "Laps";
     options.tooltip.formatter = graph_one_formatter;
     options.yAxis.labels = {
       formatter: graph_one_axis_formatter
@@ -249,7 +252,7 @@ $(function () {
 
     // Change the tooltip formatter, chart title and y-axis title options
     options.tooltip.formatter = graph_two_formatter;
-    options.title.text = race.title + " - Gaps";
+    options.subtitle.text = "Gaps";
     options.yAxis.title.text = 'Gap';
 
     // Instruct highcharts to render this chart
@@ -277,7 +280,7 @@ $(function () {
       options.series.push(driver);
     });
 
-    options.title.text = race.title + ' - Lap diffs';
+    options.subtitle.text = 'Lap diffs';
     $('#container-diffs').highcharts(options);
 
     // 4th charts - various Bar charts
@@ -338,7 +341,7 @@ $(function () {
         options.plotOptions.series.stacking = 'normal';
         options.xAxis.categories = cats;
         options.yAxis.min = Math.floor(data[0] - 1.5);
-        options.title.text = race.title + ' - Sector ' + (i + 1);
+        options.subtitle.text = 'Sector ' + (i + 1) + ' - Fastest Times';
         options.chart.renderTo = 'container-sectors-sector' + (i + 1);
 
         var chart = new Highcharts.Chart(options);
@@ -353,7 +356,7 @@ $(function () {
           average_cats.push(s[0]);
         });
 
-        options.title.text = race.title + ' - Sector ' + (i + 1) + ' - Average Time';
+        options.subtitle.text = 'Sector ' + (i + 1) + ' - Average Time';
         options.chart.renderTo = 'container-sectors-sector' + (i + 1) + '-average';
         options.series = [{ data: avgs }];
         options.xAxis.categories = average_cats;
