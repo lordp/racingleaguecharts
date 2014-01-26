@@ -1,6 +1,7 @@
 class LeaguesController < ApplicationController
 
-  before_filter :setup
+  before_filter :find_league, :only => [ :new, :show, :edit, :update ]
+  before_filter :setup, :only => [ :index, :show, :new, :edit ]
 
   def index
   end
@@ -14,30 +15,28 @@ class LeaguesController < ApplicationController
 
   def create
     @league = League.new(params[:league])
-    @league.super_league = @super_league
     if @league.save
-      redirect_to(super_league_league_path(@super_league, @league), :notice => "League created")
+      redirect_to(league_path(@league), :notice => "League created")
     end
   end
 
   def edit
-    @league = League.find(params[:id].to_i)
   end
 
   def update
-    @league = League.find(params[:id].to_i)
-    @league.super_league = @super_league
     if @league.save
-      redirect_to(super_league_league_path(@super_league, @league), :notice => "League updated")
+      redirect_to(league_path(@league), :notice => "League updated")
     end
   end
 
   private
 
-    def setup
-      @super_league = SuperLeague.find(params[:super_league_id].to_i)
-      @league = League.find(params[:id].to_i) if params[:id]
-      build_menu(@super_league, @league)
+    def find_league
+      @league = League.find(params[:id].to_i)
+    end
+
+    def menu
+      build_menu(@league)
     end
 
 end

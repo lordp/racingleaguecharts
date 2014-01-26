@@ -1,6 +1,7 @@
 class ScreenshotsController < ApplicationController
   before_filter :find_session, :only => [ :new, :create, :show, :edit, :update, :destroy ]
   before_filter :find_screenshot, :only => [ :show, :edit, :update, :destroy ]
+  before_filter :menu, :only => [ :index, :show, :edit, :new ]
 
   def index
   end
@@ -39,6 +40,10 @@ class ScreenshotsController < ApplicationController
 
     def find_screenshot
       @screenshot = Screenshot.find(params[:id].to_i)
+    end
+
+    def menu
+      build_menu(@screenshot)
     end
 
 end
