@@ -16,7 +16,7 @@
         </tr>
       </thead>
       <tbody>
-      <% find_best_times(session.laps.order(:lap_number)).each do |lap| %>
+      <% session.laps.order(:lap_number).each do |lap| %>
         <tr>
           <td><%= lap.lap_number + 1 %></td>
           <td><%= nice_time(lap.sector_1) %></td>
