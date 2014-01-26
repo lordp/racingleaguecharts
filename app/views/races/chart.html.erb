@@ -15,7 +15,10 @@
   };
 </script>
 
-<h1><%= @league.name %> - <%= @season.name %> - <%= @race.name %></h1>
+<ol class="breadcrumb">
+  <%= breadcrumb(@race) %>
+</ol>
+<h1><%= @race.name %></h1>
 
 <ul class="nav nav-tabs">
   <li class="active"><a id="tab-laps" href="#container-laps" data-toggle="tab">Laps</a></li>

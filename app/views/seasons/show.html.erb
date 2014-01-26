@@ -1,2 +1,4 @@
-<h1><%= @league.name %> - <%= @season.name %></h1>
-<p><%= link_to('Edit', edit_super_league_league_season_path(@super_league, @league, @season)) %></p>
+<ol class="breadcrumb">
+  <%= breadcrumb(@season, true) %>
+</ol>
+<h1><%= @season.name %></h1>
