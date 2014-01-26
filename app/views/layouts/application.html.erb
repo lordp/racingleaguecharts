@@ -22,21 +22,13 @@
           <li class="dropdown-header"><%= super_league.name %></li>
           <% super_league.leagues.each do |league| %>
             <li>
-              <%= link_to(super_league_league_path(super_league, league)) do %>
+              <%= link_to(league_path(league)) do %>
                 <span class="glyphicon <%= is_current?(league, @league) %>"></span>
                 <%= league.name %>
               <% end %>
             </li>
           <% end %>
-          <li>
-            <%= link_to(new_super_league_league_path(super_league)) do %>
-              <span class="glyphicon"></span>
-              <em>Create League in <%= super_league.name %></em>
-          <% end %>
-          </li>
         <% end %>
-          <li class="divider"></li>
-          <li><%= link_to('Create Super League', new_super_league_path) %></li>
         </ul>
       </li>
       <% end %>
@@ -46,14 +38,12 @@
         <ul class="dropdown-menu" id="seasons">
         <% @seasons.each do |season| %>
           <li>
-            <%= link_to(super_league_league_season_path(@super_league, @league, season)) do %>
+            <%= link_to(season_path(season)) do %>
               <span class="glyphicon <%= is_current?(season, @season) %>"></span>
               <%= season.name %>
             <% end %>
           </li>
         <% end %>
-          <li class="divider"></li>
-          <li><%= link_to('Create Season', new_super_league_league_season_path(@super_league, @league)) %></li>
         </ul>
       </li>
       <% end %>
@@ -63,14 +53,12 @@
           <ul class="dropdown-menu" id="races">
             <% @races.each do |race| %>
               <li>
-                <%= link_to(super_league_league_season_race_path(@super_league, @league, @season, race)) do %>
+                <%= link_to(race_path(race)) do %>
                   <span class="glyphicon <%= is_current?(race, @race) %>"></span>
                   <%= race.name %>
                 <% end %>
               </li>
             <% end %>
-            <li class="divider"></li>
-            <li><%= link_to('Create Race', new_super_league_league_season_race_path(@super_league, @league, @season)) %></li>
           </ul>
         </li>
       <% end %>
