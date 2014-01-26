@@ -1,7 +1,7 @@
 class LeaguesController < ApplicationController
 
   before_filter :find_league, :only => [ :new, :show, :edit, :update ]
-  before_filter :setup, :only => [ :index, :show, :new, :edit ]
+  before_filter :menu, :only => [ :index, :show, :new, :edit ]
 
   def index
   end
