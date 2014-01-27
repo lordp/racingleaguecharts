@@ -1,7 +1,7 @@
 <% if @screenshot.new_record? %>
   alert('Failed');
 <% else %>
-  $('#screenshots').append($('<li/>').html('<%= @screenshot.image_file_name %>'));
+  $('div[data-filename="<%= @screenshot.image_file_name %>"] .progress .bar').addClass('finished');
   var cur_ids = $('#session_screenshot_ids').val().split(',');
   cur_ids.push(<%= @screenshot.id %>);
   $('#session_screenshot_ids').val(cur_ids.join(','));
