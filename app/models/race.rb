@@ -7,7 +7,7 @@ class Race < ActiveRecord::Base
 
   def full_name
     nm = []
-    nm << (self.season.league.nil? ? 'No league' : self.season.league.name)
+    nm << (self.season.nil? || self.season.league.nil? ? 'No league' : self.season.league.name)
     nm << (self.season.nil? ? 'No season' : self.season.name)
     nm << (self.name.nil? ? 'No name' : self.name)
 
