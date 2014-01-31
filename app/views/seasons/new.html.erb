@@ -1,4 +1,4 @@
 <h1>New Season</h1>
-<%= form_for(@season, :url => super_league_league_seasons_path(@super_league, @league)) do |f| %>
+<%= form_for(@season) do |f| %>
   <%= render(:partial => 'form', :locals => { :f => f }) %>
 <% end %>
