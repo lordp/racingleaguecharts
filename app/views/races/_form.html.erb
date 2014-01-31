@@ -7,13 +7,13 @@
 </div>
 
 <div class="form-group">
-  <%= f.label(:season_id, 'Season') %> (Not listed? <%= link_to('Add it!', new_super_league_league_season_path) %>)
-  <%= f.select(:season_id, options_from_collection_for_select(Season.all, "id", "full_name", @race.season_id || @season.id), { :include_blank => true }, { :class => 'form-control' }) %>
+  <%= f.label(:season_id, 'Season') %> (Not listed? <%= link_to('Add it!', new_season_path) %>)
+  <%= f.select(:season_id, options_from_collection_for_select(Season.all, "id", "full_name", @race.season_id), {}, { :class => 'form-control' }) %>
 </div>
 
 <div class="form-group">
   <%= f.label(:track_id, 'Track') %> (Not listed? <%= link_to('Add it!', new_track_path) %>)
-  <%= f.select(:track_id, options_from_collection_for_select(Track.where('name is not null').where('name != ?', '').order(:name), "id", "name", @race.track_id), { :include_blank => true }, { :class => 'form-control' }) %>
+  <%= f.select(:track_id, options_from_collection_for_select(Track.where('name is not null').where('name != ?', '').order(:name), "id", "name", @race.track_id), {}, { :class => 'form-control' }) %>
 </div>
 
 <div class="form-group">
@@ -22,5 +22,5 @@
 </div>
 
 <div class="form-group">
-  <%= f.submit('Save', :class => 'btn btn-default') %><%= link_to('Cancel', :back) %>
+  <%= f.submit('Save', :class => 'btn btn-default') %> <%= link_to('Cancel', :back) %>
 </div>
