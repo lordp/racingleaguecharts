@@ -39,3 +39,7 @@ a {
 .finished {
   background: #3ec144 !important;
 }
+
+.help-popover {
+  color: #00F;
+}

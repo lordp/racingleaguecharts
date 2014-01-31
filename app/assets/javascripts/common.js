@@ -4,4 +4,6 @@ $(function() {
   }).on('show.bs.collapse', function() {
     $('#short-' + this.id).hide();
   });
+
+  $('.help-popover').popover();
 });

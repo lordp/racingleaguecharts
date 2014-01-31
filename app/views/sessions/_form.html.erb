@@ -1,36 +1,27 @@
 <div class="form-group">
-  <%= f.label(:token) %>
-  <%= f.text_field(:token, :class => 'form-control', :placeholder => 'Token') %>
-</div>
-
-<div class="form-group">
-  <%= f.label(:session_type) %>
-  <%= f.text_field(:session_type, :class => 'form-control', :placeholder => 'Session Type') %>
-</div>
-
-<div class="form-group">
   <%= f.label(:driver_id) %> (Not listed? <%= link_to('Add them!', new_driver_path) %>)
-  <%= f.select(:driver_id, Driver.all.collect { |d| [d.claimed?, d.id] }, {}, { :class => 'form-control' }) %>
+  <%= f.select(:driver_id, Driver.order(:name).collect { |d| [d.claimed?, d.id] }, {}, { :class => 'form-control' }) %>
 </div>
 
 <div class="form-group">
   <%= f.label(:race_id) %> (Not listed? <%= link_to('Add it!', new_race_path) %>)
-  <%= f.select(:race_id, Race.all.collect { |r| [r.full_name, r.id] }, {}, { :class => 'form-control' }) %>
+  <%= f.select(:race_id, Race.order(:name).collect { |r| [r.full_name, r.id] }, {}, { :class => 'form-control' }) %>
 </div>
 
 <div class="checkbox">
   <%= f.label(:winner) do %>
     <%= f.check_box(:winner) %> Winner of the race?
   <% end %>
+  <span class="glyphicon glyphicon-question-sign help-popover" data-container="body" data-toggle="popover" data-placement="right" data-content="This is primarily used for the gaps chart"></span>
 </div>
 
 <div class="form-group">
   <%= f.label(:track_id) %> (Not listed? <%= link_to('Add it!', new_track_path) %>)
-  <%= f.select(:track_id, Track.all.collect { |t| [t.name, t.id] }, {}, { :class => 'form-control' }) %>
+  <%= f.select(:track_id, Track.order(:name).collect { |t| [t.name, t.id] }, {}, { :class => 'form-control' }) %>
 </div>
 
 <div class="form-group">
-  <%= f.label(:image, "Screenshots") %>
+  <%= f.label(:image, "Screenshots") %>  <span class="glyphicon glyphicon-question-sign help-popover" data-container="body" data-toggle="popover" data-placement="right" data-content="Multiple screenshots can be selected and are uploaded in the background. Once the progress bar has turned green for all screenshots, it is safe to save the session."></span>
   <%= hidden_field_tag('session[screenshot_ids]', @session.screenshot_ids.join(',')) %>
   <%= f.file_field(:image, :multiple => true, :name => "screenshot[image]") %>
   <ul id="screenshots">
