@@ -1,1 +1,23 @@
 <h1>Welcome!</h1>
+<p><a href="/">Racing League Charts</a> is a website for generating and displaying various charts for the F1 2013 game by Codemasters.</p>
+
+<h2>Structure</h2>
+<p>How the information is structured is as follows -</p>
+<ul>
+  <li><strong>Super League</strong> - this is the top level, and is usually the concept of the league. Examples are <a href="http://apexonlineracing.com">Apex Online Racing (AOR)</a>, <a href="http://reddit.com/r/VirtualWDCPC">VirtualWDCPC</a> or <a href="http://precisionracingleague.com">Precision Racing League (PRL)</a>.</li>
+  <li><strong>League</strong> - this is specific leagues within the Super League. Examples are AOR PC Split 1 (2, 3, etc), AOR XBOX F1, VirtualWDCPC 2100, PRL Pacific PC, PRL American PS3 Championship.</li>
+  <li><strong>Season</strong> - a Season is a set of races, usually based around a year of Formula 1</li>
+  <li><strong>Race</strong> - each individual race within a season, and what is used for charting purposes</li>
+  <li><strong>Session</strong> - a set of laps for a race attributed to a specific driver, as well as a number of screenshots that provide the lap information</li>
+  <li><strong>Lap</strong> - one lap within a session with lap and sector times</li>
+</ul>
+
+<h2>Navigation</h2>
+<p>The menu above is the main interface to the site. The 'Leagues' menu contains the Super Leagues and Leagues in one as option groups and options respectively.</p>
+<p>Once you choose a league, a second menu should appear with seasons within the chosen league. Choosing a season will give you a menu of races and so on. A breadcrumb style navigation aid will also be shown.</p>
+
+<h2>Generation</h2>
+<p>To generate the charts for a race, a set of sessions need to be created for each driver you wish to include. For each session, you will need to upload screenshots of the Race Director option that the game provides. This system shows 8 laps at a time, meaning multiple screenshots will be required to cover the entire race. More information will be provided on the relevant pages.</p>
+
+<h2>Technical Details</h2>
+<p>Uploaded screenshots are processed in the background. Each screenshot is cropped to only include the lap number and lap and sector times. An edge detection routine is run over this cropped version, and the <a href="https://code.google.com/p/tesseract-ocr/">Tesseract OCR</a> system is invoked to pull out the text.</p>
