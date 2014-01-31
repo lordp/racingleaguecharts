@@ -1,10 +1,10 @@
 <h1>Welcome!</h1>
-<p><a href="/">Racing League Charts</a> is a website for generating and displaying various charts for the F1 2013 game by Codemasters.</p>
+<p><%= link_to('Racing League Charts', root_path) %> is a website for generating and displaying various charts for the F1 2013 game by Codemasters.</p>
 
 <h2>Structure</h2>
 <p>How the information is structured is as follows -</p>
 <ul>
-  <li><strong>Super League</strong> - this is the top level, and is usually the concept of the league. Examples are <a href="http://apexonlineracing.com">Apex Online Racing (AOR)</a>, <a href="http://reddit.com/r/VirtualWDCPC">VirtualWDCPC</a> or <a href="http://precisionracingleague.com">Precision Racing League (PRL)</a>.</li>
+  <li><strong>Super League</strong> - this is the top level, and is usually the concept of the league. Examples are <%= link_to('Apex Online Racing (AOR)', "http://apexonlineracing.com") %>, <%= link_to('VirtualWDCPC', "http://reddit.com/r/VirtualWDCPC") %> or <%= link_to('Precision Racing League (PRL)', "http://precisionracingleague.com") %>.</li>
   <li><strong>League</strong> - this is specific leagues within the Super League. Examples are AOR PC Split 1 (2, 3, etc), AOR XBOX F1, VirtualWDCPC 2100, PRL Pacific PC, PRL American PS3 Championship.</li>
   <li><strong>Season</strong> - a Season is a set of races, usually based around a year of Formula 1</li>
   <li><strong>Race</strong> - each individual race within a season, and what is used for charting purposes</li>
@@ -17,7 +17,8 @@
 <p>Once you choose a league, a second menu should appear with seasons within the chosen league. Choosing a season will give you a menu of races and so on. A breadcrumb style navigation aid will also be shown.</p>
 
 <h2>Generation</h2>
-<p>To generate the charts for a race, a set of sessions need to be created for each driver you wish to include. For each session, you will need to upload screenshots of the Race Director option that the game provides. This system shows 8 laps at a time, meaning multiple screenshots will be required to cover the entire race. More information will be provided on the relevant pages.</p>
+<p>To generate the charts for a race, a set of sessions need to be created for each driver you wish to include. For each session, you will need to upload screenshots of the Race Director option that the game provides. This system shows 8 laps at a time, meaning multiple screenshots will be required to cover the entire race.</p>
+<p>The Super League, League and Seasons should have been created, so to get started, you can add a <%= link_to('race', new_race_path) %> or <%= link_to('session', new_session_path) %>. If you have any questions, suggestions or concerns, please <%= link_to('let me know', 'mailto:darryl@addict.net.nz') %>.</p>
 
 <h2>Technical Details</h2>
-<p>Uploaded screenshots are processed in the background. Each screenshot is cropped to only include the lap number and lap and sector times. An edge detection routine is run over this cropped version, and the <a href="https://code.google.com/p/tesseract-ocr/">Tesseract OCR</a> system is invoked to pull out the text.</p>
+<p>Uploaded screenshots are processed in the background. Each screenshot is cropped to only include the lap number and lap and sector times. An edge detection routine is run over this cropped version, and the <%= link_to('Tesseract OCR', "https://code.google.com/p/tesseract-ocr/") %> system is invoked to pull out the text.</p>
