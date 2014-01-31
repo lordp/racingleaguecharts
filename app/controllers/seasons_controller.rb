@@ -1,6 +1,6 @@
 class SeasonsController < ApplicationController
 
-  before_filter :find_season, :only => [ :show, :new, :edit, :update ]
+  before_filter :find_season, :only => [ :show, :edit, :update ]
   before_filter :menu, :only => [ :index, :show, :new, :edit, :update ]
 
   def index
