@@ -41,6 +41,10 @@ $(function() {
     });
   }
 
+  $('#session_driver_id').on('change', function() {
+    $('#session_screenshot_ids').val(null);
+  });
+
   $('#session_image').fileupload({
     dataType: 'script',
     url: '/screenshots',
