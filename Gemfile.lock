@@ -1,10 +1,3 @@
-GIT
-  remote: git://github.com/T145/codemirror-rails.git
-  revision: ac1349536941c46ba64b6300e76006215131d23c
-  specs:
-    codemirror-rails (3.20)
-      railties (>= 3.0, < 5)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -62,6 +55,8 @@ GEM
       activesupport (>= 3.0)
     cocaine (0.5.3)
       climate_control (>= 0.0.3, < 1.0)
+    codemirror-rails (3.21)
+      railties (>= 3.0, < 5)
     coffee-rails (3.2.2)
       coffee-script (>= 2.2.0)
       railties (~> 3.2.0)
@@ -199,7 +194,7 @@ DEPENDENCIES
   capistrano-rails (~> 1.1.0)
   capistrano-rbenv (~> 2.0.0)
   capistrano3-puma
-  codemirror-rails!
+  codemirror-rails (~> 3.21)
   coffee-rails (~> 3.2.1)
   delayed_paperclip
   jquery-fileupload-rails
