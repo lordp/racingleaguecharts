@@ -55,4 +55,29 @@ module ApplicationHelper
     end
   end
 
+  def cancel_link(obj)
+    if obj.new_record?
+      path = :back
+    else
+      path = case obj
+        when Screenshot
+          edit_session_path(obj.session)
+        when Session
+          session_path(obj)
+        when Race
+          race_path(obj)
+        when Season
+          season_path(obj)
+        when League
+          league_path(obj)
+        when SuperLeague
+          Rails.root
+        else
+          nil
+      end
+    end
+
+    link_to('Cancel', path)
+  end
+
 end
