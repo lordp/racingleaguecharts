@@ -30,6 +30,7 @@ Virtualwdc::Application.routes.draw do
   end
 
   resources :races do
+    resources :sessions
     member do
       get 'chart'
     end
