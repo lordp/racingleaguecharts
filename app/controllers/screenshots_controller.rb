@@ -1,5 +1,4 @@
 class ScreenshotsController < ApplicationController
-  before_filter :find_session, :only => [ :new, :create, :show, :edit, :update, :destroy ]
   before_filter :find_screenshot, :only => [ :show, :edit, :update, :destroy ]
   before_filter :menu, :only => [ :index, :show, :edit, :new ]
 
@@ -10,7 +9,7 @@ class ScreenshotsController < ApplicationController
   end
 
   def new
-    @screenshot = Screenshot.new(:session_id => @session.id)
+    @screenshot = Screenshot.new
   end
 
   def edit
@@ -25,7 +24,7 @@ class ScreenshotsController < ApplicationController
 
   def update
     if @screenshot.update_attributes(params[:screenshot])
-      redirect_to(edit_session_screenshot_path(@session, @screenshot), :notice => "Screenshot updated")
+      redirect_to(edit_session_path(@screenshot.session), :notice => "Screenshot updated")
     end
   end
 
@@ -33,10 +32,6 @@ class ScreenshotsController < ApplicationController
   end
 
   private
-
-    def find_session
-      @session = Session.find(params[:session_id].to_i) if params[:session_id]
-    end
 
     def find_screenshot
       @screenshot = Screenshot.find(params[:id].to_i)
