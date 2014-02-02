@@ -2,7 +2,7 @@
   <%= breadcrumb(@race, true) %>
 </ol>
 <h1><%= @race.name %></h1>
-<h3><%= link_to('View Charts', chart_race_path(@race)) %></h3>
+<h3><%= link_to('View Charts', chart_race_path(@race)) %> or <%= link_to('Add session', new_race_session_path(@race)) %></h3>
 <% @race.sessions.each_with_index do |session, index| %>
   <%= render(:partial => 'sessions/session', :object => session, :locals => { :index => index }) %>
 <% end %>
