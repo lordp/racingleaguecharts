@@ -1,5 +1,6 @@
 class SessionsController < ApplicationController
 
+  before_filter :find_race, :only => [ :edit, :new ]
   before_filter :find_session, :only => [ :show, :edit, :update, :chart ]
   before_filter :menu, :only => [ :index, :show, :new, :edit ]
 
@@ -37,6 +38,10 @@ class SessionsController < ApplicationController
   end
 
   private
+
+    def find_race
+      @race = Race.find(params[:race_id].to_i) if params[:race_id]
+    end
 
     def find_session
       @session = Session.find(params[:id].to_i)
