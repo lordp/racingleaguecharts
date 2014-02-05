@@ -17,7 +17,6 @@ gem 'paperclip', '~> 3.5.2'
 gem 'delayed_paperclip'
 
 gem 'tesseract-ocr'
-gem 'mini_magick'
 
 gem 'jquery-fileupload-rails'
 
