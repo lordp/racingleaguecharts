@@ -5,7 +5,12 @@ module Paperclip
     def initialize(file, options = {}, attachment = nil)
       super
 
-      @file   = file
+      @file           = file
+      @whiny          = options[:whiny].nil? ? true : options[:whiny]
+      @format         = options[:format]
+      @current_format = File.extname(@file.path)
+      @basename       = File.basename(@file.path, @current_format)
+
       @engine = Tesseract::Engine.new do |e|
         e.language  = :eng
         e.whitelist = ':.0123456789'
@@ -13,33 +18,42 @@ module Paperclip
     end
 
     def make
-      MiniMagick.processor = :gm
-      i = MiniMagick::Image.read(@file)
+      dst = Tempfile.new([@basename, @format].compact.join("."))
+      dst.binmode
 
-      info = i.verbose.match(/([\d]+)x([\d]+)\+[\d]+\+[\d]+/)
+      command = "identify"
+      params  = "#{fromfile}"
+      success = Paperclip.run(command, params)
+      info    = success.match(/([\d]+)x([\d]+)\+[\d]+\+[\d]+/)
+
       if info[1] == '1920' && info[2] == '1080'
-        i.crop('1415x315+205+435') # 1080p
+        crop_geom = '1415x315+205+435' # 1080p
       elsif info[1] == '1440' && info[2] == '810'
-        i.crop('1065x235+150+325') # 810p
+        crop_geom = '1065x235+150+325' # 810p
       elsif info[1] == '1280' && info[2] == '720'
-        i.crop('945x210+135+290') # 720p
+        crop_geom = '945x210+135+290' # 720p
       end
 
-      i.resize('150%')
-      i.edge(1)
-      i.negate
-      i.normalize
-      i.colorspace('gray')
-      i.blur('0x.5')
-      i.contrast
+      command = "convert"
+      params = "-crop #{crop_geom} -resize 300% -blur 0x1 -contrast -normalize -type grayscale -sharpen 1 -posterize 3 -negate -gamma 25 #{fromfile} #{tofile(dst)}"
 
-      attachment.instance.parsed = @engine.text_for(i)
+      begin
+        success = Paperclip.run(command, params)
+      rescue PaperclipCommandLineError
+        raise PaperclipError, "There was an error processing the file #{@basename}" if @whiny
+      end
+
+      attachment.instance.parsed = @engine.text_for(tofile(dst))
 
       @file
     end
 
     def fromfile
-      "\"#{ File.expand_path(@file.path) }[0]\""
+      File.expand_path(@file.path)
+    end
+
+    def tofile(destination)
+      File.expand_path(destination.path)
     end
   end
 end

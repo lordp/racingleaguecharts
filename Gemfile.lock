@@ -96,8 +96,6 @@ GEM
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     mime-types (1.25.1)
-    mini_magick (3.7.0)
-      subexec (~> 0.2.1)
     multi_json (1.8.4)
     net-scp (1.1.2)
       net-ssh (>= 2.6.5)
@@ -161,7 +159,6 @@ GEM
       net-scp (>= 1.1.2)
       net-ssh
       term-ansicolor
-    subexec (0.2.3)
     term-ansicolor (1.2.2)
       tins (~> 0.8)
     tesseract-ocr (0.1.5)
@@ -201,7 +198,6 @@ DEPENDENCIES
   jquery-rails
   kaminari
   kaminari-bootstrap (~> 3.0.1)
-  mini_magick
   paperclip (~> 3.5.2)
   pg
   puma
