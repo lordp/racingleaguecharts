@@ -22,6 +22,10 @@ function graph_one_axis_formatter() {
   return convert_seconds_to_lap(this.value, false);
 }
 
+function pace_graph_formatter() {
+  return convert_seconds_to_lap(this.y, true);
+}
+
 // The tooltip formatter for the first graph (laps)
 function graph_one_formatter() {
   var s = '<b>Lap ' + this.x + '</b>';
@@ -377,6 +381,7 @@ $(function () {
     }
 
     // Pace charts - top 15, 50 and 80% lap times, averaged out per driver
+    options.plotOptions.bar.dataLabels.formatter = pace_graph_formatter;
     var pace = {
       top15: [],
       top50: [],
