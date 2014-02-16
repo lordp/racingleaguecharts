@@ -164,7 +164,7 @@ $(function () {
 
   // Pull in the data from a JSON object via AJAX
   if (typeof race != 'undefined') {
-    data = race.laps;
+    var data = race.laps;
 
     // Loop through each driver
     $.each(data, function (j, driver) {
@@ -309,7 +309,7 @@ $(function () {
         "sector1": {},
         "sector2": {},
         "sector3": {},
-        "total": 0,
+        "total": 0
       };
       var fl = "Fastest Lap (" + data[fastest_overall_lap.driver].name + ")";
       $.each(sectors, function(i, sector) {
