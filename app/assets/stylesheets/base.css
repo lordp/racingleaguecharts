@@ -43,3 +43,7 @@ a {
 .help-popover {
   color: #00F;
 }
+
+.tab-content {
+  padding-top:5px;
+}

@@ -110,6 +110,10 @@ function fastest_sector_time(driver, sector) {
   return [driver.name, fastest_time, fastest_lap, avg];
 }
 
+function sort_compare(a, b) {
+  return a == b ? 0 : a < b ? -1 : 1
+}
+
 // Base options
 var options = {
   chart: {
@@ -366,6 +370,40 @@ $(function () {
         $("#tb-" + i + "-time").html(tb["sector" + i].time);
       }
       $("#tb-total").html(convert_seconds_to_lap(tb["total"].toFixed(3), true) + " (" + parseFloat(fastest_overall_lap.time - tb["total"]).toFixed(3) + " faster)");
+    }
+
+    // Pace charts - top 15, 50 and 80% lap times, averaged out per driver
+    var pace = {
+      top15: [],
+      top50: [],
+      top80: [],
+      cats: []
+    };
+
+    $.each(race.laps, function(index, driver) {
+      var l15 = Math.ceil(driver.laps.length * 0.15);
+      var l50 = Math.ceil(driver.laps.length * 0.50);
+      var l80 = Math.ceil(driver.laps.length * 0.80);
+
+      pace.top15.push(array_sum(driver.laps.sort(sort_compare).slice(0, l15)) / l15);
+      pace.top50.push(array_sum(driver.laps.sort(sort_compare).slice(0, l50)) / l50);
+      pace.top80.push(array_sum(driver.laps.sort(sort_compare).slice(0, l80)) / l80);
+      pace.cats.push(driver.name);
+    });
+
+    options.xAxis.categories = pace.cats;
+
+    for (p in pace) {
+      if (p != 'cats') {
+        var n = p.substring(3);
+
+        options.title.text = 'Pace - Top ' + n + '% of laps';
+        options.chart.renderTo = 'container-pace-' + n;
+        options.series = [{ data: pace[p].sort(sort_compare) }];
+        options.yAxis.min = options.series[0].data[0] - 10;
+
+        new Highcharts.Chart(options);
+      }
     }
   }
 });
