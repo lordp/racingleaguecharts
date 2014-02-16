@@ -16,11 +16,11 @@ a {
 }
 
 .chart {
-  max-width:100%;
+  width:98%;
   height:725px;
 }
 .sectors {
-  width: 620px;
+  width: 610px;
   height: 450px;
   float: left;
   border: solid 1px #F90;
