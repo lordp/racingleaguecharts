@@ -114,6 +114,10 @@ function sort_compare(a, b) {
   return a == b ? 0 : a < b ? -1 : 1
 }
 
+function sort_pace(a, b) {
+  return a.avg == b.avg ? 0 : a.avg < b.avg ? -1 : 1
+}
+
 // Base options
 var options = {
   chart: {
@@ -376,8 +380,7 @@ $(function () {
     var pace = {
       top15: [],
       top50: [],
-      top80: [],
-      cats: []
+      top80: []
     };
 
     $.each(race.laps, function(index, driver) {
@@ -385,25 +388,29 @@ $(function () {
       var l50 = Math.ceil(driver.laps.length * 0.50);
       var l80 = Math.ceil(driver.laps.length * 0.80);
 
-      pace.top15.push(array_sum(driver.laps.sort(sort_compare).slice(0, l15)) / l15);
-      pace.top50.push(array_sum(driver.laps.sort(sort_compare).slice(0, l50)) / l50);
-      pace.top80.push(array_sum(driver.laps.sort(sort_compare).slice(0, l80)) / l80);
-      pace.cats.push(driver.name);
+      pace.top15.push({ name: driver.name, avg: array_sum(driver.laps.sort(sort_compare).slice(0, l15)) / l15 });
+      pace.top50.push({ name: driver.name, avg: array_sum(driver.laps.sort(sort_compare).slice(0, l50)) / l50 });
+      pace.top80.push({ name: driver.name, avg: array_sum(driver.laps.sort(sort_compare).slice(0, l80)) / l80 });
     });
 
-    options.xAxis.categories = pace.cats;
-
     for (p in pace) {
-      if (p != 'cats') {
-        var n = p.substring(3);
+      var n = p.substring(3);
 
-        options.title.text = 'Pace - Top ' + n + '% of laps';
-        options.chart.renderTo = 'container-pace-' + n;
-        options.series = [{ data: pace[p].sort(sort_compare) }];
-        options.yAxis.min = options.series[0].data[0] - 10;
+      var laps = [];
+      var cats = [];
 
-        new Highcharts.Chart(options);
-      }
+      $.each(pace[p].sort(sort_pace), function(i, driver) {
+        laps.push(driver.avg);
+        cats.push(driver.name);
+      });
+
+      options.title.text = 'Pace - Top ' + n + '% of laps';
+      options.chart.renderTo = 'container-pace-' + n;
+      options.series = [{ data: laps }];
+      options.xAxis.categories = cats;
+      options.yAxis.min = options.series[0].data[0] - 10;
+
+      new Highcharts.Chart(options);
     }
   }
 });
