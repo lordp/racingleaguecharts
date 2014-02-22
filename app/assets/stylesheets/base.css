@@ -47,3 +47,11 @@ a {
 .tab-content {
   padding-top:5px;
 }
+
+.screenshot_tick {
+  list-style-image: url(/tick.png)
+}
+
+.screenshot_cross {
+  list-style-image: url(/cross.png)
+}

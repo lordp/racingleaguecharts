@@ -26,7 +26,7 @@
   <%= f.file_field(:image, :multiple => true, :name => "screenshot[image]") %>
   <ul id="screenshots">
     <% @session.screenshots.each do |s| %>
-      <li><%= link_to(s.image_file_name, edit_screenshot_path(s)) %></li>
+      <li class="screenshot_<%= screenshot_class(s) %>"><%= link_to(s.image_file_name, edit_screenshot_path(s)) %></li>
     <% end %>
   </ul>
   <div id="screenshot_upload"></div>
