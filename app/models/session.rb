@@ -48,4 +48,10 @@ class Session < ActiveRecord::Base
     self.token = Session::generate_token if self.token.blank?
   end
 
+  def self.register(params)
+    driver = Driver.find_or_create_by_name(params[:driver])
+    track = Track.find_or_create_by_length(params[:track])
+    Session.new(:driver_id => driver.id, :track_id => track.id, :session_type => params[:type])
+  end
+
 end

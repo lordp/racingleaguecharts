@@ -4,6 +4,8 @@ class SessionsController < ApplicationController
   before_filter :find_session, :only => [ :show, :edit, :update, :chart ]
   before_filter :menu, :only => [ :index, :show, :new, :edit ]
 
+  skip_before_filter :verify_authenticity_token, :only => [ :register ]
+
   def index
     @sessions = Session.order(:token).page(params[:page].to_i).per(15)
   end
@@ -34,6 +36,17 @@ class SessionsController < ApplicationController
     @session = Session.find(params[:id].to_i)
     if @session.update_attributes(params[:session])
       redirect_to(session_path(@session), :notice => "Session updated")
+    end
+  end
+
+  def register
+    @session = Session.register(params[:session])
+    respond_to do |format|
+      if @session.save
+        format.json { render :json => { :session_id => @session.id } }
+      else
+        format.json { render json: @session.errors, status: :unprocessable_entity }
+      end
     end
   end
 

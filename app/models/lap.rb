@@ -5,6 +5,8 @@ class Lap < ActiveRecord::Base
   belongs_to :race
   belongs_to :driver
 
+  validates_presence_of :session_id, :lap_number
+
   def converted_total
     t1 = (total / 60).floor
     t2 = (total % 60).round(3)

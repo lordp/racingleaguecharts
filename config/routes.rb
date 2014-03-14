@@ -40,10 +40,13 @@ Virtualwdc::Application.routes.draw do
     member do
       get 'chart'
     end
+    collection do
+      post 'register'
+    end
     resources :screenshots
   end
 
-  resources :screenshots
+  resources :screenshots, :laps
 
   root :to => 'welcome#index'
 end

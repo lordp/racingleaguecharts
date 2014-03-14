@@ -1,0 +1,18 @@
+class LapsController < ApplicationController
+  skip_before_filter :verify_authenticity_token, :only => [ :create ]
+
+  def create
+    lap = Lap.find_or_initialize_by_session_id_and_lap_number(params[:session_id], params[:lap_number])
+    lap.sector_1 = params[:sector_1].to_f if params[:sector_1]
+    lap.sector_2 = params[:sector_2].to_f if params[:sector_2]
+    lap.total    = params[:total].to_f if params[:total]
+    lap.sector_3 = lap.total - (lap.sector_1 + lap.sector_2) if lap.total && lap.sector_1 && lap.sector_2
+    respond_to do |format|
+      if lap.save
+        format.json { render :json => { :lap_id => lap.id } }
+      else
+        format.json { render json: @lap.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+end
