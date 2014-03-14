@@ -40,7 +40,7 @@ class SessionsController < ApplicationController
   end
 
   def register
-    @session = Session.register(params[:session])
+    @session = Session.register(params)
     respond_to do |format|
       if @session.save
         format.json { render :json => { :session_id => @session.id } }
