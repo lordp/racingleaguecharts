@@ -42,6 +42,7 @@ Virtualwdc::Application.routes.draw do
     end
     collection do
       post 'register'
+      post 'scan_time_trial'
     end
     resources :screenshots
   end

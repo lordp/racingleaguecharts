@@ -21,6 +21,12 @@
   <%= f.select(:session_ids, options_from_collection_for_select(Session.where(:track_id => @race.track_id), "id", "name"), {}, { :multiple => true, :class => 'form-control', :size => 20 }) %>
 </div>
 
+<div class="checkbox">
+  <%= f.label(:time_trial) do %>
+    <%= f.check_box(:time_trial) %> Time Trial?
+  <% end %>
+</div>
+
 <div class="form-group">
   <%= f.submit('Save', :class => 'btn btn-default') %> <%= cancel_link(@race) %>
 </div>

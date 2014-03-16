@@ -1,5 +1,5 @@
 class Race < ActiveRecord::Base
-  attr_accessible :name, :session_ids, :track_id, :season_id
+  attr_accessible :name, :session_ids, :track_id, :season_id, :time_trial
 
   has_many :sessions
   belongs_to :track

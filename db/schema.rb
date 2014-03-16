@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140113234356) do
+ActiveRecord::Schema.define(:version => 20140316062223) do
 
   create_table "drivers", :force => true do |t|
     t.string "name", :limit => 50
@@ -49,6 +49,7 @@ ActiveRecord::Schema.define(:version => 20140113234356) do
     t.datetime "updated_at"
     t.integer  "season_id"
     t.integer  "track_id"
+    t.boolean  "time_trial"
   end
 
   create_table "screenshots", :force => true do |t|
@@ -81,6 +82,7 @@ ActiveRecord::Schema.define(:version => 20140113234356) do
     t.datetime "updated_at"
     t.integer  "race_id"
     t.boolean  "winner"
+    t.boolean  "is_dry"
   end
 
   create_table "super_leagues", :force => true do |t|
