@@ -117,10 +117,3 @@ class Session < ActiveRecord::Base
   end
 
 end
-app/controllers/sessions_controller.rb
-app/models/race.rb
-app/models/session.rb
-app/views/races/_form.html.erb
-app/views/races/show.html.erb
-config/routes.rb
-db/schema.rb
