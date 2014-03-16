@@ -1,0 +1,23 @@
+<table class="table table-bordered">
+<thead>
+  <tr>
+    <th>Number</th>
+    <th>Sector 1</th>
+    <th>Sector 2</th>
+    <th>Sector 3</th>
+    <th>Total</th>
+  </tr>
+</thead>
+<tbody>
+<% laps.order(:lap_number).each do |lap| %>
+  <tr>
+    <td><%= lap.lap_number + 1 %></td>
+    <td><%= nice_time(lap.sector_1) %></td>
+    <td><%= nice_time(lap.sector_2) %></td>
+    <td><%= nice_time(lap.sector_3) %></td>
+    <td><%= nice_time(lap.total) %></td>
+  </tr>
+<% end %>
+</tbody>
+</table>
+

@@ -51,7 +51,8 @@ class SessionsController < ApplicationController
   end
 
   def scan_time_trial
-    @leaderboard = Session.scan_time_trial(params[:thing], params[:race_id])
+    @leaderboard = Session.scan_time_trial(params[:thing], Race.find(params[:race_id]))
+    redirect_to(race_path(params[:race_id]))
   end
 
   private

@@ -16,12 +16,6 @@
       <td><strong>Track:</strong></td>
       <td><%= sess.track.try(:name) %></td>
     </tr>
-<% if tt %>
-    <tr>
-      <td><strong>Time:</strong></td>
-      <td><%= nice_time(sess.laps.first.total) %></td>
-    </tr>
-<% else %>
     <tr>
       <td><strong>Laps:</strong></td>
       <td><%= sess.laps.size %></td>
@@ -34,6 +28,5 @@
       <td><strong>Edit:</strong></td>
       <td><%= link_to('Edit', edit_session_path(sess)) %></td>
     </tr>
-<% end %>
   </tbody>
 </table>

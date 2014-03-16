@@ -1,31 +1,10 @@
 <div class="panel panel-default">
   <div class="panel-heading">
-    <a data-toggle="collapse" data-target="#session-<%= index + 1 %>">Session #<%= session.id %></a>
-    <span id="short-session-<%= index + 1 %>"> - Recorded: <%= Time.at(session.token.to_i(36)) %>, Driver: <%= session.driver.try(:name) %>, Race: <%= session.race.try(:name) %>, Track: <%= session.track.try(:name) %>, Laps: <%= session.laps.size %></span>
+    <a data-toggle="collapse" data-target="#session-<%= index + 1 %>" id="link-session-<%= index + 1 %>" class="glyphicon glyphicon-plus"></a>
+    <span id="short-session-<%= index + 1 %>"><strong>Driver:</strong> <%= session.driver.try(:name) %>, <strong>Race:</strong> <%= session.race.try(:name) %>, <strong>Track:</strong> <%= session.track.try(:name) %>, <strong>Laps:</strong> <%= session.laps.size %></span>
   </div>
   <div class="panel-body collapse session-collapsible" id="session-<%= index + 1 %>">
-    <%= render(:partial => 'sessions/session_details', :locals => { :sess => session }) %>
-    <table class="table table-bordered">
-      <thead>
-        <tr>
-          <th>Number</th>
-          <th>Sector 1</th>
-          <th>Sector 2</th>
-          <th>Sector 3</th>
-          <th>Total</th>
-        </tr>
-      </thead>
-      <tbody>
-      <% session.laps.order(:lap_number).each do |lap| %>
-        <tr>
-          <td><%= lap.lap_number + 1 %></td>
-          <td><%= nice_time(lap.sector_1) %></td>
-          <td><%= nice_time(lap.sector_2) %></td>
-          <td><%= nice_time(lap.sector_3) %></td>
-          <td><%= nice_time(lap.total) %></td>
-        </tr>
-      <% end %>
-      </tbody>
-    </table>
+    <%= render(:partial => 'sessions/session_details', :locals => { :sess => session, :tt => @race.time_trial }) %>
+    <%= render(:partial => 'sessions/session_laps', :locals => { :laps => session.laps }) unless @race.time_trial %>
   </div>
 </div>
