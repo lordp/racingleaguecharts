@@ -61,6 +61,11 @@ class Session < ActiveRecord::Base
 
     leaderboard = {}
     unless thing.nil?
+      if thing =~ /^http/
+        uri = URI(thing)
+        thing = uri.path.split(/\//)[4]
+      end
+
       reddit = Snoo::Client.new
       post = reddit.get_comments({ :link_id => thing, :rand => Time.now.to_i })
 
