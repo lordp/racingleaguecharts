@@ -97,7 +97,7 @@ class Session < ActiveRecord::Base
           time = line.scan(time_regex)
           unless time.empty?
             track = tracks.find { |t| t[1] == track[1] }
-            time = time.first.map { |t| Session.convert_lap_to_seconds(t) }.min
+            time = time.map { |t| Session.convert_lap_to_seconds(t.first) }.min
             unless track.nil?
               leaderboard[dry_wet][p['data']['author']] = time
             end
