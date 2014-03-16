@@ -24,6 +24,6 @@
 <h3><%= link_to('View Charts', chart_race_path(@race)) %></h3>
 <% end %>
 
-<% @race.sessions.each_with_index do |session, index| %>
+<% @race_sessions.each_with_index do |session, index| %>
   <%= render(:partial => 'sessions/session', :object => session, :locals => { :index => index }) %>
 <% end %>

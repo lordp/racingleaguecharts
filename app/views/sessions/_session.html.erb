@@ -1,10 +1,10 @@
 <div class="panel panel-default">
   <div class="panel-heading">
     <a data-toggle="collapse" data-target="#session-<%= index + 1 %>" id="link-session-<%= index + 1 %>" class="glyphicon glyphicon-plus"></a>
-    <span id="short-session-<%= index + 1 %>"><strong>Driver:</strong> <%= session.driver.try(:name) %>, <strong>Race:</strong> <%= session.race.try(:name) %>, <strong>Track:</strong> <%= session.track.try(:name) %>, <strong>Laps:</strong> <%= session.laps.size %></span>
+    <span id="short-session-<%= index + 1 %>"><%= short_session_info(session, @race) %></span>
   </div>
   <div class="panel-body collapse session-collapsible" id="session-<%= index + 1 %>">
-    <%= render(:partial => 'sessions/session_details', :locals => { :sess => session, :tt => @race.time_trial }) %>
-    <%= render(:partial => 'sessions/session_laps', :locals => { :laps => session.laps }) unless @race.time_trial %>
+    <%= render(:partial => 'sessions/session_details', :locals => { :sess => session, :tt => @race && @race.time_trial }) %>
+    <%= render(:partial => 'sessions/session_laps', :locals => { :laps => session.laps }) unless @race && @race.time_trial %>
   </div>
 </div>

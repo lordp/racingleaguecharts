@@ -9,6 +9,11 @@ class RacesController < ApplicationController
   end
 
   def show
+    @race_sessions = if @race.time_trial
+      @race.sessions.includes(:laps).order('laps.total')
+    else
+      @race.sessions
+    end
   end
 
   def new
