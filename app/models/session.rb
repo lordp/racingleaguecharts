@@ -108,12 +108,13 @@ class Session < ActiveRecord::Base
       leaderboard.each do |dry_wet, laps|
         laps.each do |driver, time|
           driver = Driver.find_or_create_by_name(driver)
-          session = race.sessions.find_or_create_by_driver_id_and_is_dry(driver.id, dry_wet == "dry")
+          session = race.sessions.find_or_initialize_by_driver_id_and_is_dry(driver.id, dry_wet == "dry")
+          session.track_id = race.track_id
+          session.save
           session.laps.find_or_create_by_lap_number_and_total(:lap_number => 0, :total => time)
         end
       end
     end
-
   end
 
   def self.convert_lap_to_seconds(lap)
