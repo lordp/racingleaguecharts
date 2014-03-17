@@ -18,6 +18,10 @@
     </tr>
 <% if tt %>
     <tr>
+      <td><strong>Dry/Wet:</strong></td>
+      <td><%= sess.is_dry ? 'Dry' : 'Wet' %></td>
+    </tr>
+    <tr>
       <td><strong>Time:</strong></td>
       <td><%= nice_time(sess.laps.first.total) %></td>
     </tr>

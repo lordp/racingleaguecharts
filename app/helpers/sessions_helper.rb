@@ -9,11 +9,12 @@ module SessionsHelper
       :race => session.race.try(:name),
       :track => session.track.try(:name),
       :time => nice_time(session.laps.first.try(:total)),
-      :laps => session.laps.size
+      :laps => session.laps.size,
+      :weather => session.is_dry ? 'Dry' : 'Wet'
     }
     if !race.nil?
       if race.time_trial
-        show = parts.select { |key, value| [:driver, :time].include?(key) }
+        show = parts.select { |key, value| [:driver, :time, :weather].include?(key) }
       else
         show = parts.select { |key, value| [:driver, :laps].include?(key) }
       end
