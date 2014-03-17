@@ -28,6 +28,8 @@ module Paperclip
 
       if info[1] == '1920' && info[2] == '1080'
         crop_geom = '1415x315+205+435' # 1080p
+      elsif info[1] == '1920' && info[2] == '1018'
+        crop_geom = '1420x315+200+400' # Xephyr
       elsif info[1] == '1440' && info[2] == '810'
         crop_geom = '1065x235+150+325' # 810p
       elsif info[1] == '1280' && info[2] == '720'
@@ -39,8 +41,8 @@ module Paperclip
 
       begin
         success = Paperclip.run(command, params)
-      rescue PaperclipCommandLineError
-        raise PaperclipError, "There was an error processing the file #{@basename}" if @whiny
+      rescue Paperclip::Errors::PaperclipCommandLineError
+        raise Paperclip::Errors::PaperclipError, "There was an error processing the file #{@basename}" if @whiny
       end
 
       attachment.instance.parsed = @engine.text_for(tofile(dst))
