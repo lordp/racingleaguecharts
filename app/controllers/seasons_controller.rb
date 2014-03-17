@@ -24,7 +24,7 @@ class SeasonsController < ApplicationController
   end
 
   def update
-    if @season.save
+    if @season.update_attributes(params[:season])
       redirect_to(season_path(@season), :notice => "Season updated")
     end
   end
