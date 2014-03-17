@@ -105,10 +105,12 @@ class Session < ActiveRecord::Base
         end
       end
 
+      race_dry_wet = race.is_dry ? 'dry' : 'wet'
       leaderboard.each do |dry_wet, laps|
+        next unless race_dry_wet == dry_wet
         laps.each do |driver, time|
           driver = Driver.find_or_create_by_name(driver)
-          session = race.sessions.find_or_initialize_by_driver_id_and_is_dry(driver.id, dry_wet == "dry")
+          session = race.sessions.find_or_initialize_by_driver_id_and_is_dry(driver.id, race.is_dry)
           session.track_id = race.track_id
           session.save
           session.laps.find_or_create_by_lap_number_and_total(:lap_number => 0, :total => time)
