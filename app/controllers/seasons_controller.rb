@@ -1,5 +1,7 @@
 class SeasonsController < ApplicationController
 
+  POINTS = [ 25, 18, 15, 12, 10, 8, 6, 4, 2, 1 ]
+
   before_filter :find_season, :only => [ :show, :edit, :update ]
   before_filter :menu, :only => [ :index, :show, :new, :edit, :update ]
 
@@ -7,6 +9,15 @@ class SeasonsController < ApplicationController
   end
 
   def show
+    @leaderboard = {}
+
+    @season.races.each do |race|
+      race.sessions.includes(:laps).order('laps.total').limit(10).each_with_index do |s, i|
+        driver = Driver.find(s.driver_id)
+        @leaderboard[driver] ||= 0
+        @leaderboard[driver] += POINTS[i]
+      end
+    end
   end
 
   def new
