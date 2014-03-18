@@ -71,7 +71,12 @@
     </ul>
     <ul class="nav navbar-nav navbar-right" style="margin-right:1px">
     <% if current_user %>
-      <li class="navbar-text">Signed in as <%= current_user.email %> | <%= link_to('Sign out', sign_out_users_path, :class => 'no-padding-nav') %></li>
+      <li class="navbar-text">
+        Signed in as <%= current_user.email %> | <%= link_to('Sign out', sign_out_users_path, :class => 'no-padding-nav') %>
+        <% if current_user.admin? %>
+          | <%= link_to('Admin', say_what_welcome_path, :class => 'no-padding-nav') %>
+        <% end %>
+      </li>
     <% else %>
       <li class="navbar-text"><%= link_to('Sign in', sign_in_users_path, :class => 'no-padding-nav') %></li>
     <% end %>
@@ -81,7 +86,7 @@
 
 <div id="wrapper">
   <% flash.each do |name, msg| %>
-    <%= content_tag(:div, msg, :class => bootstrap_alert(name)) %>
+    <%= content_tag(:div, msg, :class => "alert #{bootstrap_alert(name)}") %>
   <% end %>
   <%= yield %>
 </div>

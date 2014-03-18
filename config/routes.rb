@@ -1,7 +1,5 @@
 Virtualwdc::Application.routes.draw do
 
-  get "welcome/index"
-
   resources :drivers do
     member do
       put 'claim'
@@ -41,6 +39,11 @@ Virtualwdc::Application.routes.draw do
       post 'scan_time_trial'
     end
     resources :screenshots
+  end
+
+  namespace :say_what do
+    resources :drivers
+    get 'welcome', :to => 'welcome#index'
   end
 
   root :to => 'welcome#index'
