@@ -8,16 +8,12 @@ Virtualwdc::Application.routes.draw do
     end
   end
 
-  resources :laps, :tracks
-  resources :super_leagues do
-    resources :leagues do
-      resources :seasons do
-        resources :races do
-          member do
-            get 'chart'
-          end
-        end
-      end
+  resources :laps, :tracks, :screenshots
+  resources :users do
+    collection do
+      get 'sign_in'
+      get 'sign_out'
+      post 'do_sign_in'
     end
   end
 
@@ -46,8 +42,6 @@ Virtualwdc::Application.routes.draw do
     end
     resources :screenshots
   end
-
-  resources :screenshots, :laps
 
   root :to => 'welcome#index'
 end

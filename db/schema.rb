@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140317011954) do
+ActiveRecord::Schema.define(:version => 20140318212757) do
 
   create_table "drivers", :force => true do |t|
     t.string "name", :limit => 50
@@ -98,6 +98,13 @@ ActiveRecord::Schema.define(:version => 20140317011954) do
     t.float    "length"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+  end
+
+  create_table "users", :force => true do |t|
+    t.string   "email"
+    t.string   "password_digest"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
   end
 
 end

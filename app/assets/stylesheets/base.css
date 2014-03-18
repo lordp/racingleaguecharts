@@ -6,6 +6,11 @@ a {
   cursor: pointer;
 }
 
+.no-padding-nav {
+  padding: 0 15px 0 0 !important;
+  display: inline-block !important;
+}
+
 .cm-vrl-st-correct-calc-wrong {
   font-weight: bold;
   color: #F00;
