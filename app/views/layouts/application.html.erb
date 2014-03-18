@@ -69,7 +69,7 @@
         </li>
       <% end %>
     </ul>
-    <ul class="nav navbar-nav navbar-right">
+    <ul class="nav navbar-nav navbar-right" style="margin-right:1px">
     <% if current_user %>
       <li class="navbar-text">Signed in as <%= current_user.email %> | <%= link_to('Sign out', sign_out_users_path, :class => 'no-padding-nav') %></li>
     <% else %>
