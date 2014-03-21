@@ -2,27 +2,7 @@
   <%= breadcrumb(@race, true) %>
 </ol>
 <h1><%= @race.name %></h1>
-<h3><%= link_to('Add session', new_race_session_path(@race)) %></h3>
-<% if @race.time_trial %>
-<div class="panel panel-default">
-  <div class="panel-heading">Scan Time Trial URL</div>
-  <div class="panel-body">
-    <%= form_tag(scan_time_trial_sessions_path) do |f| %>
-      <%= hidden_field_tag(:race_id, @race.id) %>
-      <div class="form-group">
-        <%= label_tag(:thing) %>
-        <%= text_field_tag(:thing, '', :class => 'form-control', :placeholder => 'Thing or URL') %>
-      </div>
-
-      <div class="form-group">
-        <%= submit_tag('Scan', :class => 'btn btn-default') %>
-      </div>
-    <% end %>
-  </div>
-</div>
-<% else %>
-<h3><%= link_to('View Charts', chart_race_path(@race)) %></h3>
-<% end %>
+<h3><%= link_to('Add session', new_race_session_path(@race)) %> or <%= link_to('View Charts', chart_race_path(@race)) %></h3>
 
 <% @race_sessions.each_with_index do |session, index| %>
   <%= render(:partial => 'sessions/session', :object => session, :locals => { :index => index }) %>
