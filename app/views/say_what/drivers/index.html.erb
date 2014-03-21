@@ -1,0 +1,22 @@
+<h1>Listing Drivers</h1>
+
+<%= link_to('New Driver', new_say_what_driver_path) %>
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<% @drivers.each do |driver| %>
+    <tr>
+      <td><%= link_to(driver.name, say_what_driver_path(driver)) %></td>
+      <td><%= link_to('Edit', edit_say_what_driver_path(driver)) %> | <%= link_to('Destroy', say_what_driver_path(driver), :method => :delete, :data => { :confirm => 'Are you sure?' }) %></td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<%= link_to('New Driver', new_say_what_driver_path) %>

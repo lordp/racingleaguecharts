@@ -1,0 +1,7 @@
+<h1><%= @driver.name %></h1>
+<h2>Sessions</h2>
+<%= paginate @sessions %>
+<% @sessions.each_with_index do |session, index| %>
+  <%= render(:partial => 'sessions/session', :object => session, :locals => { :index => index }) %>
+<% end %>
+<%= paginate @sessions %>
