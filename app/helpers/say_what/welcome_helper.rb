@@ -1,2 +1,0 @@
-module SayWhat::WelcomeHelper
-end

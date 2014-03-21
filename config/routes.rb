@@ -1,5 +1,10 @@
 Virtualwdc::Application.routes.draw do
 
+  namespace :say_what do
+    resources :drivers
+  end
+
+
   resources :drivers do
     member do
       put 'claim'
@@ -42,7 +47,7 @@ Virtualwdc::Application.routes.draw do
   end
 
   namespace :say_what do
-    resources :drivers
+    resources :drivers, :super_leagues, :leagues, :seasons, :races, :sessions, :laps, :screenshots, :tracks
     get 'welcome', :to => 'welcome#index'
   end
 
