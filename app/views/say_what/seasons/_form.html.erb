@@ -1,0 +1,13 @@
+<div class="form-group">
+  <%= f.label(:name) %>
+  <%= f.text_field(:name, :class => 'form-control', :placeholder => 'Name') %>
+</div>
+
+<div class="form-group">
+  <%= f.label(:league_id, 'League') %>
+  <%= f.select(:league_id, options_from_collection_for_select(League.order(:name), "id", "name", @season.league_id), {}, { :class => 'form-control' }) %>
+</div>
+
+<div class="form-group">
+  <%= f.submit('Save', :class => 'btn btn-default') %> <%= cancel_link(@season) %>
+</div>

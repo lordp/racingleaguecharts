@@ -1,0 +1,25 @@
+<h1>Listing Screenshots</h1>
+
+<p><%= link_to('New Screenshot', new_say_what_screenshot_path) %></p>
+
+<%= paginate @screenshots %>
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<% @screenshots.each do |screenshot| %>
+    <tr>
+      <td><%= link_to(screenshot.image_file_name, say_what_screenshot_path(screenshot)) %></td>
+      <td><%= link_to('Edit', edit_say_what_screenshot_path(screenshot)) %> | <%= link_to('Destroy', say_what_screenshot_path(screenshot), :method => :delete, :data => { :confirm => 'Are you sure?' }) %></td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<%= paginate @screenshots %>
+
+<p><%= link_to('New Screenshot', new_say_what_screenshot_path) %></p>

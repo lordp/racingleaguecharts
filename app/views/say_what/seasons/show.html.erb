@@ -1,0 +1,2 @@
+<h1><%= @season.name %></h1>
+<%= link_to('Edit', edit_say_what_season_path(@season)) %> | <%= link_to('Destroy', say_what_season_path(@season), :method => :delete, :data => { :confirm => 'Are you sure?' }) %>

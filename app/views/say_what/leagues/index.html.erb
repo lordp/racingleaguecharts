@@ -1,0 +1,22 @@
+<h1>Listing Leagues</h1>
+
+<%= link_to('New League', new_say_what_league_path) %>
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<% @leagues.each do |league| %>
+    <tr>
+      <td><%= link_to(league.full_name, say_what_league_path(league)) %></td>
+      <td><%= link_to('Edit', edit_say_what_league_path(league)) %> | <%= link_to('Destroy', say_what_league_path(league), :method => :delete, :data => { :confirm => 'Are you sure?' }) %></td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<%= link_to('New League', new_say_what_league_path) %>

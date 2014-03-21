@@ -1,0 +1,6 @@
+<h1>Editing Season</h1>
+
+<%= form_for(@season, :url => say_what_season_path(@season)) do |f| %>
+  <%= render(:partial => 'shared/errors', :object => @season ) %>
+  <%= render(:partial => 'form', :locals => { :f => f }) %>
+<% end %>

@@ -42,6 +42,6 @@ class SayWhat::DriversController < ApplicationController
   private
 
     def find_driver
-      @driver = Driver.find(params[:id].to_i) if params[:id]
+      @driver = Driver.find(params[:id].to_i)
     end
 end

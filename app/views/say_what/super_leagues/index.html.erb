@@ -1,0 +1,22 @@
+<h1>Listing Super Leagues</h1>
+
+<%= link_to('New Super League', new_say_what_super_league_path) %>
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<% @super_leagues.each do |super_league| %>
+    <tr>
+      <td><%= link_to(super_league.name, say_what_super_league_path(super_league)) %></td>
+      <td><%= link_to('Edit', edit_say_what_super_league_path(super_league)) %> | <%= link_to('Destroy', say_what_super_league_path(super_league), :method => :delete, :data => { :confirm => 'Are you sure?' }) %></td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<%= link_to('New Super League', new_say_what_super_league_path) %>

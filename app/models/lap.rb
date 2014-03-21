@@ -7,6 +7,10 @@ class Lap < ActiveRecord::Base
 
   validates_presence_of :session_id, :lap_number
 
+  def full_name
+    "##{lap_number}, #{converted_total}"
+  end
+
   def converted_total
     t1 = (total / 60).floor
     t2 = (total % 60).round(3)

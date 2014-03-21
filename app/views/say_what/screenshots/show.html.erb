@@ -1,0 +1,2 @@
+<h1><%= @screenshot.image_file_name %></h1>
+<%= link_to('Edit', edit_say_what_screenshot_path(@screenshot)) %> | <%= link_to('Destroy', say_what_screenshot_path(@screenshot), :method => :delete, :data => { :confirm => 'Are you sure?' }) %>

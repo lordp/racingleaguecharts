@@ -1,46 +1,43 @@
 <script type="text/javascript" charset="utf-8">
   var sessions = <%= @sessions.to_json.html_safe %>;
 </script>
-<%= form_for(@race) do |f| %>
-  <%= render(:partial => 'shared/errors', :object => @race) %>
-  <div class="form-group">
-    <%= f.label(:name) %>
-    <%= f.text_field(:name, :class => 'form-control', :placeholder => 'Name') %>
-  </div>
+<div class="form-group">
+  <%= f.label(:name) %>
+  <%= f.text_field(:name, :class => 'form-control', :placeholder => 'Name') %>
+</div>
 
-  <div class="form-group">
-    <%= f.label(:season_id, 'Season') %> (Not listed? <%= link_to('Add it!', new_season_path) %>)
-    <%= f.select(:season_id, options_from_collection_for_select(Season.all, "id", "full_name", @race.season_id), {}, { :class => 'form-control' }) %>
-  </div>
+<div class="form-group">
+  <%= f.label(:season_id, 'Season') %> (Not listed? <%= link_to('Add it!', new_season_path) %>)
+  <%= f.select(:season_id, options_from_collection_for_select(Season.all, "id", "full_name", @race.season_id), {}, { :class => 'form-control' }) %>
+</div>
 
-  <div class="form-group">
-    <%= f.label(:track_id, 'Track') %> (Not listed? <%= link_to('Add it!', new_track_path) %>)
-    <%= f.select(:track_id, options_from_collection_for_select(Track.where('name is not null').where('name != ?', '').order(:name), "id", "name", @race.track_id), {}, { :class => 'form-control' }) %>
-  </div>
+<div class="form-group">
+  <%= f.label(:track_id, 'Track') %> (Not listed? <%= link_to('Add it!', new_track_path) %>)
+  <%= f.select(:track_id, options_from_collection_for_select(Track.where('name is not null').where('name != ?', '').order(:name), "id", "name", @race.track_id), {}, { :class => 'form-control' }) %>
+</div>
 
-  <div class="form-group">
-    <%= f.label(:session_ids, 'Sessions') %> (Can't find the session? <%= link_to('Add it', new_session_path) %>)
-    <%= f.select(:session_ids, options_from_collection_for_select(Session.where(:track_id => @race.track_id), "id", "name"), {}, { :multiple => true, :class => 'form-control', :size => 20 }) %>
-  </div>
+<div class="form-group">
+  <%= f.label(:session_ids, 'Sessions') %> (Can't find the session? <%= link_to('Add it', new_session_path) %>)
+  <%= f.select(:session_ids, options_from_collection_for_select(Session.where(:track_id => @race.track_id), "id", "name"), {}, { :multiple => true, :class => 'form-control', :size => 20 }) %>
+</div>
 
-  <div class="checkbox">
-    <%= f.label(:time_trial) do %>
-      <%= f.check_box(:time_trial) %> Time Trial?
-    <% end %>
-  </div>
+<div class="checkbox">
+  <%= f.label(:time_trial) do %>
+    <%= f.check_box(:time_trial) %> Time Trial?
+  <% end %>
+</div>
 
-  <div class="checkbox">
-    <%= f.label(:is_dry) do %>
-      <%= f.check_box(:is_dry) %> Dry Weather?
-    <% end %>
-  </div>
+<div class="checkbox">
+  <%= f.label(:is_dry) do %>
+    <%= f.check_box(:is_dry) %> Dry Weather?
+  <% end %>
+</div>
 
-  <div class="form-group">
-    <%= f.label(:thing, 'Reddit URL') %>
-    <%= f.text_field(:thing, :class => 'form-control', :placeholder => 'Thing or URL') %>
-  </div>
+<div class="form-group">
+  <%= f.label(:thing, 'Reddit URL') %>
+  <%= f.text_field(:thing, :class => 'form-control', :placeholder => 'Thing or URL') %>
+</div>
 
-  <div class="form-group">
-    <%= f.submit('Save', :class => 'btn btn-default') %> <%= cancel_link(@race) %>
-  </div>
-<% end %>
+<div class="form-group">
+  <%= f.submit('Save', :class => 'btn btn-default') %> <%= cancel_link(@race) %>
+</div>

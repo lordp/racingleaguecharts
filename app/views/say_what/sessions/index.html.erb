@@ -1,0 +1,22 @@
+<h1>Listing Sessions</h1>
+
+<p><%= link_to('New Session', new_say_what_session_path) %></p>
+
+<%= paginate @sessions %>
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<% @sessions.each do |session| %>
+    <tr>
+      <td><%= link_to(session.name, say_what_session_path(session)) %></td>
+      <td><%= link_to('Edit', edit_say_what_session_path(session)) %> | <%= link_to('Destroy', say_what_session_path(session), :method => :delete, :data => { :confirm => 'Are you sure?' }) %></td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+<%= paginate @sessions %>

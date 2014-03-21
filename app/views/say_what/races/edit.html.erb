@@ -1,3 +1,6 @@
 <h1>Editing Race</h1>
 
-<%= render 'form' %>
+<%= form_for(@race, :url => say_what_race_path(@race)) do |f| %>
+  <%= render(:partial => 'shared/errors', :object => @race) %>
+  <%= render(:partial => 'form', :locals => { :f => f }) %>
+<% end %>

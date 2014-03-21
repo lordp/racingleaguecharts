@@ -1,0 +1,6 @@
+<h1>New Lap</h1>
+
+<%= form_for(@lap, :url => say_what_laps_path) do |f| %>
+  <%= render(:partial => 'shared/errors', :object => @lap) %>
+  <%= render(:partial => 'form', :locals => { :f => f }) %>
+<% end %>

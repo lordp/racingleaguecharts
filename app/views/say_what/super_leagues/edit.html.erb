@@ -1,0 +1,6 @@
+<h1>Editing Super League</h1>
+
+<%= form_for(@super_league, :url => say_what_super_league_path(@super_league)) do |f| %>
+  <%= render(:partial => 'shared/errors', :object => @super_league) %>
+  <%= render(:partial => 'form', :locals => { :f => f }) %>
+<% end %>
