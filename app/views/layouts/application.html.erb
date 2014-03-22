@@ -78,7 +78,7 @@
         <% end %>
       </li>
     <% else %>
-      <li class="navbar-text"><%= link_to('Sign in', sign_in_users_path, :class => 'no-padding-nav') %></li>
+      <li class="navbar-text"><%= link_to('Sign in', sign_in_users_path, :class => 'no-padding-nav') %> | <%= link_to('Sign up', sign_up_users_path, :class => 'no-padding-nav') %></li>
     <% end %>
     </ul>
   </div>
