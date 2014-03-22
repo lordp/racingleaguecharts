@@ -63,17 +63,17 @@ module ApplicationHelper
     else
       path = case obj
         when Screenshot
-          edit_session_path(obj.session)
+          edit_say_what_session_path(obj.session)
         when Session
-          session_path(obj)
+          say_what_sessions_path
         when Race
-          race_path(obj)
+          say_what_races_path
         when Season
-          season_path(obj)
+          say_what_seasons_path
         when League
-          league_path(obj)
+          say_what_leagues_path
         when SuperLeague
-          Rails.root
+          say_what_super_leagues_path
         else
           nil
       end
