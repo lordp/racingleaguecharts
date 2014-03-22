@@ -8,12 +8,12 @@ class ApplicationController < ActionController::Base
         build_menu(@race)
       when Race
         @season = obj.season
-        @races = @season.races
+        @races = @season.races.order(:created_at)
         build_menu(@season)
       when Season
         @league = obj.league
-        @seasons = @league.seasons
-        @races = @season.races
+        @seasons = @league.seasons.order(:created_at)
+        @races = @season.races.order(:created_at)
         build_menu(@league)
       when League
         @super_league = obj.super_league
