@@ -82,4 +82,8 @@ module ApplicationHelper
     link_to('Cancel', path)
   end
 
+  def admin_path
+    params[:controller] =~ /say_what/
+  end
+
 end

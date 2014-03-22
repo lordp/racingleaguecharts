@@ -20,6 +20,7 @@
   </div>
   <div class="navbar-collapse collapse">
     <ul class="nav navbar-nav nav-default" id="nav">
+    <% unless admin_path %>
       <% if @super_leagues %>
       <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Leagues <strong class="caret"></strong></a>
@@ -68,6 +69,7 @@
           </ul>
         </li>
       <% end %>
+    <% end %>
     </ul>
     <ul class="nav navbar-nav navbar-right" style="margin-right:1px">
     <% if current_user %>
