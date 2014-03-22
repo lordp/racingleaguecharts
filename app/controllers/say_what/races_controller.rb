@@ -28,6 +28,7 @@ class SayWhat::RacesController < ApplicationController
   end
 
   def update
+    @race.scan_time_trial if params[:rescan]
     if @race.update_attributes(params[:race])
       redirect_to(say_what_race_path(@race), :notice => 'Race was successfully updated.')
     else
