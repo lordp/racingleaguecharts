@@ -1,0 +1,6 @@
+<h1>Editing Track</h1>
+
+<%= form_for(@track, :url => say_what_track_path(@track)) do |f| %>
+  <%= render(:partial => 'shared/errors', :object => @track ) %>
+  <%= render(:partial => 'form', :locals => { :f => f }) %>
+<% end %>

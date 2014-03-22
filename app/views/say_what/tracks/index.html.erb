@@ -1,0 +1,22 @@
+<h1>Listing Track</h1>
+
+<%= link_to('New Track', new_say_what_track_path) %>
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<% @tracks.each do |track| %>
+    <tr>
+      <td><%= link_to(track.name, say_what_track_path(track)) %></td>
+      <td><%= link_to('Edit', edit_say_what_track_path(track)) %> | <%= link_to('Destroy', say_what_track_path(track), :method => :delete, :data => { :confirm => 'Are you sure?' }) %></td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<%= link_to('New Track', new_say_what_track_path) %>
