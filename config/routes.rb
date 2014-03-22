@@ -1,10 +1,5 @@
 Virtualwdc::Application.routes.draw do
 
-  namespace :say_what do
-    resources :drivers
-  end
-
-
   resources :drivers do
     member do
       put 'claim'
