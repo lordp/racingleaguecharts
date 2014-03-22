@@ -16,12 +16,9 @@ class SayWhat::ScreenshotsController < ApplicationController
   end
 
   def create
-    @screenshot = Screenshot.new(params[:screenshot])
-
-    if @screenshot.save
-      redirect_to(say_what_screenshot_path(@screenshot), :notice => 'Screenshot was successfully created.')
-    else
-      render "new"
+    @screenshot = Screenshot.create(params[:screenshot])
+    respond_to do |format|
+      format.js
     end
   end
 

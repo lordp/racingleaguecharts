@@ -6,7 +6,7 @@ class Screenshot < ActiveRecord::Base
 
   belongs_to :session
 
-  validate :laps_are_in_order
+  validate :laps_are_in_order, :on => :update
 
   after_save :create_laps, :if => lambda { |s| s.confirmed? }
 

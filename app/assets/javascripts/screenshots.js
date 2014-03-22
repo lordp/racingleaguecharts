@@ -47,7 +47,7 @@ $(function() {
 
   $('#session_image').fileupload({
     dataType: 'script',
-    url: '/screenshots',
+    url: '/say_what/screenshots',
     type: 'POST',
     add: function(e, data) {
       var file, types;
