@@ -1,5 +1,4 @@
 <h1>Session details</h1>
-<h3><%= link_to('Add another session', new_race_session_path(@race)) %></h3>
 <%= render(:partial => 'session_details', :locals => { :sess => @session, :tt => @session.race.time_trial }) %>
 <% unless @session.race.time_trial %>
 <h2>Laps</h2>
