@@ -6,6 +6,8 @@ class Screenshot < ActiveRecord::Base
 
   belongs_to :session
 
+  validate :laps_are_in_order
+
   after_save :create_laps, :if => lambda { |s| s.confirmed? }
 
   def create_laps
@@ -19,6 +21,14 @@ class Screenshot < ActiveRecord::Base
       lap.sector_3 = Lap.convert_lap(match[8])
 
       lap.save
+    end
+  end
+
+  def laps_are_in_order
+    input = parsed.scan(/^[\d]{2}/).map(&:to_i)
+    expected = (input.first..input.last).to_a
+    if input != expected
+      errors[:base] << "The lap numbers are out of order or incorrect"
     end
   end
 end
