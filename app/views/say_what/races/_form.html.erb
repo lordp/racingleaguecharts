@@ -7,17 +7,17 @@
 </div>
 
 <div class="form-group">
-  <%= f.label(:season_id, 'Season') %> (Not listed? <%= link_to('Add it!', new_season_path) %>)
+  <%= f.label(:season_id, 'Season') %> (Not listed? <%= link_to('Add it!', new_say_what_season_path) %>)
   <%= f.select(:season_id, options_from_collection_for_select(Season.all, "id", "full_name", @race.season_id), {}, { :class => 'form-control' }) %>
 </div>
 
 <div class="form-group">
-  <%= f.label(:track_id, 'Track') %> (Not listed? <%= link_to('Add it!', new_track_path) %>)
+  <%= f.label(:track_id, 'Track') %> (Not listed? <%= link_to('Add it!', new_say_what_track_path) %>)
   <%= f.select(:track_id, options_from_collection_for_select(Track.where('name is not null').where('name != ?', '').order(:name), "id", "name", @race.track_id), {}, { :class => 'form-control' }) %>
 </div>
 
 <div class="form-group">
-  <%= f.label(:session_ids, 'Sessions') %> (Can't find the session? <%= link_to('Add it', new_session_path) %>)
+  <%= f.label(:session_ids, 'Sessions') %> (Can't find the session? <%= link_to('Add it', new_say_what_season_path) %>)
   <%= f.select(:session_ids, options_from_collection_for_select(Session.where(:track_id => @race.track_id), "id", "name"), {}, { :multiple => true, :class => 'form-control', :size => 20 }) %>
 </div>
 
