@@ -11,6 +11,7 @@ Virtualwdc::Application.routes.draw do
     collection do
       get 'sign_in'
       get 'sign_out'
+      get 'sign_up', :to => 'users#new'
       post 'do_sign_in'
     end
   end
@@ -36,7 +37,6 @@ Virtualwdc::Application.routes.draw do
     end
     collection do
       post 'register'
-      post 'scan_time_trial'
     end
     resources :screenshots
   end
