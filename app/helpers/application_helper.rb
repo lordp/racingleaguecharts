@@ -57,13 +57,13 @@ module ApplicationHelper
     end
   end
 
-  def cancel_link(obj)
+  def cancel_link(obj, admin = true)
     if obj.new_record?
       path = :back
     else
       path = case obj
         when Screenshot
-          edit_say_what_session_path(obj.session)
+          admin ? edit_say_what_session_path(obj.session) : session_path(obj.session)
         when Session
           say_what_sessions_path
         when Race
