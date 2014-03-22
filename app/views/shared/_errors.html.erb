@@ -1,7 +1,6 @@
 <% if errors.errors.any? %>
-  <div id="error_explanation">
-    <h2><%= pluralize(errors.errors.count, "error") %> prohibited this driver from being saved:</h2>
-
+  <div class="alert alert-danger">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
     <ul>
       <% errors.errors.full_messages.each do |msg| %>
         <li><%= msg %></li>
