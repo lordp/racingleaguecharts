@@ -29,7 +29,7 @@ class Race < ActiveRecord::Base
       end
 
       reddit = Snoo::Client.new({ :useragent => 'VirtualWDCPC Time Trial Scanner/1.0 by lordp' })
-      post = reddit.get_comments({ :link_id => link_id, :rand => Time.now.to_i })
+      post = reddit.get_comments({ :link_id => link_id })
 
       global_dry_wet = nil
       tracks = post.parsed_response.first['data']['children'][0]['data']['selftext'].scan(valid_tracks_regex)
