@@ -28,7 +28,7 @@ class Race < ActiveRecord::Base
         link_id = thing
       end
 
-      reddit = Snoo::Client.new
+      reddit = Snoo::Client.new({ :useragent => 'VirtualWDCPC Time Trial Scanner/1.0 by lordp' })
       post = reddit.get_comments({ :link_id => link_id, :rand => Time.now.to_i })
 
       global_dry_wet = nil
