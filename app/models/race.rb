@@ -28,7 +28,9 @@ class Race < ActiveRecord::Base
         link_id = thing
       end
 
-      reddit = Snoo::Client.new({ :useragent => 'VirtualWDCPC Time Trial Scanner/1.0 by lordp' })
+      conf = YAML.load(File.open("#{Rails.root}/config/reddit.yml").read)
+
+      reddit = Snoo::Client.new({ :useragent => conf[:useragent], :username => conf[:username], :password => conf[:password] })
       post = reddit.get_comments({ :link_id => link_id })
 
       global_dry_wet = nil
