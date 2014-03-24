@@ -5,6 +5,8 @@ class Race < ActiveRecord::Base
   belongs_to :track
   belongs_to :season
 
+  POINTS = [ 25, 18, 15, 12, 10, 8, 6, 4, 2, 1 ]
+
   def full_name
     nm = []
     nm << (self.season.nil? || self.season.league.nil? ? 'No league' : self.season.league.name)

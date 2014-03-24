@@ -1,7 +1,5 @@
 class SeasonsController < ApplicationController
 
-  POINTS = [ 25, 18, 15, 12, 10, 8, 6, 4, 2, 1 ]
-
   before_filter :find_season, :only => [ :show ]
   before_filter :menu
 
@@ -15,7 +13,7 @@ class SeasonsController < ApplicationController
       race.sessions.includes(:laps).order('laps.total').limit(10).each_with_index do |s, i|
         driver = Driver.find(s.driver_id)
         @leaderboard[driver] ||= 0
-        @leaderboard[driver] += POINTS[i]
+        @leaderboard[driver] += Race::POINTS[i]
       end
     end
   end
