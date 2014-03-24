@@ -77,7 +77,9 @@ class Race < ActiveRecord::Base
           session = self.sessions.find_or_initialize_by_driver_id_and_is_dry(driver.id, is_dry)
           session.track_id = track_id
           session.save
-          session.laps.find_or_create_by_lap_number_and_total(:lap_number => 0, :total => time)
+          lap = session.laps.find_or_create_by_lap_number(:lap_number => 0)
+          lap.total = time
+          lap.save
         end
       end
     end
