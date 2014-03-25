@@ -19,6 +19,7 @@ gem 'delayed_paperclip'
 gem 'tesseract-ocr'
 
 gem 'jquery-fileupload-rails'
+gem 'select2-rails'
 
 gem 'snoo'
 
