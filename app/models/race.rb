@@ -16,6 +16,22 @@ class Race < ActiveRecord::Base
     nm.join('/')
   end
 
+  def adjust_sessions(driver_ids)
+    driver_ids.map!(&:to_i)
+
+    current = self.sessions.collect(&:driver_id)
+    added = driver_ids - current
+    removed = current - driver_ids
+
+    added.each do |driver|
+      self.sessions.find_or_create_by_driver_id(:driver_id => driver)
+    end
+
+    removed.each do |driver|
+      self.sessions.where(:driver_id => driver).destroy_all
+    end
+  end
+
   def scan_time_trial
     valid_tracks_regex = /Round (\d+): ([a-zA-Z ]+) in (Dry \*\*and\*\* Wet|Dry|Wet)/
     time_regex = /\[[^\d]*([\d:\.]+)\]/

@@ -29,7 +29,7 @@ class SayWhat::RacesController < ApplicationController
 
   def update
     @race.scan_time_trial if params[:rescan]
-    if @race.update_attributes(params[:race])
+    if @race.update_attributes(params[:race]) && @race.adjust_sessions(params[:driver_session_ids])
       redirect_to(say_what_race_path(@race), :notice => 'Race was successfully updated.')
     else
       render "edit"
@@ -48,13 +48,7 @@ class SayWhat::RacesController < ApplicationController
     end
 
     def get_sessions
-      @sessions = {}
-      Session.where('track_id is not null').each do |session|
-        @sessions[session.track_id || 0] ||= []
-        @sessions[session.track_id || 0] << { :id => session.id, :name => session.name }
-      end
-
-      @sessions
+      @sessions = @race.sessions.collect(&:driver_id)
     end
 
 end
