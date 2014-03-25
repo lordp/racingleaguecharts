@@ -26,29 +26,31 @@
   <%= select_tag(:driver_session_ids, options_from_collection_for_select(Driver.all, "id", "name", @sessions), { :multiple => true, :class => 'form-control' }) %>
 </div>
 
-<div class="checkbox">
-  <%= f.label(:time_trial) do %>
-    <%= f.check_box(:time_trial) %> Time Trial?
-  <% end %>
-</div>
+<fieldset>
+  <legend>Time Trial Options</legend>
+  <div class="checkbox">
+    <%= f.label(:time_trial) do %>
+      <%= f.check_box(:time_trial) %> Time Trial?
+    <% end %>
+  </div>
 
-<div class="checkbox">
-  <%= f.label(:is_dry) do %>
-    <%= f.check_box(:is_dry) %> Dry Weather?
-  <% end %>
-</div>
+  <div class="checkbox">
+    <%= f.label(:is_dry) do %>
+      <%= f.check_box(:is_dry) %> Dry Weather?
+    <% end %>
+  </div>
 
-<div class="form-group">
-  <%= f.label(:thing, 'Reddit URL') %>
-  <%= f.text_field(:thing, :class => 'form-control', :placeholder => 'Thing or URL') %>
-</div>
+  <div class="form-group">
+    <%= f.label(:thing, 'Reddit URL') %>
+    <%= f.text_field(:thing, :class => 'form-control', :placeholder => 'Thing or URL') %>
+  </div>
 
-<div class="checkbox">
-  <%= label_tag(:rescan) do %>
-    <%= check_box_tag('rescan') %> Scan the thread on save?
-  <% end %>
-</div>
-
+  <div class="checkbox">
+    <%= label_tag(:rescan) do %>
+      <%= check_box_tag('rescan') %> Scan the thread on save?
+    <% end %>
+  </div>
+</fieldset>
 <div class="form-group">
   <%= f.submit('Save', :class => 'btn btn-default') %> <%= cancel_link(@race) %>
 </div>
