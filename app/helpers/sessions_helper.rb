@@ -1,6 +1,6 @@
 module SessionsHelper
   def screenshot_class(screenshot)
-    screenshot.confirmed ? "tick" : "cross"
+    screenshot.confirmed ? 'tick' : 'cross'
   end
 
   def short_session_info(session, race, index)
