@@ -7,7 +7,11 @@ class SayWhat::RacesController < ApplicationController
   end
 
   def show
-    @sessions = @race.sessions.order(:created_at).page(params[:page].to_i).per(15)
+    @sessions = if @race.time_trial
+      @race.sessions.includes(:laps).order('laps.total')
+    else
+      @race.sessions
+    end
   end
 
   def new
