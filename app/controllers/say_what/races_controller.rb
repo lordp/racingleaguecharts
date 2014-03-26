@@ -1,6 +1,6 @@
 class SayWhat::RacesController < ApplicationController
   before_filter :find_race, :only => [ :show, :edit, :update, :destroy ]
-  before_filter :get_sessions, :only => [ :edit, :new ]
+  before_filter :get_sessions, :only => [ :edit ]
 
   def index
     @races = Race.order(:name)
