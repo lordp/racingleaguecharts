@@ -13,14 +13,14 @@ module SessionsHelper
       :weather => session.is_dry ? 'Dry' : 'Wet',
       :points => Race::POINTS[index] || 0
     }
-    if !race.nil?
-      if race.time_trial
-        show = parts.select { |key, value| [:driver, :time, :weather, :points].include?(key) }
-      else
-        show = parts.select { |key, value| [:driver, :laps].include?(key) }
-      end
+    if race.nil?
+      show = parts.select { |key| [:driver, :race, :track, :laps].include?(key) }
     else
-      show = parts.select { |key, value| [:driver, :race, :track, :laps].include?(key) }
+      if race.time_trial
+        show = parts.select { |key| [:driver, :time, :weather, :points].include?(key) }
+      else
+        show = parts.select { |key| [:driver, :laps].include?(key) }
+      end
     end
 
     show.map do |key, value|
