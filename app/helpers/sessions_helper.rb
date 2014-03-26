@@ -32,4 +32,14 @@ module SessionsHelper
     lap = session.laps.first
     link_to(nice_time(lap.try(:total)), "#{race.thing}#{lap.thing}")
   end
+
+  def top_ten_to_reddit_table(sessions)
+    table = "Q|Driver|Time\n-|-|-\n"
+    sessions.each_with_index do |session, index|
+      lap = session.laps.first
+      table += "#{index + 1}|[](/mini-flair-#{session.driver.flair}) #{session.driver.name}|#{nice_time(lap.total)}\n"
+    end
+
+    table
+  end
 end
