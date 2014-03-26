@@ -81,7 +81,7 @@ class Race < ActiveRecord::Base
             track = tracks.find { |t| t[1] == track[1] }
             time = time.map { |t| convert_lap_to_seconds(t.first) }.min
             unless track.nil?
-              leaderboard[dry_wet][p['data']['author']] = time
+              leaderboard[dry_wet][p['data']['author']] = { :time => time, :thing => p['data']['id'] }
             end
           end
         end
@@ -90,13 +90,14 @@ class Race < ActiveRecord::Base
       race_dry_wet = is_dry ? 'dry' : 'wet'
       leaderboard.each do |dry_wet, laps|
         next unless race_dry_wet == dry_wet
-        laps.each do |driver, time|
+        laps.each do |driver, lap_info|
           driver = Driver.find_or_create_by_name(driver)
           session = self.sessions.find_or_initialize_by_driver_id_and_is_dry(driver.id, is_dry)
           session.track_id = track_id
           session.save
           lap = session.laps.find_or_create_by_lap_number(:lap_number => 0)
-          lap.total = time
+          lap.total = lap_info[:time]
+          lap.thing = lap_info[:thing]
           lap.save
         end
       end

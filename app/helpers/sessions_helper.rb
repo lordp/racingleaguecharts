@@ -8,7 +8,7 @@ module SessionsHelper
       :driver => session.driver.try(:name),
       :race => session.race.try(:name),
       :track => session.track.try(:name),
-      :time => nice_time(session.laps.first.try(:total)),
+      :time => time_link(session, race),
       :laps => session.laps.size,
       :weather => session.is_dry ? 'Dry' : 'Wet',
       :points => Race::POINTS[index] || 0
@@ -26,5 +26,10 @@ module SessionsHelper
     show.map do |key, value|
       "#{content_tag('strong', "#{key.capitalize}:")} #{value}"
     end.join(', ').html_safe
+  end
+
+  def time_link(session, race)
+    lap = session.laps.first
+    link_to(nice_time(lap.try(:total)), "#{race.thing}#{lap.thing}")
   end
 end

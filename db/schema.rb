@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140321052405) do
+ActiveRecord::Schema.define(:version => 20140326071542) do
 
   create_table "drivers", :force => true do |t|
     t.string "name", :limit => 50
@@ -27,6 +27,7 @@ ActiveRecord::Schema.define(:version => 20140321052405) do
     t.float   "sector_3"
     t.float   "total"
     t.integer "session_id"
+    t.string  "thing"
   end
 
   create_table "league_seasons", :force => true do |t|
