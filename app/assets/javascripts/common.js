@@ -8,4 +8,6 @@ $(function() {
   });
 
   $('.help-popover').popover();
+  $(".select2").select2();
+
 });

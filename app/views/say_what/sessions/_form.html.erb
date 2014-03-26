@@ -1,11 +1,11 @@
  <div class="form-group">
   <%= f.label(:driver_id) %> (Not listed? <%= link_to('Add them!', new_say_what_driver_path) %>)
-  <%= f.select(:driver_id, Driver.order(:name).collect { |d| [d.claimed?, d.id] }, {}, { :class => 'form-control' }) %>
+  <%= f.select(:driver_id, Driver.order(:name).collect { |d| [d.claimed?, d.id] }, {}, { :class => 'form-control select2' }) %>
 </div>
 
 <div class="form-group">
   <%= f.label(:race_id) %> (Not listed? <%= link_to('Add it!', new_say_what_race_path) %>)
-  <%= f.select(:race_id, options_from_collection_for_select(Race.order(:name), "id", "full_name", @session.race_id || params[:race_id].to_i), {}, { :class => 'form-control' }) %>
+  <%= f.select(:race_id, options_from_collection_for_select(Race.order(:name), "id", "full_name", @session.race_id || params[:race_id].to_i), {}, { :class => 'form-control select2' }) %>
 </div>
 
 <div class="checkbox">
@@ -17,7 +17,7 @@
 
 <div class="form-group">
   <%= f.label(:track_id) %> (Not listed? <%= link_to('Add it!', new_say_what_track_path) %>)
-  <%= f.select(:track_id, options_from_collection_for_select(Track.order(:name), "id", "name", @session.try(:track_id) || @race.try(:track_id)), {}, { :class => 'form-control' }) %>
+  <%= f.select(:track_id, options_from_collection_for_select(Track.order(:name), "id", "name", @session.try(:track_id) || @race.try(:track_id)), {}, { :class => 'form-control select2' }) %>
 </div>
 
 <div class="form-group">

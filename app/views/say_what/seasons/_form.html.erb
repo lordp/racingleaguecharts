@@ -5,7 +5,7 @@
 
 <div class="form-group">
   <%= f.label(:league_id, 'League') %>
-  <%= f.select(:league_id, options_from_collection_for_select(League.order(:name), "id", "name", @season.league_id), {}, { :class => 'form-control' }) %>
+  <%= f.select(:league_id, options_from_collection_for_select(League.order(:name), "id", "name", @season.league_id), {}, { :class => 'form-control select2' }) %>
 </div>
 
 <div class="checkbox">
