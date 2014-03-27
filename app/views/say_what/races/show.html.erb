@@ -2,7 +2,7 @@
 <%= link_to('Edit', edit_say_what_race_path(@race)) %> | <%= link_to('Destroy', say_what_race_path(@race), :method => :delete, :data => { :confirm => 'Are you sure?' }) %>
 <h2>Sessions</h2>
 <% if @race.time_trial %>
-  <%= text_area_tag("reddit_table", top_ten_to_reddit_table(@sessions), :rows => 20, :cols => 50) %>
+  <p><%= text_area_tag("reddit_table", top_ten_to_reddit_table(@sessions), :rows => 20, :cols => 50) %></p>
 <% end %>
 <% @sessions.each_with_index do |session, index| %>
   <%= render(:partial => 'sessions/session', :object => session, :locals => { :index => index }) %>
