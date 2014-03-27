@@ -7,15 +7,6 @@ class SeasonsController < ApplicationController
   end
 
   def show
-    @leaderboard = {}
-
-    @season.races.each do |race|
-      race.sessions.includes(:laps).order('laps.total').limit(10).each_with_index do |s, i|
-        driver = Driver.find(s.driver_id)
-        @leaderboard[driver] ||= 0
-        @leaderboard[driver] += Race::POINTS[i]
-      end
-    end
   end
 
   private
