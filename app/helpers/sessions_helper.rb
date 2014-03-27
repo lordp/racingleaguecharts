@@ -41,7 +41,7 @@ module SessionsHelper
       end
     else
       table = "Q|Driver|Time\n-|-|-\n"
-      sessions.each_with_index do |session, index|
+      season_or_sessions.each_with_index do |session, index|
         lap = session.laps.first
         table += "#{index + 1}|[](/mini-flair-#{session.driver.flair}) #{session.driver.name}|#{nice_time(lap.total)}\n"
       end
