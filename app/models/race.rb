@@ -82,6 +82,7 @@ class Race < ActiveRecord::Base
             time = time.map { |t| convert_lap_to_seconds(t.first) }.min
             unless track.nil?
               leaderboard[dry_wet][p['data']['author']] = { :time => time, :thing => p['data']['id'], :flair => p['data']['author_flair_css_class'] }
+              Rails.logger.info("TRACK: #{track[1]}, DRY/WET: #{dry_wet}, DRIVER: #{p['data']['author']}, TIME: #{time}")
             end
           end
         end
