@@ -5,6 +5,8 @@ class Race < ActiveRecord::Base
   belongs_to :track
   belongs_to :season
 
+  before_save :nullify_thing
+
   POINTS = [ 25, 18, 15, 12, 10, 8, 6, 4, 2, 1 ]
 
   def full_name
@@ -109,6 +111,10 @@ class Race < ActiveRecord::Base
   def convert_lap_to_seconds(lap)
     time = lap.match(/((\d)[:.])?([\d\.:]+)/)
     ((time[2].to_i * 60) + time[3].gsub(/:/, '.').to_f).round(3)
+  end
+
+  def nullify_thing
+    thing = nil if thing.blank?
   end
 
 end
