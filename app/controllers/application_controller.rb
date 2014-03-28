@@ -1,6 +1,8 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
+  before_filter :authorize, :if => lambda { params[:controller] =~ /say_what/ }
+
   def build_menu(obj = nil)
     case obj
       when Session
