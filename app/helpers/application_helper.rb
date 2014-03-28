@@ -86,4 +86,10 @@ module ApplicationHelper
     params[:controller] =~ /say_what/
   end
 
+  def nice_name(obj, as_id = false)
+    name = obj.is_a?(String) ? obj : obj.try(:name)
+    name = name.gsub(/ /, '-').downcase if as_id
+    name
+  end
+
 end

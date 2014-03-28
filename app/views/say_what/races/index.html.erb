@@ -2,21 +2,58 @@
 
 <%= link_to('New Race', new_say_what_race_path) %>
 
-<table class="table table-bordered">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-<% @races.each do |race| %>
-    <tr>
-      <td><%= link_to(race.full_name, say_what_race_path(race)) %></td>
-      <td><%= link_to('Edit', edit_say_what_race_path(race)) %> | <%= link_to('Destroy', say_what_race_path(race), :method => :delete, :data => { :confirm => 'Are you sure?' }) %></td>
-    </tr>
+<% @races.each do |super_league, leagues| %>
+<div class="panel panel-default panel-primary">
+  <div class="panel-heading">
+    <%= nice_name(super_league) %>
+  </div>
+  <div class="panel-body">
+  <% leagues.each do |league, seasons| %>
+    <div class="panel panel-default panel-info">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" href="#collapse-<%= nice_name(league, true) %>">
+            <%= nice_name(league) %>
+          </a>
+        </h4>
+      </div>
+      <div id="collapse-<%= nice_name(league, true) %>" class="panel-collapse collapse out">
+        <div class="panel-body">
+      <% seasons.each do |season, races| %>
+          <div class="panel panel-default panel-success">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a data-toggle="collapse" href="#collapse-<%= nice_name(league, true) %>-<%= nice_name(season, true) %>">
+                  <%= nice_name(season) %>
+                </a>
+              </h4>
+            </div>
+            <div id="collapse-<%= nice_name(league, true) %>-<%= nice_name(season, true) %>" class="panel-collapse collapse out">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+        <% races.each do |race| %>
+                  <tr>
+                    <td><%= link_to(race.name, say_what_race_path(race)) %></td>
+                    <td><%= link_to('Edit', edit_say_what_race_path(race)) %> | <%= link_to('Destroy', say_what_race_path(race), :method => :delete, :data => { :confirm => 'Are you sure?' }) %></td>
+                  </tr>
+        <% end %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+      <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+  </div>
+</div>
 <% end %>
-  </tbody>
-</table>
 
 <%= link_to('New Race', new_say_what_race_path) %>

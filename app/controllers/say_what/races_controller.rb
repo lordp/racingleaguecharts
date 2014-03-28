@@ -3,7 +3,21 @@ class SayWhat::RacesController < ApplicationController
   before_filter :get_sessions, :only => [ :edit ]
 
   def index
-    @races = Race.order(:name)
+    @races = {}
+    Race.order(:created_at).each do |race|
+      season = race.try(:season)
+      league = season.try(:league)
+      super_league = league.try(:super_league)
+
+      super_league = 'Unknown' if super_league.nil?
+      league = 'Unknown' if league.nil?
+      season = 'Unknown' if season.nil?
+
+      @races[super_league] ||= {}
+      @races[super_league][league] ||= {}
+      @races[super_league][league][season] ||= []
+      @races[super_league][league][season] << race
+    end
   end
 
   def show
