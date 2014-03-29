@@ -24,7 +24,7 @@ class SayWhat::RacesController < ApplicationController
     @sessions = if @race.time_trial
       @race.sessions.includes(:laps).order('laps.total')
     else
-      @race.sessions
+      @race.sessions.order(:created_at)
     end
   end
 
