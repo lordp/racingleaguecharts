@@ -25,7 +25,7 @@
   <%= hidden_field_tag('session[screenshot_ids]', @session.screenshot_ids.join(',')) %>
   <%= f.file_field(:image, :multiple => true, :name => "screenshot[image]") %>
   <ul id="screenshots">
-    <% @session.screenshots.each do |s| %>
+    <% @session.screenshots.order(:image_file_name).each do |s| %>
       <li class="screenshot_<%= screenshot_class(s) %>"><%= link_to(s.image_file_name, edit_screenshot_path(s)) %></li>
     <% end %>
   </ul>
