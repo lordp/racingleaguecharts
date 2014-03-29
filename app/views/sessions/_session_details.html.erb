@@ -45,5 +45,11 @@
       </td>
     </tr>
 <% end %>
+<% if admin_path %>
+    <tr>
+      <td><strong>Edit:</strong></td>
+      <td><%= link_to('Edit', edit_say_what_session_path(sess)) %></td>
+    </tr>
+<% end %>
   </tbody>
 </table>
