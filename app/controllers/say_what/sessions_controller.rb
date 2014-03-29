@@ -1,5 +1,6 @@
 class SayWhat::SessionsController < ApplicationController
   before_filter :find_session, :only => [ :show, :edit, :update, :destroy ]
+  before_filter :fix_screenshots, :only => [ :create, :update ]
 
   def index
     @sessions = Session.order(:created_at).page(params[:page].to_i).per(15)
@@ -42,6 +43,10 @@ class SayWhat::SessionsController < ApplicationController
 
     def find_session
       @session = Session.find(params[:id].to_i)
+    end
+
+    def fix_screenshots
+      params[:session][:screenshot_ids] = params[:session][:screenshot_ids].split(/,/).reject(&:blank?).collect(&:to_i)
     end
 
 end
