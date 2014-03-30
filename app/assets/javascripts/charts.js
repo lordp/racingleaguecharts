@@ -86,8 +86,8 @@ function getQueryString() {
 
 // Helper function to determine which drivers to show or hide.
 function hide_driver(params, driver) {
-  if ((params.hide && $.inArray(driver, params.hide.split(',')) >= 0) ||
-      (params.show && $.inArray(driver, params.show.split(',')) == -1)) {
+  if ((params.hide && $.inArray(encodeURI(driver), params.hide.split(',')) >= 0) ||
+      (params.show && $.inArray(encodeURI(driver), params.show.split(',')) == -1)) {
       return true;
   }
 
@@ -122,6 +122,44 @@ function sort_pace(a, b) {
   return a.avg == b.avg ? 0 : a.avg < b.avg ? -1 : 1
 }
 
+function manage_params(adding, name) {
+  show = params.show ? params.show.split(',') : [];
+  hide = params.hide ? params.hide.split(',') : [];
+
+  if (adding) {
+    show.push(encodeURI(name));
+    $.each(hide, function(index, item) {
+      if (item == encodeURI(name)) {
+        hide.splice(index, 1);
+      }
+    });
+  }
+  else {
+    hide.push(encodeURI(name));
+    $.each(show, function(index, item) {
+      if (item == encodeURI(name)) {
+        show.splice(index, 1);
+      }
+    });
+  }
+
+  $.each({ show: show, hide: hide}, function(key, val) {
+    if (val.length > 0) {
+      params[key] = val.join(',');
+    }
+    else {
+      delete params[key];
+    }
+  });
+
+  update_show_hide_links();
+}
+
+function update_show_hide_links() {
+  $('#show_chart').attr('href', '?tab=' + params.tab + (params.show ? '&show=' + params.show : ''));
+  $('#hide_chart').attr('href', '?tab=' + params.tab + (params.hide ? '&hide=' + params.hide : ''));
+}
+
 // Base options
 var options = {
   chart: {
@@ -135,7 +173,17 @@ var options = {
       animation: false
     },
     spline: {
-      pointStart: 1
+      pointStart: 1,
+      events: {
+        legendItemClick: function(e) {
+          if (e.currentTarget.visible == true) {
+            manage_params(false, e.currentTarget.name);
+          }
+          else {
+            manage_params(true, e.currentTarget.name);
+          }
+        }
+      }
     }
   },
   xAxis: {
@@ -166,13 +214,51 @@ $(function () {
   // Figure out what race/league the user wants from the URL
   params = getQueryString();
 
+  // Pre-fill the show/hide parameter if applicable
+  if (!params.show) {
+    if (params.hide) {
+      params.show = $.map(race.laps, function(driver, index) {
+        if ($.inArray(driver.name, params.hide.split(',')) >= 0) {
+          return;
+        }
+        else {
+          return encodeURI(driver.name);
+        }
+      }).join(',');
+    }
+    else {
+      params.show = $.map(race.laps, function(driver, index) { return encodeURI(driver.name) }).join(',');
+    }
+  }
+  else {
+    if (!params.hide) {
+      params.hide = $.map(race.laps, function(driver, index) {
+        if ($.inArray(driver.name, params.show.split(',')) >= 0) {
+          return;
+        }
+        else {
+          return encodeURI(driver.name);
+        }
+      }).join(',');
+    }
+    else {
+      params.hide = $.map(race.laps, function(driver, index) { return encodeURI(driver.name) }).join(',');
+    }
+  }
+
   // Work out what tab the user wants from the URL
   if (params.tab) {
-    $('li.active').removeClass('active').siblings().children('a#tab-' + params.tab).parent().addClass('active');
+    $('li.active').removeClass('active').parent().children().children('a#tab-' + params.tab).parent().addClass('active');
 
     $('.tab-pane').removeClass('active');
     $('#container-' + params.tab).addClass('active');
   }
+  else {
+    params.tab = 'laps';
+  }
+
+  // Initialise the show/hide links
+  update_show_hide_links();
 
   // Pull in the data from a JSON object via AJAX
   if (typeof race != 'undefined') {

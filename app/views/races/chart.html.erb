@@ -19,6 +19,9 @@
 </ol>
 <h1><%= @race.name %></h1>
 
+<%= link_to("Link to this chart (using 'show')", chart_race_path(@race), :id => 'show_chart') %><br/>
+<%= link_to("Link to this chart (using 'hide')", chart_race_path(@race), :id => 'hide_chart') %>
+
 <ul class="nav nav-tabs">
   <li class="active"><a id="tab-laps" href="#container-laps" data-toggle="tab">Laps</a></li>
   <li><a id="tab-gaps" href="#container-gaps" data-toggle="tab">Gaps</a></li>
