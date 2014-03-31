@@ -44,6 +44,16 @@
     <% end %>
   </div>
 </fieldset>
+
+<fieldset>
+  <legend>FIA Race</legend>
+  <div class="checkbox">
+    <%= f.label(:fia) do %>
+      <%= f.check_box(:fia) %> FIA Race?
+    <% end %>
+  </div>
+</fieldset>
+
 <div class="form-group">
   <%= f.submit('Save', :class => 'btn btn-default') %> <%= cancel_link(@race) %>
 </div>
