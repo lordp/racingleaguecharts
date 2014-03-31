@@ -211,57 +211,56 @@ var fastest_overall_lap = {
 
 // When the browser/page has been loaded...
 $(function () {
-  // Figure out what race/league the user wants from the URL
-  params = getQueryString();
-
-  // Pre-fill the show/hide parameter if applicable
-  if (!params.show) {
-    if (params.hide) {
-      params.show = $.map(race.laps, function(driver, index) {
-        if ($.inArray(driver.name, params.hide.split(',')) >= 0) {
-          return;
-        }
-        else {
-          return encodeURI(driver.name);
-        }
-      }).join(',');
-    }
-    else {
-      params.show = $.map(race.laps, function(driver, index) { return encodeURI(driver.name) }).join(',');
-    }
-  }
-  else {
-    if (!params.hide) {
-      params.hide = $.map(race.laps, function(driver, index) {
-        if ($.inArray(driver.name, params.show.split(',')) >= 0) {
-          return;
-        }
-        else {
-          return encodeURI(driver.name);
-        }
-      }).join(',');
-    }
-    else {
-      params.hide = $.map(race.laps, function(driver, index) { return encodeURI(driver.name) }).join(',');
-    }
-  }
-
-  // Work out what tab the user wants from the URL
-  if (params.tab) {
-    $('li.active').removeClass('active').parent().children().children('a#tab-' + params.tab).parent().addClass('active');
-
-    $('.tab-pane').removeClass('active');
-    $('#container-' + params.tab).addClass('active');
-  }
-  else {
-    params.tab = 'laps';
-  }
-
-  // Initialise the show/hide links
-  update_show_hide_links();
-
-  // Pull in the data from a JSON object via AJAX
   if (typeof race != 'undefined') {
+    // Figure out what race/league the user wants from the URL
+    params = getQueryString();
+
+    // Pre-fill the show/hide parameter if applicable
+    if (!params.show) {
+      if (params.hide) {
+        params.show = $.map(race.laps, function(driver, index) {
+          if ($.inArray(driver.name, params.hide.split(',')) >= 0) {
+            return;
+          }
+          else {
+            return encodeURI(driver.name);
+          }
+        }).join(',');
+      }
+      else {
+        params.show = $.map(race.laps, function(driver, index) { return encodeURI(driver.name) }).join(',');
+      }
+    }
+    else {
+      if (!params.hide) {
+        params.hide = $.map(race.laps, function(driver, index) {
+          if ($.inArray(driver.name, params.show.split(',')) >= 0) {
+            return;
+          }
+          else {
+            return encodeURI(driver.name);
+          }
+        }).join(',');
+      }
+      else {
+        params.hide = $.map(race.laps, function(driver, index) { return encodeURI(driver.name) }).join(',');
+      }
+    }
+
+    // Work out what tab the user wants from the URL
+    if (params.tab) {
+      $('li.active').removeClass('active').parent().children().children('a#tab-' + params.tab).parent().addClass('active');
+
+      $('.tab-pane').removeClass('active');
+      $('#container-' + params.tab).addClass('active');
+    }
+    else {
+      params.tab = 'laps';
+    }
+
+    // Initialise the show/hide links
+    update_show_hide_links();
+
     var data = race.laps;
 
     // Loop through each driver
