@@ -31,4 +31,8 @@ class Screenshot < ActiveRecord::Base
       errors[:base] << "The lap numbers are out of order or incorrect"
     end
   end
+
+  def fia?
+    self.session && self.session.race && self.session.race.fia?
+  end
 end

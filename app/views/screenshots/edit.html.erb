@@ -1,4 +1,4 @@
-<h1>Edit Screenshot</h1>
+<h1>Edit <%= @screenshot.fia? ? "Lap Times" : "Screenshot" %></h1>
 <%= form_for(@screenshot, :url => screenshot_path(@screenshot), :html => { :multipart => true }) do |f| %>
   <%= render(:partial => 'shared/errors', :object => @screenshot ) %>
   <%= render(:partial => 'form', :locals => { :f => f }) %>

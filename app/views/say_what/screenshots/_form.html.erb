@@ -1,7 +1,8 @@
 <div>
   <div class="pull-left" style="margin-right: 10px">
     <div class="form-group">
-      <%= f.label(:parsed) %>  <span class="glyphicon glyphicon-question-sign help-popover" data-container="body" data-toggle="popover" data-placement="right" data-content="This is the text that Tesseract returns from the screenshot. Black indicates a formatting problem. Red indicates a lap / sector time calculation error. Blue indicates that everything is correct."></span>
+      <%= f.label(:parsed) %>
+      <span class="glyphicon glyphicon-question-sign help-popover" data-container="body" data-toggle="popover" data-placement="right" data-content="<%= screenshot_popover_content(@screenshot) %>"></span>
       <div style="border: solid 1px #000;">
       <%= f.text_area(:parsed, :class => 'form-control', :placeholder => 'Parsed Text') %>
       </div>
@@ -17,6 +18,11 @@
     <div class="form-group">
       <%= f.label(:image) %>
       <%= f.file_field(:image, :class => 'form-control') %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label(:session_id, 'Session') %>
+      <%= f.select(:session_id, options_from_collection_for_select(Session.all, "id", "name", @screenshot.session_id), {}, { :class => 'form-control select2' }) %>
     </div>
 
     <div class="form-group">
