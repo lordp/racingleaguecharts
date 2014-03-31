@@ -1,15 +1,3 @@
-<% if @screenshot.errors.any? %>
-  <div id="error_explanation">
-    <div class="alert alert-danger">
-      Oops!
-      <ul>
-        <% @screenshot.errors.full_messages.each do |msg| %>
-          <li><%= msg %></li>
-        <% end %>
-      </ul>
-    </div>
-  </div>
-<% end %>
 <div>
   <div class="pull-left" style="margin-right: 10px">
     <div class="form-group">

@@ -19,6 +19,7 @@ class SayWhat::ScreenshotsController < ApplicationController
     @screenshot = Screenshot.create(params[:screenshot])
     respond_to do |format|
       format.js
+      format.html { redirect_to(say_what_screenshots_path) }
     end
   end
 

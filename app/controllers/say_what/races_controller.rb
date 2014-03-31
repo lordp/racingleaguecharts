@@ -39,6 +39,7 @@ class SayWhat::RacesController < ApplicationController
     @race = Race.new(params[:race])
 
     if @race.save
+      @race.adjust_sessions(params[:driver_session_ids])
       redirect_to(say_what_race_path(@race), :notice => 'Race was successfully created.')
     else
       render "new"
@@ -47,7 +48,8 @@ class SayWhat::RacesController < ApplicationController
 
   def update
     @race.scan_time_trial if params[:rescan]
-    if @race.update_attributes(params[:race]) && @race.adjust_sessions(params[:driver_session_ids])
+    if @race.update_attributes(params[:race])
+      @race.adjust_sessions(params[:driver_session_ids])
       redirect_to(say_what_race_path(@race), :notice => 'Race was successfully updated.')
     else
       render "edit"
