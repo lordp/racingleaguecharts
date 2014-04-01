@@ -11,12 +11,14 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140331012627) do
+ActiveRecord::Schema.define(:version => 20140401030309) do
 
   create_table "drivers", :force => true do |t|
-    t.string "name",  :limit => 50
-    t.string "ip",    :limit => 50
+    t.string "name",   :limit => 50
+    t.string "ip",     :limit => 50
     t.string "flair"
+    t.string "colour"
+    t.string "marker"
   end
 
   create_table "laps", :force => true do |t|

@@ -1,5 +1,5 @@
 class Driver < ActiveRecord::Base
-  attr_accessible :ip, :name, :flair
+  attr_accessible :ip, :name, :flair, :colour, :marker
 
   has_many :sessions
 
