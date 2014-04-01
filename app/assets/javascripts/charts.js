@@ -86,8 +86,8 @@ function getQueryString() {
 
 // Helper function to determine which drivers to show or hide.
 function hide_driver(params, driver) {
-  if ((params.hide && $.inArray(encodeURI(driver), params.hide.split(',')) >= 0) ||
-      (params.show && $.inArray(encodeURI(driver), params.show.split(',')) == -1)) {
+  if ((params.hide && $.inArray(driver, params.hide.split(',')) >= 0) ||
+      (params.show && $.inArray(driver, params.show.split(',')) == -1)) {
       return true;
   }
 
@@ -127,17 +127,17 @@ function manage_params(adding, name) {
   hide = params.hide ? params.hide.split(',') : [];
 
   if (adding) {
-    show.push(encodeURI(name));
+    show.push(name);
     $.each(hide, function(index, item) {
-      if (item == encodeURI(name)) {
+      if (item == name) {
         hide.splice(index, 1);
       }
     });
   }
   else {
-    hide.push(encodeURI(name));
+    hide.push(name);
     $.each(show, function(index, item) {
-      if (item == encodeURI(name)) {
+      if (item == name) {
         show.splice(index, 1);
       }
     });
@@ -223,12 +223,12 @@ $(function () {
             return;
           }
           else {
-            return encodeURI(driver.name);
+            return driver.name;
           }
         }).join(',');
       }
       else {
-        params.show = $.map(race.laps, function(driver, index) { return encodeURI(driver.name) }).join(',');
+        params.show = $.map(race.laps, function(driver, index) { return driver.name }).join(',');
       }
     }
     else {
@@ -238,12 +238,12 @@ $(function () {
             return;
           }
           else {
-            return encodeURI(driver.name);
+            return driver.name;
           }
         }).join(',');
       }
       else {
-        params.hide = $.map(race.laps, function(driver, index) { return encodeURI(driver.name) }).join(',');
+        params.hide = $.map(race.laps, function(driver, index) { return driver.name }).join(',');
       }
     }
 
