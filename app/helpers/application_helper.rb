@@ -74,6 +74,12 @@ module ApplicationHelper
           say_what_leagues_path
         when SuperLeague
           say_what_super_leagues_path
+        when Track
+          say_what_tracks_path
+        when Driver
+          say_what_drivers_path
+        when Lap
+          say_what_laps_path
         else
           nil
       end
