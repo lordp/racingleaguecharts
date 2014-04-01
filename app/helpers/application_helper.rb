@@ -50,8 +50,6 @@ module ApplicationHelper
         leaf ? obj.name : link_to(obj.name, season_path(obj))
       when League
         leaf ? obj.name : link_to(obj.name, league_path(obj))
-      when SuperLeague
-        leaf ? obj.name : link_to(obj.name, super_league_path(obj))
       else
         nil
     end
