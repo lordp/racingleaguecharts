@@ -30,7 +30,7 @@ module SessionsHelper
 
   def time_link(session, race)
     lap = session.laps.first
-    link_to(nice_time(lap.try(:total)), "#{race.thing}#{lap.thing}") if race.time_trial?
+    link_to(nice_time(lap.try(:total)), "#{race.thing}#{lap.thing}") if race && race.time_trial?
   end
 
   def top_ten_to_reddit_table(season_or_sessions)
