@@ -4,6 +4,8 @@
     <% @race.sessions.order('winner desc').each do |session| %>
     {
       "name": "<%= session.driver.name %>",
+      "color": "<%= session.driver.colour %>",
+      "marker": { symbol: "<%= session.driver.marker %>" },
       "laps": <%= session.laps.order(:lap_number).collect(&:total) %>,
       "sector1": <%= session.laps.order(:lap_number).collect(&:sector_1) %>,
       "sector2": <%= session.laps.order(:lap_number).collect(&:sector_2) %>,
