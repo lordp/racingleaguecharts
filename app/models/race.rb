@@ -1,5 +1,5 @@
 class Race < ActiveRecord::Base
-  attr_accessible :name, :session_ids, :track_id, :season_id, :time_trial, :is_dry, :thing
+  attr_accessible :name, :session_ids, :track_id, :season_id, :time_trial, :is_dry, :thing, :fia
 
   has_many :sessions
   belongs_to :track
@@ -19,18 +19,22 @@ class Race < ActiveRecord::Base
   end
 
   def adjust_sessions(driver_ids)
-    driver_ids.map!(&:to_i)
+    unless driver_ids.nil?
+      driver_ids.map!(&:to_i)
 
-    current = self.sessions.collect(&:driver_id)
-    added = driver_ids - current
-    removed = current - driver_ids
+      current = self.sessions.collect(&:driver_id)
+      added = driver_ids - current
+      removed = current - driver_ids
 
-    added.each do |driver|
-      self.sessions.find_or_create_by_driver_id(:driver_id => driver)
-    end
+      added.each do |driver|
+        session = self.sessions.find_or_initialize_by_driver_id(:driver_id => driver)
+        session.track_id = self.track_id
+        session.save
+      end
 
-    removed.each do |driver|
-      self.sessions.where(:driver_id => driver).destroy_all
+      removed.each do |driver|
+        self.sessions.where(:driver_id => driver).destroy_all
+      end
     end
   end
 

@@ -50,8 +50,6 @@ module ApplicationHelper
         leaf ? obj.name : link_to(obj.name, season_path(obj))
       when League
         leaf ? obj.name : link_to(obj.name, league_path(obj))
-      when SuperLeague
-        leaf ? obj.name : link_to(obj.name, super_league_path(obj))
       else
         nil
     end
@@ -74,6 +72,12 @@ module ApplicationHelper
           say_what_leagues_path
         when SuperLeague
           say_what_super_leagues_path
+        when Track
+          say_what_tracks_path
+        when Driver
+          admin ? say_what_drivers_path : edit_user_path(obj.user)
+        when Lap
+          say_what_laps_path
         else
           nil
       end

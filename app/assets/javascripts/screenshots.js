@@ -36,6 +36,7 @@ $(function() {
   var myTextArea = document.getElementById('screenshot_parsed');
   if (myTextArea != null) {
     var myCodeMirror = CodeMirror.fromTextArea(myTextArea, { mode: "vrl" });
+    myCodeMirror.setSize(300, 300);
     myCodeMirror.on("blur", function() {
       myCodeMirror.save();
     });
