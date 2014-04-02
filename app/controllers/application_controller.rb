@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
-  before_filter :authorize, :if => lambda { params[:controller] =~ /say_what/ }
+  before_filter :authorize_admin, :if => lambda { params[:controller] =~ /say_what/ }
 
   def build_menu(obj = nil)
     case obj
@@ -38,7 +38,10 @@ class ApplicationController < ActionController::Base
     helper_method :current_user
 
     def authorize
-      redirect_to(sign_in_users_path, :alert => 'Not authorized!') if current_user.nil? || !current_user.admin?
+      redirect_to(sign_in_users_path, :alert => 'Not authorized!') if current_user.nil?
     end
 
+    def authorize_admin
+      redirect_to(sign_in_users_path, :alert => 'Not authorized!') if current_user.nil? || !current_user.admin?
+    end
 end

@@ -3,12 +3,18 @@ class Driver < ActiveRecord::Base
 
   has_many :sessions
 
+  has_one :driver_user
+
   def claimed?
     if name.blank?
       'Unknown'
     else
       name
     end
+  end
+
+  def self.unclaimed?
+    Driver.includes(:driver_user).where('driver_users.user_id is null')
   end
 
 end

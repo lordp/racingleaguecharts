@@ -1,0 +1,15 @@
+<h1>Edit Profile</h1>
+
+<%= form_for @user do |f| %>
+  <%= render(:partial => 'shared/errors', :object => @user) %>
+  <%= render(:partial => 'form', :locals => { :f => f }) %>
+
+  <div class="form-group">
+    <%= f.label(:driver_ids, 'Drivers') %>
+    <%= f.select(:driver_ids, options_from_collection_for_select(Driver.unclaimed? + @user.drivers, "id", "name", @user.driver_ids), { }, { :multiple => true, :class => 'form-control select2' }) %>
+  </div>
+
+  <div class="form-group">
+    <%= f.submit "Save", :class => 'btn btn-default' %>
+  </div>
+<% end %>
