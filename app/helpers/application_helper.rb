@@ -75,7 +75,7 @@ module ApplicationHelper
         when Track
           say_what_tracks_path
         when Driver
-          say_what_drivers_path
+          admin ? say_what_drivers_path : edit_user_path(obj.user)
         when Lap
           say_what_laps_path
         else

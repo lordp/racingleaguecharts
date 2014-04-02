@@ -4,6 +4,7 @@ class Driver < ActiveRecord::Base
   has_many :sessions
 
   has_one :driver_user
+  has_one :user, :through => :driver_user
 
   def claimed?
     if name.blank?

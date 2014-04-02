@@ -5,4 +5,8 @@ class User < ActiveRecord::Base
 
   has_many :driver_users
   has_many :drivers, :through => :driver_users
+
+  def has_claimed?(driver)
+    self.drivers.include?(driver)
+  end
 end
