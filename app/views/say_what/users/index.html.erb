@@ -1,0 +1,22 @@
+<h1>Listing Users</h1>
+
+<%= link_to('New User', new_say_what_user_path) %>
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<% @users.each do |user| %>
+    <tr>
+      <td><%= link_to(user.email, say_what_user_path(user)) %></td>
+      <td><%= link_to('Edit', edit_say_what_user_path(user)) %> | <%= link_to('Destroy', say_what_user_path(user), :method => :delete, :data => { :confirm => 'Are you sure?' }) %></td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<%= link_to('New user', new_say_what_user_path) %>

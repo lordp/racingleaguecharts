@@ -1,0 +1,19 @@
+<div class="form-group">
+  <%= f.label :email %>
+  <%= f.text_field :email, :class => 'form-control' %>
+</div>
+<div class="form-group">
+  <%= f.label :password %>
+  <%= f.password_field :password, :class => 'form-control' %>
+</div>
+<div class="form-group">
+  <%= f.label :password_confirmation %>
+  <%= f.password_field :password_confirmation, :class => 'form-control' %>
+</div>
+<div class="form-group">
+  <%= f.label(:driver_ids, 'Claimed Drivers') %>
+  <%= f.select(:driver_ids, options_from_collection_for_select(@user.drivers, "id", "name", @user.driver_ids), { }, { :multiple => true, :class => 'form-control select2' }) %>
+</div>
+<div class="form-group">
+  <%= f.submit "Save", :class => 'btn btn-default' %>
+</div>
