@@ -1,11 +1,13 @@
 class Race < ActiveRecord::Base
   attr_accessible :name, :session_ids, :track_id, :season_id, :time_trial, :is_dry, :thing, :fia
+  attr_accessor :driver_session_ids
 
   has_many :sessions
   belongs_to :track
   belongs_to :season
 
   before_save :nullify_thing
+  after_save :adjust_sessions
 
   POINTS = [ 25, 18, 15, 12, 10, 8, 6, 4, 2, 1 ]
 
@@ -18,9 +20,9 @@ class Race < ActiveRecord::Base
     nm.join('/')
   end
 
-  def adjust_sessions(driver_ids)
-    unless driver_ids.nil?
-      driver_ids.map!(&:to_i)
+  def adjust_sessions
+    unless driver_session_ids.nil?
+      driver_session_ids.map!(&:to_i)
 
       current = self.sessions.collect(&:driver_id)
       added = driver_ids - current
