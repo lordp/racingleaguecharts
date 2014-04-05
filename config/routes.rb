@@ -42,7 +42,12 @@ Virtualwdc::Application.routes.draw do
   end
 
   namespace :say_what do
-    resources :drivers, :super_leagues, :leagues, :seasons, :races, :sessions, :laps, :screenshots, :tracks, :users
+    resources :drivers, :super_leagues, :leagues, :seasons, :sessions, :laps, :screenshots, :tracks, :users
+    resources :races do
+      member do
+        get 'rescan'
+      end
+    end
     get 'welcome', :to => 'welcome#index'
   end
 

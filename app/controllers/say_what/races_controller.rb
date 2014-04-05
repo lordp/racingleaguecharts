@@ -1,5 +1,5 @@
 class SayWhat::RacesController < ApplicationController
-  before_filter :find_race, :only => [ :show, :edit, :update, :destroy ]
+  before_filter :find_race, :only => [ :show, :edit, :update, :destroy, :rescan ]
   before_filter :get_sessions, :only => [ :edit ]
 
   def index
@@ -59,6 +59,11 @@ class SayWhat::RacesController < ApplicationController
   def destroy
     @race.destroy
     redirect_to(say_what_races_url, :notice => 'Race deleted')
+  end
+
+  def rescan
+    @race.scan_time_trial if @race.time_trial?
+    redirect_to(say_what_race_path(@race), :notice => 'Thread scanned')
   end
 
   private

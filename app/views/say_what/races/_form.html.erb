@@ -37,12 +37,6 @@
     <%= f.label(:thing, 'Reddit URL') %>
     <%= f.text_field(:thing, :class => 'form-control', :placeholder => 'Thing or URL') %>
   </div>
-
-  <div class="checkbox">
-    <%= label_tag(:rescan) do %>
-      <%= check_box_tag('rescan') %> Scan the thread on save?
-    <% end %>
-  </div>
 </fieldset>
 
 <fieldset>
