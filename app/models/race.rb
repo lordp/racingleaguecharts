@@ -22,7 +22,7 @@ class Race < ActiveRecord::Base
 
   def adjust_sessions
     unless driver_session_ids.nil?
-      driver_session_ids.reject(&:blank?).map!(&:to_i)
+      driver_session_ids.reject!(&:blank?).map!(&:to_i)
 
       current = self.sessions.collect(&:driver_id)
       added = driver_session_ids - current
