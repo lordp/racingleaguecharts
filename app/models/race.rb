@@ -10,6 +10,31 @@ class Race < ActiveRecord::Base
   after_save :adjust_sessions
 
   POINTS = [ 25, 18, 15, 12, 10, 8, 6, 4, 2, 1 ]
+  F1_MAP = {
+    'vettel'          => 393,
+    'ricciardo'       => 394,
+    'rosberg'         => 395,
+    'hamilton'        => 396,
+    'hulkenberg'      => 397,
+    'alonso'          => 398,
+    'button'          => 399,
+    'kevin_magnussen' => 400,
+    'raikkonen'       => 401,
+    'bottas'          => 402,
+    'massa'           => 403,
+    'vergne'          => 404,
+    'kvyat'           => 405,
+    'perez'           => 406,
+    'grosjean'        => 407,
+    'sutil'           => 408,
+    'gutierrez'       => 409,
+    'chilton'         => 410,
+    'kobayashi'       => 411,
+    'ericsson'        => 412,
+    'jules_bianchi'   => 413,
+    'maldonado'       => 414,
+  }
+
 
   def full_name
     nm = []
@@ -121,6 +146,20 @@ class Race < ActiveRecord::Base
 
   def nullify_thing
     self.thing = nil if self.thing.blank?
+  end
+
+  def scan_f1(race_number)
+    response = HTTParty.get("http://ergast.com/api/f1/2014/#{race_number}/laps.json?limit=2000")
+    if response.code == 200
+      response.parsed_response['MRData']['RaceTable']['Races'].first['Laps'].collect { |l| l['Timings'] }.each_with_index do |lap, index|
+        lap.each do |lap_info|
+          session = self.sessions.find_or_create_by_driver_id(F1_MAP[lap_info['driverId']])
+          this_lap = session.laps.find_or_initialize_by_lap_number(:lap_number => index)
+          this_lap.total = convert_lap_to_seconds(lap_info['time'])
+          this_lap.save
+        end
+      end
+    end
   end
 
 end
