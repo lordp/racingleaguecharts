@@ -1,5 +1,5 @@
 class Race < ActiveRecord::Base
-  attr_accessible :name, :session_ids, :track_id, :season_id, :time_trial, :is_dry, :thing, :fia
+  attr_accessible :name, :session_ids, :track_id, :season_id, :time_trial, :is_dry, :thing, :fia, :driver_session_ids
   attr_accessor :driver_session_ids
 
   has_many :sessions
@@ -25,8 +25,8 @@ class Race < ActiveRecord::Base
       driver_session_ids.map!(&:to_i)
 
       current = self.sessions.collect(&:driver_id)
-      added = driver_ids - current
-      removed = current - driver_ids
+      added = driver_session_ids - current
+      removed = current - driver_session_ids
 
       added.each do |driver|
         session = self.sessions.find_or_initialize_by_driver_id(:driver_id => driver)

@@ -14,9 +14,9 @@
 </div>
 
 <div class="form-group">
-  <%= label_tag(:driver_session_ids, 'Sessions') %>
+  <%= f.label(:driver_session_ids, 'Sessions') %>
   <span class="glyphicon glyphicon-question-sign help-popover" data-container="body" data-toggle="popover" data-placement="right" data-content="Type in the names of the drivers involved and select from the list. Sessions will be created for the selected drivers if required, and removed if you deselect a driver."></span>
-  <%= select_tag(:driver_session_ids, options_from_collection_for_select(Driver.all, "id", "name", @sessions), { :multiple => true, :class => 'form-control select2' }) %>
+  <%= f.select(:driver_session_ids, options_from_collection_for_select(Driver.all, "id", "name", @sessions), {}, { :multiple => true, :class => 'form-control select2' }) %>
 </div>
 
 <fieldset>
