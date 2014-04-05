@@ -120,7 +120,7 @@ class Race < ActiveRecord::Base
   end
 
   def nullify_thing
-    thing = nil if thing.blank?
+    self.thing = nil if self.thing.blank?
   end
 
 end
