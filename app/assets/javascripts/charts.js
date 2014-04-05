@@ -377,7 +377,7 @@ $(function () {
     $('#container-diffs').highcharts(options);
 
     // 4th charts - various Bar charts
-    if (data[0].sector1) {
+    if (data[0].sector1.length > 0) {
       options.chart.type = 'bar';
       options.plotOptions.bar = {
         dataLabels: {
@@ -463,44 +463,49 @@ $(function () {
         $("#tb-" + i + "-time").html(tb["sector" + i].time);
       }
       $("#tb-total").html(convert_seconds_to_lap(tb["total"].toFixed(3), true) + " (" + parseFloat(fastest_overall_lap.time - tb["total"]).toFixed(3) + " faster)");
-    }
 
-    // Pace charts - top 15, 50 and 80% lap times, averaged out per driver
-    options.plotOptions.bar.dataLabels.formatter = pace_graph_formatter;
-    var pace = {
-      top15: [],
-      top50: [],
-      top80: []
-    };
+      // Pace charts - top 15, 50 and 80% lap times, averaged out per driver
+      options.plotOptions.bar.dataLabels.formatter = pace_graph_formatter;
+      var pace = {
+        top15: [],
+        top50: [],
+        top80: []
+      };
 
-    $.each(race.laps, function(index, driver) {
-      var l15 = Math.ceil(driver.laps.length * 0.15);
-      var l50 = Math.ceil(driver.laps.length * 0.50);
-      var l80 = Math.ceil(driver.laps.length * 0.80);
+      $.each(race.laps, function(index, driver) {
+        var l15 = Math.ceil(driver.laps.length * 0.15);
+        var l50 = Math.ceil(driver.laps.length * 0.50);
+        var l80 = Math.ceil(driver.laps.length * 0.80);
 
-      pace.top15.push({ name: driver.name, avg: array_sum(driver.laps.sort(sort_compare).slice(0, l15)) / l15 });
-      pace.top50.push({ name: driver.name, avg: array_sum(driver.laps.sort(sort_compare).slice(0, l50)) / l50 });
-      pace.top80.push({ name: driver.name, avg: array_sum(driver.laps.sort(sort_compare).slice(0, l80)) / l80 });
-    });
-
-    for (p in pace) {
-      var n = p.substring(3);
-
-      var laps = [];
-      var cats = [];
-
-      $.each(pace[p].sort(sort_pace), function(i, driver) {
-        laps.push(driver.avg);
-        cats.push(driver.name);
+        pace.top15.push({ name: driver.name, avg: array_sum(driver.laps.sort(sort_compare).slice(0, l15)) / l15 });
+        pace.top50.push({ name: driver.name, avg: array_sum(driver.laps.sort(sort_compare).slice(0, l50)) / l50 });
+        pace.top80.push({ name: driver.name, avg: array_sum(driver.laps.sort(sort_compare).slice(0, l80)) / l80 });
       });
 
-      options.title.text = 'Pace - Top ' + n + '% of laps';
-      options.chart.renderTo = 'container-pace-' + n;
-      options.series = [{ data: laps }];
-      options.xAxis.categories = cats;
-      options.yAxis.min = options.series[0].data[0] - 10;
+      for (p in pace) {
+        var n = p.substring(3);
 
-      new Highcharts.Chart(options);
+        var laps = [];
+        var cats = [];
+
+        $.each(pace[p].sort(sort_pace), function(i, driver) {
+          laps.push(driver.avg);
+          cats.push(driver.name);
+        });
+
+        options.title.text = 'Pace - Top ' + n + '% of laps';
+        options.chart.renderTo = 'container-pace-' + n;
+        options.series = [{ data: laps }];
+        options.xAxis.categories = cats;
+        options.yAxis.min = options.series[0].data[0] - 10;
+
+        new Highcharts.Chart(options);
+      }
+    }
+    else {
+      // Hide the sector and pace charts as both rely on the missing sector times
+      $('#tab-sectors').hide();
+      $('#tab-pace').hide();
     }
   }
 });
