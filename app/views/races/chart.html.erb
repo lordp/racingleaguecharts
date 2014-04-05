@@ -7,9 +7,9 @@
       "color": "<%= session.driver.colour %>",
       "marker": { symbol: "<%= session.driver.marker %>" },
       "laps": <%= session.laps.order(:lap_number).collect(&:total) %>,
-      "sector1": <%= session.laps.order(:lap_number).collect(&:sector_1) %>,
-      "sector2": <%= session.laps.order(:lap_number).collect(&:sector_2) %>,
-      "sector3": <%= session.laps.order(:lap_number).collect(&:sector_3) %>
+      "sector1": <%= session.laps.order(:lap_number).collect(&:sector_1).compact %>,
+      "sector2": <%= session.laps.order(:lap_number).collect(&:sector_2).compact %>,
+      "sector3": <%= session.laps.order(:lap_number).collect(&:sector_3).compact %>
     },
     <% end %>
     ]
