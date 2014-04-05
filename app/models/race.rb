@@ -115,7 +115,7 @@ class Race < ActiveRecord::Base
   end
 
   def convert_lap_to_seconds(lap)
-    time = lap.match(/((\d)[:.])?([\d\.:]+)/)
+    time = lap.match(/((\d+)[:.])?([\d\.:]+)/)
     ((time[2].to_i * 60) + time[3].gsub(/:/, '.').to_f).round(3)
   end
 
