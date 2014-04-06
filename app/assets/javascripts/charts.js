@@ -58,6 +58,10 @@ function graph_four_formatter() {
   }
 }
 
+function time_trial_formatter() {
+  return convert_seconds_to_lap(this.y.toFixed(3), true);
+}
+
 // Helper function to get information from the URL
 function getQueryString() {
   var ret = {};
@@ -96,6 +100,10 @@ function hide_driver(params, driver) {
 
 function sort_sector(a, b) {
   return a[1] == b[1] ? 0 : a[1] < b[1] ? -1 : 1;
+}
+
+function sort_lap(a, b) {
+  return a.laps[0] == b.laps[0] ? 0 : a.laps[0] < b.laps[0] ? -1 : 1;
 }
 
 function fastest_sector_time(driver, sector) {
@@ -158,6 +166,27 @@ function manage_params(adding, name) {
 function update_show_hide_links() {
   $('#show_chart').attr('href', '?tab=' + params.tab + (params.show ? '&show=' + params.show : ''));
   $('#hide_chart').attr('href', '?tab=' + params.tab + (params.hide ? '&hide=' + params.hide : ''));
+}
+
+function set_bar_chart_options(options) {
+  options.chart.type = 'bar';
+  options.plotOptions.bar = {
+    dataLabels: {
+      enabled: true,
+      align: 'right',
+      color: 'white',
+      style: {
+        fontWeight: 'bold'
+      },
+      formatter: graph_four_formatter
+    }
+  };
+  options.legend = { enabled: false };
+  options.xAxis.title.text = 'Driver';
+  options.yAxis.title.text = 'Time';
+  options.tooltip.enabled = false;
+
+  return options;
 }
 
 // Base options
@@ -294,106 +323,116 @@ $(function () {
       options.series.push(driver);
     });
 
-    // Set basic options and instruct highcharts to render the chart
-    options.title.text = "Lap times";
-    options.tooltip.formatter = graph_one_formatter;
-    options.yAxis.labels = {
-      formatter: graph_one_axis_formatter
+    if (race.time_trial) {
+      set_bar_chart_options(options);
+      var series = options.series.sort(sort_lap);
+      laps = [];
+      cats = [];
+      $.each(series, function(i,driver) {
+        laps.push(driver.laps[0]);
+        cats.push(driver.name);
+      });
+      options.series = [{ data: laps }];
+      options.xAxis.categories = cats;
+      options.yAxis.min = 90;
+      options.plotOptions.bar.dataLabels.formatter = time_trial_formatter;
     }
+    else {
+      // Set basic options and instruct highcharts to render the chart
+      options.title.text = "Lap times";
+      options.tooltip.formatter = graph_one_formatter;
+      options.yAxis.labels = {
+        formatter: graph_one_axis_formatter
+      };
+    }
+
     $('#container-laps').highcharts(options);
 
-    // Clear out the series for the second chart
-    options.series = [];
-    options.yAxis.labels.formatter = null;
-
-    // Determine the average time for the winner (first array value)
-    var winner_laps = [];
-    $.each(data[0].laps, function (i, lap) {
-      winner_laps.push(lap);
-    });
-    var winner_average = array_sum(winner_laps) / winner_laps.length;
-
-    // Figure out the gaps between each driver and the winning time
-    $.each(data, function (i, driver) {
-      driver.data = [];
-      driver.average = [];
-      $.each(driver.laps, function (i, lap) {
-        // First lap is handled separately
-        if (i == 0) {
-          driver.average.push(lap);
-        }
-        // Other laps are added together as you go
-        else {
-          laps_slice = [];
-          $.each(driver.laps.slice(0, i + 1), function (i, lap) {
-            laps_slice.push(lap);
-          });
-          driver.average.push(array_sum(laps_slice));
-        }
-
-        // Keep a track of the difference
-        driver.data.push(((winner_average * (i + 1)) - driver.average[i]));
-      });
-
-      // Hide or show drivers if applicable.
-      if (hide_driver(params, driver.name)) {
-        driver.visible = false;
+    if (!race.time_trial) {
+      // Clear out the series for the second chart
+      options.series = [];
+      if (options.yAxis.labels) {
+        options.yAxis.labels.formatter = null;
       }
 
-      options.series.push(driver);
-    });
+      // Determine the average time for the winner (first array value)
+      var winner_laps = [];
+      $.each(data[0].laps, function (i, lap) {
+        winner_laps.push(lap);
+      });
+      var winner_average = array_sum(winner_laps) / winner_laps.length;
 
-    // Change the tooltip formatter, chart title and y-axis title options
-    options.tooltip.formatter = graph_two_formatter;
-    options.title.text = "Gaps to winner";
-    options.yAxis.title.text = 'Gap';
+      // Figure out the gaps between each driver and the winning time
+      $.each(data, function (i, driver) {
+        driver.data = [];
+        driver.average = [];
+        $.each(driver.laps, function (i, lap) {
+          // First lap is handled separately
+          if (i == 0) {
+            driver.average.push(lap);
+          }
+          // Other laps are added together as you go
+          else {
+            laps_slice = [];
+            $.each(driver.laps.slice(0, i + 1), function (i, lap) {
+              laps_slice.push(lap);
+            });
+            driver.average.push(array_sum(laps_slice));
+          }
 
-    // Instruct highcharts to render this chart
-    $('#container-gaps').highcharts(options);
+          // Keep a track of the difference
+          driver.data.push(((winner_average * (i + 1)) - driver.average[i]));
+        });
 
-    // Third charts - lap by lap time differences
-    options.chart.type = 'column';
-    options.series = [];
-    $.each(data, function (i, driver) {
-      var prev_lap = 0;
-      driver.data = [];
-      $.each(driver.laps, function (i, lap) {
-        if (i > 0) {
-          driver.data.push(lap - prev_lap);
+        // Hide or show drivers if applicable.
+        if (hide_driver(params, driver.name)) {
+          driver.visible = false;
         }
 
-        prev_lap = lap;
+        options.series.push(driver);
       });
 
-      // Hide or show drivers if applicable.
-      if (hide_driver(params, driver.name)) {
-        driver.visible = false;
-      }
+      // Change the tooltip formatter, chart title and y-axis title options
+      options.tooltip.formatter = graph_two_formatter;
+      options.title.text = "Gaps to winner";
+      options.yAxis.title.text = 'Gap';
 
-      options.series.push(driver);
-    });
+      // Instruct highcharts to render this chart
+      $('#container-gaps').highcharts(options);
 
-    options.title.text = 'Lap diffs';
-    $('#container-diffs').highcharts(options);
+      // Third charts - lap by lap time differences
+      options.chart.type = 'column';
+      options.series = [];
+      $.each(data, function (i, driver) {
+        var prev_lap = 0;
+        driver.data = [];
+        $.each(driver.laps, function (i, lap) {
+          if (i > 0) {
+            driver.data.push(lap - prev_lap);
+          }
+
+          prev_lap = lap;
+        });
+
+        // Hide or show drivers if applicable.
+        if (hide_driver(params, driver.name)) {
+          driver.visible = false;
+        }
+
+        options.series.push(driver);
+      });
+
+      options.title.text = 'Lap diffs';
+      $('#container-diffs').highcharts(options);
+    }
+    else {
+      $('#tab-gaps').hide();
+      $('#tab-diffs').hide();
+    }
 
     // 4th charts - various Bar charts
     if (data[0].sector1.length > 0) {
-      options.chart.type = 'bar';
-      options.plotOptions.bar = {
-        dataLabels: {
-          enabled: true,
-          align: 'right',
-          color: 'white',
-          style: {
-            fontWeight: 'bold'
-          },
-          formatter: graph_four_formatter
-        }
-      };
-      options.legend = { enabled: false };
-      options.xAxis.title.text = 'Driver';
-      options.yAxis.title.text = 'Time';
-      options.tooltip.enabled = false;
+      set_bar_chart_options(options);
 
       var sectors = [[], [], []];
       $.each(data, function (i, driver) {
