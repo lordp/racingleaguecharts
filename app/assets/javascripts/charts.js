@@ -334,7 +334,7 @@ $(function () {
       });
       options.series = [{ data: laps }];
       options.xAxis.categories = cats;
-      options.yAxis.min = 90;
+      options.yAxis.min = laps[0] - 5;
       options.plotOptions.bar.dataLabels.formatter = time_trial_formatter;
     }
     else {
