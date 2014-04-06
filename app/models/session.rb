@@ -9,7 +9,7 @@ class Session < ActiveRecord::Base
   belongs_to :race
 
   def name
-    "#{driver.try(:name)} on #{track.try(:name)} at #{Time.at(token.to_i(36))}"
+    "#{driver.try(:name)} on #{track.try(:name)} at #{created_at}"
   end
 
   def average_lap
