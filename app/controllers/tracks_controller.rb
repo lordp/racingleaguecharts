@@ -7,7 +7,7 @@ class TracksController < ApplicationController
   end
 
   def show
-    @sessions = @track.sessions.order(:token).page(params[:page].to_i).per(15)
+    @sessions = @track.sessions.order(:created_at).page(params[:page].to_i).per(15)
   end
 
   private

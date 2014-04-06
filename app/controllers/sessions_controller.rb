@@ -6,7 +6,7 @@ class SessionsController < ApplicationController
   skip_before_filter :verify_authenticity_token, :only => [ :register ]
 
   def index
-    @sessions = Session.order(:token).page(params[:page].to_i).per(15)
+    @sessions = Session.order(:created_at).page(params[:page].to_i).per(15)
   end
 
   def show

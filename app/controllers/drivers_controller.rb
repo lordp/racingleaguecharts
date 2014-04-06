@@ -9,7 +9,7 @@ class DriversController < ApplicationController
 
   def show
     @driver = Driver.find(params[:id].to_i)
-    @sessions = @driver.sessions.order(:token).page(params[:page].to_i).per(15)
+    @sessions = @driver.sessions.order(:created_at).page(params[:page].to_i).per(15)
   end
 
   def edit
