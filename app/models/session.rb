@@ -8,8 +8,6 @@ class Session < ActiveRecord::Base
   belongs_to :driver
   belongs_to :race
 
-  before_save :normalize_winner
-
   def name
     "#{driver.try(:name)} on #{track.try(:name)} at #{Time.at(token.to_i(36))}"
   end
@@ -42,10 +40,6 @@ class Session < ActiveRecord::Base
 
   def self.generate_token
     Time.now.to_i.to_s(36)
-  end
-
-  def normalize_winner
-    self.winner = false if self.winner.nil?
   end
 
   def self.register(params)
