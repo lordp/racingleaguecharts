@@ -1,11 +1,12 @@
 <script type="text/javascript">
   var race = {
+    "time_trial": <%= @race.time_trial?.to_s %>,
     "laps": [
     <% @race.sessions.order('winner desc').each do |session| %>
     {
       "name": "<%= session.driver.name %>",
-      "color": "<%= session.driver.colour %>",
-      "marker": { symbol: "<%= session.driver.marker %>" },
+      "color": "<%= session.driver.colour unless @race.time_trial? %>",
+      "marker": { symbol: "<%= session.driver.marker unless @race.time_trial? %>" },
       "laps": <%= session.laps.order(:lap_number).collect(&:total) %>,
       "sector1": <%= session.laps.order(:lap_number).collect(&:sector_1).compact %>,
       "sector2": <%= session.laps.order(:lap_number).collect(&:sector_2).compact %>,
