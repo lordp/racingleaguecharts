@@ -16,6 +16,7 @@ class RacesController < ApplicationController
   end
 
   def chart
+    @compare = Race.find(params[:compare].to_i) if params[:compare]
   end
 
   private

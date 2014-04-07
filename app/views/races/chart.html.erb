@@ -13,6 +13,19 @@
       "sector3": <%= session.laps.order(:lap_number).collect(&:sector_3).compact %>
     },
     <% end %>
+    <% if @compare %>
+      <% @compare.sessions.order('winner desc').each do |session| %>
+    {
+      "name": "<%= session.driver.name %>",
+      "color": "<%= session.driver.colour unless @race.time_trial? %>",
+      "marker": { symbol: "<%= session.driver.marker unless @race.time_trial? %>" },
+      "laps": <%= session.laps.order(:lap_number).collect(&:total) %>,
+      "sector1": <%= session.laps.order(:lap_number).collect(&:sector_1).compact %>,
+      "sector2": <%= session.laps.order(:lap_number).collect(&:sector_2).compact %>,
+      "sector3": <%= session.laps.order(:lap_number).collect(&:sector_3).compact %>
+    },
+      <% end %>
+    <% end %>
     ]
   };
 </script>
@@ -21,6 +34,9 @@
   <%= breadcrumb(@race) %>
 </ol>
 <h1><%= @race.name %></h1>
+<% if @compare %>
+<h2>Comparing with '<%= @compare.full_name %>'</h2>
+<% end %>
 
 <%= link_to("Link to this chart (using 'show')", chart_race_path(@race), :id => 'show_chart') %><br/>
 <%= link_to("Link to this chart (using 'hide')", chart_race_path(@race), :id => 'hide_chart') %>
