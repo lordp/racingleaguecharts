@@ -13,4 +13,20 @@ $(function() {
     window.location += '/rescan';
   });
 
+  $('#race_compare').on('change', function() {
+    var compare = $(this).val();
+    var url = window.location.href;
+    if (url.indexOf('compare') >= 0) {
+      url = url.replace(/compare=(\d+)/, 'compare=' + compare);
+    }
+    else if (url.indexOf('?') >= 0) {
+      url = url.replace(/$/, '&compare=' + compare);
+    }
+    else {
+      url = url.replace(/$/, '?compare=' + compare);
+    }
+
+    window.location.assign(url);
+  });
+
 });
