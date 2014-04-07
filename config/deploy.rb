@@ -40,16 +40,18 @@ namespace :deploy do
 
   after :finishing, 'deploy:cleanup'
 
-  task :notify_rollbar do
-    on roles(:app) do |h|
-      revision = `git log -n 1 --pretty=format:"^H"`
-      local_user = `whoami`
-      rollbar_token = YAML.load(File.open("#{Rails.root}/config/rollbar.yml").read)
-      rails_env = fetch(:rails_env, 'production')
-      execute "curl https://api.rollbar.com/api/1/deploy/ -F access_token=#{rollbar_token} -F environment=#{rails_env} -F revision=#{revision} -F local_username=#{local_user} >/dev/null 2>&1", :once => true
-    end
-  end
-
-  after :deploy, 'notify_rollbar'
-
 end
+
+desc 'Notify Rollbar of a deployment'
+task :notify_rollbar do
+  on roles(:app) do |h|
+    revision = `git log -n 1 --pretty=format:"^H"`
+    local_user = `whoami`
+    rollbar_token = YAML.load(File.open("config/rollbar.yml").read)
+    rails_env = fetch(:rails_env, 'production')
+    execute "curl https://api.rollbar.com/api/1/deploy/ -F access_token=#{rollbar_token} -F environment=#{rails_env} -F revision=#{revision} -F local_username=#{local_user} >/dev/null 2>&1", :once => true
+  end
+end
+
+after :deploy, 'notify_rollbar'
+
