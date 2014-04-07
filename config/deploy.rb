@@ -45,7 +45,7 @@ end
 desc 'Notify Rollbar of a deployment'
 task :notify_rollbar do
   on roles(:app) do |h|
-    revision = `git log -n 1 --pretty=format:"^H"`
+    revision = `git log -n 1 --pretty=format:"%H"`
     local_user = `whoami`
     rollbar_token = YAML.load(File.open("config/rollbar.yml").read)
     rails_env = fetch(:rails_env, 'production')
