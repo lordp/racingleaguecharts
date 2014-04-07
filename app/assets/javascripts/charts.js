@@ -164,8 +164,8 @@ function manage_params(adding, name) {
 }
 
 function update_show_hide_links() {
-  $('#show_chart').attr('href', '?tab=' + params.tab + (params.show ? '&show=' + params.show : ''));
-  $('#hide_chart').attr('href', '?tab=' + params.tab + (params.hide ? '&hide=' + params.hide : ''));
+  $('#show_chart').attr('href', '?tab=' + params.tab + (params.show ? '&show=' + params.show : '') + (params.compare ? '&compare=' + params.compare : ''));
+  $('#hide_chart').attr('href', '?tab=' + params.tab + (params.hide ? '&hide=' + params.hide : '') + (params.compare ? '&compare=' + params.compare : ''));
 }
 
 function set_bar_chart_options(options) {
