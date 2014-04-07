@@ -1,6 +1,7 @@
 ---
 :verbose: false
 :pidfile: ./tmp/pids/sidekiq.pid
-:concurrency:  25
+:concurrency:  5
 :queues:
-  - [paperclip, 7]
+  - [paperclip, 5]
+  - [rollbar, 5]
