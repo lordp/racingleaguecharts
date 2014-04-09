@@ -96,11 +96,14 @@ class Race < ActiveRecord::Base
       end
 
       post.parsed_response.last['data']['children'].each do |p|
+        next if p['data']['author'] == 'TimeTrialBot'
         p['data']['body'].split(/\n/).each do |line|
           next if line.empty?
 
           dry_wet = line.match(/[Dd]ry|[Ww]et/)
           dry_wet = dry_wet.nil? ? global_dry_wet : dry_wet[0].downcase
+
+          next if dry_wet.nil?
 
           time = line.scan(time_regex)
           unless time.empty?
@@ -112,8 +115,7 @@ class Race < ActiveRecord::Base
       end
 
       race_dry_wet = is_dry ? 'dry' : 'wet'
-      leaderboard.each do |dry_wet, laps|
-        next unless race_dry_wet == dry_wet
+      leaderboard[race_dry_wet].each do |dry_wet, laps|
         laps.each do |driver, lap_info|
           driver = Driver.find_or_create_by_name(driver)
           driver.update_attribute(:flair, lap_info[:flair].split(/ /).first) unless lap_info[:flair].nil?
