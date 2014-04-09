@@ -66,9 +66,8 @@ class Race < ActiveRecord::Base
   end
 
   def scan_time_trial
-    valid_tracks_regex = /Round (\d+): ([a-zA-Z ]+) in (Dry \*\*and\*\* Wet|Dry|Wet)/
+    valid_tracks_regex = /Round (\d+): ([a-zA-Z ]+) in (([Dd]ry|[Ww]et) \*\*and\*\* ([Dd]ry|[Ww]et)|[Dd]ry|[Ww]et)/
     time_regex = /\[[^\d]*([\d:\.]+)\]/
-    track_regex = /^[\*]*([A-Za-z ]+)(Dry|Wet)?[\* -:]*/
 
     leaderboard = {}
     unless thing.nil?
@@ -85,45 +84,38 @@ class Race < ActiveRecord::Base
       post = reddit.get_comments({ :link_id => link_id })
 
       global_dry_wet = nil
-      tracks = post.parsed_response.first['data']['children'][0]['data']['selftext'].scan(valid_tracks_regex)
-      tracks.each do |track|
-        leaderboard ||= {}
-        if track[2] == 'Dry **and** Wet'
-          leaderboard['dry'] ||= {}
-          leaderboard['wet'] ||= {}
-        else
-          global_dry_wet = track[2].downcase
-          leaderboard[global_dry_wet] ||= {}
-        end
+      valid_track = post.parsed_response.first['data']['children'][0]['data']['selftext'].match(valid_tracks_regex)
+
+      leaderboard ||= {}
+      if valid_track[4].nil? && valid_track[5].nil?
+        global_dry_wet = valid_track[3].downcase
+        leaderboard[global_dry_wet] ||= {}
+      else
+        leaderboard['dry'] ||= {}
+        leaderboard['wet'] ||= {}
       end
 
       post.parsed_response.last['data']['children'].each do |p|
-        track = nil
+        next if p['data']['author'] == 'TimeTrialBot'
         p['data']['body'].split(/\n/).each do |line|
           next if line.empty?
 
-          unless line.match(track_regex).nil?
-            track = line.match(track_regex)[1].match("(#{tracks.collect { |t| t[1] }.join('|')})( (Dry|Wet))?.*")
-          end
+          dry_wet = line.match(/[Dd]ry|[Ww]et/)
+          dry_wet = dry_wet.nil? ? global_dry_wet : dry_wet[0].downcase
 
-          next if track.nil?
+          next if dry_wet.nil?
 
-          dry_wet = track[3].nil? ? global_dry_wet : track[3].downcase
           time = line.scan(time_regex)
           unless time.empty?
-            track = tracks.find { |t| t[1] == track[1] }
             time = time.map { |t| convert_lap_to_seconds(t.first) }.min
-            unless track.nil?
-              leaderboard[dry_wet][p['data']['author']] = { :time => time, :thing => p['data']['id'], :flair => p['data']['author_flair_css_class'] }
-              Rails.logger.info("TRACK: #{track[1]}, DRY/WET: #{dry_wet}, DRIVER: #{p['data']['author']}, TIME: #{time}")
-            end
+            leaderboard[dry_wet][p['data']['author']] = { :time => time, :thing => p['data']['id'], :flair => p['data']['author_flair_css_class'] }
+            Rails.logger.info("DRY/WET: #{dry_wet}, DRIVER: #{p['data']['author']}, TIME: #{time}")
           end
         end
       end
 
       race_dry_wet = is_dry ? 'dry' : 'wet'
-      leaderboard.each do |dry_wet, laps|
-        next unless race_dry_wet == dry_wet
+      leaderboard[race_dry_wet].each do |dry_wet, laps|
         laps.each do |driver, lap_info|
           driver = Driver.find_or_create_by_name(driver)
           driver.update_attribute(:flair, lap_info[:flair].split(/ /).first) unless lap_info[:flair].nil?

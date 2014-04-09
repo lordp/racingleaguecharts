@@ -5,6 +5,10 @@ class DriversController < ApplicationController
 
   def index
     @drivers = Driver.order(:name)
+    respond_to do |format|
+      format.html
+      format.json { render :json => @drivers.collect(&:name).compact }
+    end
   end
 
   def show
