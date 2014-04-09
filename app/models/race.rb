@@ -115,18 +115,16 @@ class Race < ActiveRecord::Base
       end
 
       race_dry_wet = is_dry ? 'dry' : 'wet'
-      leaderboard[race_dry_wet].each do |dry_wet, laps|
-        laps.each do |driver, lap_info|
-          driver = Driver.find_or_create_by_name(driver)
-          driver.update_attribute(:flair, lap_info[:flair].split(/ /).first) unless lap_info[:flair].nil?
-          session = self.sessions.find_or_initialize_by_driver_id_and_is_dry(driver.id, is_dry)
-          session.track_id = track_id
-          session.save
-          lap = session.laps.find_or_create_by_lap_number(:lap_number => 0)
-          lap.total = lap_info[:time]
-          lap.thing = lap_info[:thing]
-          lap.save
-        end
+      leaderboard[race_dry_wet].each do |driver, lap_info|
+        driver = Driver.find_or_create_by_name(driver)
+        driver.update_attribute(:flair, lap_info[:flair].split(/ /).first) unless lap_info[:flair].nil?
+        session = self.sessions.find_or_initialize_by_driver_id_and_is_dry(driver.id, is_dry)
+        session.track_id = track_id
+        session.save
+        lap = session.laps.find_or_create_by_lap_number(:lap_number => 0)
+        lap.total = lap_info[:time]
+        lap.thing = lap_info[:thing]
+        lap.save
       end
     end
   end
