@@ -4,5 +4,10 @@
 </div>
 
 <div class="form-group">
+  <%= f.label(:length) %>
+  <%= f.text_field(:length, :class => 'form-control', :placeholder => 'Track length (3 DP)') %>
+</div>
+
+<div class="form-group">
   <%= f.submit('Save', :class => 'btn btn-default') %> <%= cancel_link(@track) %>
 </div>
