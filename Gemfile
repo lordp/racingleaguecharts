@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.16'
+gem 'rails', '3.2.17'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -10,7 +10,7 @@ gem 'puma'
 gem 'kaminari'
 gem 'kaminari-bootstrap', '~> 3.0.1'
 
-gem 'sidekiq'
+gem 'sidekiq', '~> 2.17.3'
 
 gem 'codemirror-rails', '~> 3.21'
 gem 'paperclip', '~> 3.5.2'
@@ -29,7 +29,7 @@ gem 'rollbar'
 # in production environments by default.
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
-  gem 'bootstrap-sass', '~> 3.0.3.0'
+  gem 'bootstrap-sass', '~> 3.1.1.0'
   gem 'coffee-rails', '~> 3.2.1'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
