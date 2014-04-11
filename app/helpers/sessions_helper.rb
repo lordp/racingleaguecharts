@@ -49,4 +49,10 @@ module SessionsHelper
 
     table
   end
+
+  def fastest_lap(lap, fastest_lap)
+    if lap == fastest_lap
+      "class=\"bg-success\" style=\"font-weight: bold\"".html_safe
+    end
+  end
 end

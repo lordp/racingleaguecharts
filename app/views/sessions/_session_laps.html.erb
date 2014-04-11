@@ -10,7 +10,7 @@
 </thead>
 <tbody>
 <% laps.order(:lap_number).each do |lap| %>
-  <tr>
+  <tr <%= fastest_lap(lap, fastest) %>>
     <td><%= lap.lap_number + 1 %></td>
     <td><%= nice_time(lap.sector_1) %></td>
     <td><%= nice_time(lap.sector_2) %></td>

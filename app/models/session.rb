@@ -16,6 +16,10 @@ class Session < ActiveRecord::Base
     laps.average(:total)
   end
 
+  def fastest_lap
+    laps.order(:total).first
+  end
+
   def set_info(ip, length)
     driver = Driver.find_or_create_by_ip(ip)
     track = Track.find_or_create_by_length(length)
