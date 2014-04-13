@@ -60,7 +60,7 @@ class Race < ActiveRecord::Base
       end
 
       removed.each do |driver|
-        self.sessions.where(:driver_id => driver).destroy_all
+        self.sessions.where(:driver_id => driver).each { |s| s.update_attribute(:race_id, nil) }
       end
     end
   end
