@@ -18,7 +18,11 @@
 
 <h2>Generation</h2>
 <p>To generate the charts for a race, a set of sessions need to be created for each driver you wish to include. For each session, you will need to upload screenshots of the Race Director option that the game provides. This system shows 8 laps at a time, meaning multiple screenshots will be required to cover the entire race.</p>
-<p>The Super League, League and Seasons should have been created, so to get started, you can add a <%= link_to('race', new_race_path) %> or <%= link_to('session', new_session_path) %>. If you have any questions, suggestions or concerns, please <%= link_to('let me know', 'mailto:darryl@addict.net.nz') %>.</p>
+<p>If you have any questions, suggestions or concerns, please <%= link_to('let me know', 'mailto:darryl@addict.net.nz') %>.</p>
+
+<h2>Logging Application</h2>
+<p>An alternate option for generating charts is having drivers use the logging application. This collects data output by the game via its telemetry system, parses it for lap and sector times, and creates sessions and laps automatically. These sessions are then attached to a race by an administrator.</p>
+<p>You can download a copy of the application <%= link_to('here', '/rlc.zip') %>.</p>
 
 <h2>Technical Details</h2>
 <p>Uploaded screenshots are processed in the background. Each screenshot is cropped to only include the lap number and lap and sector times. An edge detection routine is run over this cropped version, and the <%= link_to('Tesseract OCR', "https://code.google.com/p/tesseract-ocr/") %> system is invoked to pull out the text.</p>
