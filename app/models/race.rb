@@ -1,6 +1,6 @@
 class Race < ActiveRecord::Base
-  attr_accessible :name, :session_ids, :track_id, :season_id, :time_trial, :is_dry, :thing, :fia, :driver_session_ids
-  attr_accessor :driver_session_ids
+  attr_accessible :name, :session_ids, :track_id, :season_id, :time_trial, :is_dry, :thing, :fia, :driver_session_ids, :existing_driver_session_ids
+  attr_accessor :driver_session_ids, :existing_driver_session_ids
 
   has_many :sessions
   belongs_to :track
@@ -61,6 +61,15 @@ class Race < ActiveRecord::Base
 
       removed.each do |driver|
         self.sessions.where(:driver_id => driver).each { |s| s.update_attribute(:race_id, nil) }
+      end
+    end
+
+    unless existing_driver_session_ids.nil?
+      existing_driver_session_ids.reject!(&:blank?).map!(&:to_i)
+
+      current = self.sessions.collect(&:id)
+      Session.find((existing_driver_session_ids - current)).each do |session|
+        session.update_attribute(:race_id, self.id)
       end
     end
   end
