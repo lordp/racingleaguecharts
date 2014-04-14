@@ -13,6 +13,7 @@ class SessionsController < ApplicationController
   end
 
   def chart
+    @compare = Session.find(params[:compare].to_i) if params[:compare]
   end
 
   def register

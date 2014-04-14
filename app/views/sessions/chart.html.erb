@@ -1,4 +1,10 @@
 <h1>Session Chart</h1>
+
+<div class="form-group">
+  <%= label_tag(:compare, 'Compare with another session') %><br/>
+  <%= select_tag(:compare, options_from_collection_for_select(Session.all, "id", "name", @compare ? @compare.id : nil), { :class => 'form-control select2', :id => 'session_compare' }) %>
+</div>
+
 <div id="container"></div>
 <script type="text/javascript">
   function graph_one_formatter() {
@@ -60,6 +66,15 @@
       data: [ <%= @session.laps.order(:lap_number).collect(&:total).join(",") %> ]
     }]
   };
+
+<% if @compare %>
+  options.series.push({ name: "<%= @compare.driver.name %>", data: [ <%= @compare.laps.order(:lap_number).collect(&:total).join(",") %> ]});
+  options.yAxis.plotLines.push({
+    value: <%= @compare.average_lap %>,
+    color: 'green',
+    width: 2
+  });
+<% end %>
 
   $('#container').highcharts(options);
 </script>
