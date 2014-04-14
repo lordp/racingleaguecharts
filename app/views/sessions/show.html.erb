@@ -4,6 +4,6 @@
 <h2>Laps</h2>
 <div class="panel panel-default">
   <div class="panel-heading"><%= @session.driver.name %></div>
-  <%= render(:partial => 'sessions/session_laps', :locals => { :laps => @session.laps, :fastest => @session.fastest_lap }) %>
+  <%= render(:partial => 'sessions/session_laps', :locals => { :laps => @session.laps, :session => @session, :fastest => @session.fastest_lap }) %>
 </div>
 <% end %>

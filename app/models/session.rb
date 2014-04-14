@@ -20,6 +20,14 @@ class Session < ActiveRecord::Base
     laps.order(:total).first
   end
 
+  def total_time
+    laps.sum(:total)
+  end
+
+  def average_sector(sector)
+    laps.average("sector_#{sector}")
+  end
+
   def set_info(ip, length)
     driver = Driver.find_or_create_by_ip(ip)
     track = Track.find_or_create_by_length(length)

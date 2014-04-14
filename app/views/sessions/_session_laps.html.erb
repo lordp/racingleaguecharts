@@ -24,6 +24,16 @@
     <td><%= nice_field(lap, 'position') %></td>
   </tr>
 <% end %>
+  <tr>
+    <td></td>
+    <td><strong>Avg: </strong><%= nice_time(session.average_sector(1)) %></td>
+    <td><strong>Avg: </strong><%= nice_time(session.average_sector(2)) %></td>
+    <td><strong>Avg: </strong><%= nice_time(session.average_sector(3)) %></td>
+    <td><strong>Avg: </strong><%= nice_time(session.average_lap) %><br/><strong>Total: </strong><%= nice_time(session.total_time) %></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
 </tbody>
 </table>
 
