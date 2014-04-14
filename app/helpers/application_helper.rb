@@ -96,4 +96,17 @@ module ApplicationHelper
     name
   end
 
+  def nice_field(obj, field)
+    unless obj.send(field).nil?
+      case field
+        when 'speed'
+          (obj.send(field) * 3.6).round(3)
+        when 'fuel'
+          "#{obj.send(field).round(3)} (&#916; #{obj.send("#{field}_delta").round(3)})".html_safe
+        when 'position'
+          "#{obj.send(field)} (&#916; #{obj.send("#{field}_delta")})".html_safe
+      end
+    end
+  end
+
 end
