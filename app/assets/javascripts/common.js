@@ -13,7 +13,9 @@ $(function() {
     window.location += '/rescan';
   });
 
-  $('#race_compare').on('change', function() {
+  $('#race_compare').on('change', compare_change);
+  $('#session_compare').on('change', compare_change);
+  function compare_change() {
     var compare = $(this).val();
     var url = window.location.href;
     if (url.indexOf('compare') >= 0) {
@@ -27,6 +29,6 @@ $(function() {
     }
 
     window.location.assign(url);
-  });
+  }
 
 });
