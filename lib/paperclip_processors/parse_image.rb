@@ -12,6 +12,7 @@ module Paperclip
       @basename       = File.basename(@file.path, @current_format)
 
       @engine = Tesseract::Engine.new do |e|
+        e.path = '/usr/share/tesseract-ocr'
         e.language  = :eng
         e.whitelist = ':.0123456789'
       end
