@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140402013820) do
+ActiveRecord::Schema.define(:version => 20140414064825) do
 
   create_table "driver_users", :force => true do |t|
     t.integer  "driver_id"
@@ -38,6 +38,9 @@ ActiveRecord::Schema.define(:version => 20140402013820) do
     t.float   "total"
     t.integer "session_id"
     t.string  "thing"
+    t.decimal "speed"
+    t.integer "position"
+    t.decimal "fuel"
   end
 
   create_table "league_seasons", :force => true do |t|
@@ -96,7 +99,7 @@ ActiveRecord::Schema.define(:version => 20140402013820) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "race_id"
-    t.boolean  "winner"
+    t.boolean  "winner",                     :default => false
     t.boolean  "is_dry"
   end
 

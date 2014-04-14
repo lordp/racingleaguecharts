@@ -6,6 +6,9 @@
     <th>Sector 2</th>
     <th>Sector 3</th>
     <th>Total</th>
+    <th>Speed</th>
+    <th>Fuel</th>
+    <th>Position</th>
   </tr>
 </thead>
 <tbody>
@@ -16,6 +19,9 @@
     <td><%= nice_time(lap.sector_2) %></td>
     <td><%= nice_time(lap.sector_3) %></td>
     <td><%= nice_time(lap.total) %></td>
+    <td><%= lap.speed %></td>
+    <td><%= lap.fuel %></td>
+    <td><%= lap.position %></td>
   </tr>
 <% end %>
 </tbody>
