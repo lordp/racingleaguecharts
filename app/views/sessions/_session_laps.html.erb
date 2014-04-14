@@ -19,9 +19,9 @@
     <td><%= nice_time(lap.sector_2) %></td>
     <td><%= nice_time(lap.sector_3) %></td>
     <td><%= nice_time(lap.total) %></td>
-    <td><%= lap.speed %></td>
-    <td><%= lap.fuel %></td>
-    <td><%= lap.position %></td>
+    <td><%= nice_field(lap, 'speed') %></td>
+    <td><%= nice_field(lap, 'fuel') %></td>
+    <td><%= nice_field(lap, 'position') %></td>
   </tr>
 <% end %>
 </tbody>
