@@ -5,7 +5,7 @@
   <%= select_tag(:compare, options_from_collection_for_select(Session.all, "id", "name", @compare ? @compare.id : nil), { :class => 'form-control select2', :id => 'session_compare' }) %>
 </div>
 
-<div id="container"></div>
+<div id="container" class="chart"></div>
 <script type="text/javascript">
   function graph_one_formatter() {
     var s = '<b>Lap ' + this.x + '</b>';
