@@ -9,7 +9,7 @@ module ApplicationHelper
   end
 
   def is_current?(obj, at_obj)
-    "glyphicon-ok" if obj == at_obj
+    "bg-success" if obj == at_obj
   end
 
   def bootstrap_alert(name)
