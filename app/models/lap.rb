@@ -26,4 +26,22 @@ class Lap < ActiveRecord::Base
       (time[2].to_i * 60) + time[3].to_f
     end
   end
+
+  def last_lap(field)
+    ll = self.session.laps.where(:lap_number => self.lap_number - 1)
+    if ll
+      ll.first.try(field)
+    end
+  end
+
+  def fuel_delta
+    ll = self.last_lap('fuel')
+    ll ? ll - self.fuel : 0
+  end
+
+  def position_delta
+    ll = self.last_lap('position')
+    ll ? ll - self.position : 0
+  end
+
 end
