@@ -14,5 +14,10 @@
 </div>
 
 <div class="form-group">
+  <%= f.label(:merge_session_ids, 'Merge sessions from this driver') %>
+  <%= f.select(:merge_session_ids, options_from_collection_for_select(@driver.user.drivers.reject { |d| d.id == @driver.id }, "id", "name"), { :include_blank => true }, { :class => 'form-control select2', :multiple => true }) %>
+</div>
+
+<div class="form-group">
   <%= f.submit('Save', :class => 'btn btn-default') %> <%= cancel_link(@driver, false) %>
 </div>
