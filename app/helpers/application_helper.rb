@@ -102,9 +102,21 @@ module ApplicationHelper
         when 'speed'
           (obj.send(field) * 3.6).round(3)
         when 'fuel'
-          "#{obj.send(field).round(3)} (&#916; #{obj.send("#{field}_delta").round(3)})".html_safe
+          delta = obj.send("#{field}_delta").round(3)
+          value = "#{obj.send(field).round(3)}"
+          unless delta == 0
+            value += " (#{delta < 0 ? '' : '+'}#{delta})"
+          end
+          value.html_safe
         when 'position'
-          "#{obj.send(field)} (&#916; #{obj.send("#{field}_delta")})".html_safe
+          delta = obj.send("#{field}_delta")
+          value = "#{obj.send(field)}"
+          unless delta == 0
+            value += "(#{delta < 0 ? '' : '+'}#{delta})"
+          end
+          value.html_safe
+        else
+          nil
       end
     end
   end
