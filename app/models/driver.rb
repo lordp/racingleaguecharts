@@ -6,6 +6,9 @@ class Driver < ActiveRecord::Base
   has_one :driver_user
   has_one :user, :through => :driver_user
 
+  validates_presence_of :name
+  validates_uniqueness_of :name
+
   def claimed?
     if name.blank?
       'Unknown'

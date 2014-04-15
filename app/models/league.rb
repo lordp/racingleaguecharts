@@ -4,6 +4,8 @@ class League < ActiveRecord::Base
   belongs_to :super_league
   has_many :seasons
 
+  validates_presence_of :super_league_id, :name
+
   def full_name
     "#{super_league.name} - #{name}"
   end

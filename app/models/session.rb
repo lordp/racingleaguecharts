@@ -8,6 +8,8 @@ class Session < ActiveRecord::Base
   belongs_to :driver
   belongs_to :race
 
+  validates_presence_of :driver_id, :track_id
+
   def name
     "#{driver.try(:name)} on #{track.try(:name)} at #{created_at}"
   end

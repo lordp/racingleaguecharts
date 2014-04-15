@@ -3,4 +3,7 @@ class Track < ActiveRecord::Base
 
   has_many :sessions
   has_many :races
+
+  validates_presence_of :name, :length
+  validates_numericality_of :length
 end

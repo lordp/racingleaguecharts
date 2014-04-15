@@ -9,6 +9,8 @@ class Race < ActiveRecord::Base
   before_save :nullify_thing
   after_save :adjust_sessions
 
+  validates_presence_of :name, :track_id, :season_id
+
   POINTS = [ 25, 18, 15, 12, 10, 8, 6, 4, 2, 1 ]
   F1_MAP = {
     'vettel'          => 393,

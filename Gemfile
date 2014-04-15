@@ -49,6 +49,20 @@ group :development do
   gem 'capistrano3-puma'
 end
 
+group :development, :test do
+  gem 'rspec-rails'
+  gem 'factory_girl_rails'
+  gem 'spring'
+  gem 'spring-commands-rspec'
+end
+
+group :test do
+  gem 'faker'
+  gem 'capybara'
+  gem 'guard-rspec'
+  gem 'launchy'
+end
+
 #gem 'rack-mini-profiler'
 
 # To use ActiveModel has_secure_password
