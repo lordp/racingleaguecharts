@@ -88,11 +88,11 @@
   // Fuel chart
   options.series = [{
     name: "<%= @session.driver.name %>",
-    data: [ <%= @session.laps.order(:lap_number).collect(&:fuel).join(",") %> ]
+    data: [ <%= @session.laps.order(:lap_number).where('fuel is not null').collect { |l| l.fuel.round(3).to_f }.join(",") %> ]
   }];
 
   <% if @compare %>
-  options.series.push({ name: "<%= @compare.driver.name %>", data: [ <%= @compare.laps.order(:lap_number).collect(&:fuel).join(",") %> ]});
+  options.series.push({ name: "<%= @compare.driver.name %>", data: [ <%= @compare.laps.order(:lap_number).where('fuel is not null').collect { |l| l.fuel.round(3).to_f }.join(",") %> ]});
   <% end %>
 
   delete options.tooltip.formatter;

@@ -11,7 +11,7 @@
       "sector1": <%= session.laps.order(:lap_number).collect(&:sector_1).compact %>,
       "sector2": <%= session.laps.order(:lap_number).collect(&:sector_2).compact %>,
       "sector3": <%= session.laps.order(:lap_number).collect(&:sector_3).compact %>,
-      "fuel": <%= session.laps.order(:lap_number).collect { |l| l.fuel.round(3).to_f }.compact %>
+      "fuel": <%= session.laps.order(:lap_number).where('fuel is not null').collect { |l| l.fuel.round(3).to_f }.compact %>
     },
     <% end %>
     <% if @compare %>
@@ -24,7 +24,7 @@
       "sector1": <%= session.laps.order(:lap_number).collect(&:sector_1).compact %>,
       "sector2": <%= session.laps.order(:lap_number).collect(&:sector_2).compact %>,
       "sector3": <%= session.laps.order(:lap_number).collect(&:sector_3).compact %>,
-      "fuel": <%= session.laps.order(:lap_number).collect { |l| l.fuel.round(3).to_f }.compact %>
+      "fuel": <%= session.laps.order(:lap_number).where('fuel is not null').collect { |l| l.fuel.round(3).to_f }.compact %>
     },
       <% end %>
     <% end %>
