@@ -20,6 +20,14 @@ class Session < ActiveRecord::Base
     laps.order(:total).first
   end
 
+  def fuel_remaining
+    laps.order(:lap_number).last.fuel.round(3)
+  end
+
+  def top_speed
+    (laps.order(:speed).last.speed * 3.6).round(3)
+  end
+
   def total_time
     laps.sum(:total)
   end

@@ -161,4 +161,12 @@ class Race < ActiveRecord::Base
     end
   end
 
+  def get_stats()
+    stats = { :speed => [], :fuel => []}
+    self.sessions.each do |s|
+      stats[:speed].push({ :value => s.top_speed, :name => s.driver.name, :units => 'km/h' })
+      stats[:fuel].push({ :value => s.fuel_remaining, :name => s.driver.name, :units => 'litres' })
+    end
+    stats
+  end
 end
