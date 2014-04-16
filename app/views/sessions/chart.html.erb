@@ -5,19 +5,26 @@
   <%= select_tag(:compare, options_from_collection_for_select(Session.all, "id", "name", @compare ? @compare.id : nil), { :class => 'form-control select2', :id => 'session_compare' }) %>
 </div>
 
-<div id="container" class="chart"></div>
+<ul class="nav nav-tabs">
+  <li class="active"><a id="tab-laps" href="#container-laps" data-toggle="tab">Laps</a></li>
+  <li><a id="tab-fuel" href="#container-fuel" data-toggle="tab">Fuel</a></li>
+</ul>
+
+<div class="tab-content">
+  <div class="tab-pane active chart" id="container-laps"></div>
+  <div class="tab-pane active chart" id="container-fuel"></div>
+</div>
+
 <script type="text/javascript">
-  function graph_one_formatter() {
-    var s = '<b>Lap ' + this.x + '</b>';
+  params = getQueryString();
+  if (params.tab) {
+    $('li.active').removeClass('active').parent().children().children('a#tab-' + params.tab).parent().addClass('active');
 
-    $.each(this.points, function (i, point) {
-      // Converts seconds to mm:ss.ddd format - ie 106.322 = 1:46.322
-      var t1 = Math.floor(point.y / 60);
-      var t2 = (point.y % 60).toFixed(3);
-      s += '<br/><span style="color: ' + point.series.color + ';">' + point.series.name + '</span>: ' + t1 + 'm' + (t2 < 10 ? '0' + t2 : t2);
-    });
-
-    return s;
+    $('.tab-pane').removeClass('active');
+    $('#container-' + params.tab).addClass('active');
+  }
+  else {
+    params.tab = 'laps';
   }
 
   var options = {
@@ -76,5 +83,21 @@
   });
 <% end %>
 
-  $('#container').highcharts(options);
+  $('#container-laps').highcharts(options);
+
+  // Fuel chart
+  options.series = [{
+    name: "<%= @session.driver.name %>",
+    data: [ <%= @session.laps.order(:lap_number).collect(&:fuel).join(",") %> ]
+  }];
+
+  <% if @compare %>
+  options.series.push({ name: "<%= @compare.driver.name %>", data: [ <%= @compare.laps.order(:lap_number).collect(&:fuel).join(",") %> ]});
+  <% end %>
+
+  delete options.tooltip.formatter;
+  delete options.yAxis.labels.formatter;
+
+  $('#container-fuel').highcharts(options);
+
 </script>

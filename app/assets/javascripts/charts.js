@@ -430,6 +430,21 @@ $(function () {
       $('#tab-diffs').hide();
     }
 
+    // Fuel chart
+    if (data[0].fuel.length > 0) {
+      options.title.text = 'Fuel usage';
+      options.chart.type = 'spline';
+      options.series = [];
+      $.each(data, function (i, driver) {
+        options.series.push({ name: driver.name, data: driver.fuel });
+      });
+
+      $('#container-fuel').highcharts(options);
+    }
+    else {
+      $('#tab-fuel').hide();
+    }
+
     // 4th charts - various Bar charts
     if (data[0].sector1.length > 0) {
       set_bar_chart_options(options);

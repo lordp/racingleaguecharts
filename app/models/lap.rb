@@ -36,7 +36,7 @@ class Lap < ActiveRecord::Base
 
   def fuel_delta
     ll = self.last_lap('fuel')
-    ll ? ll - self.fuel : 0
+    ll ? self.fuel - ll : 0
   end
 
   def position_delta

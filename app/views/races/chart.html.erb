@@ -10,7 +10,8 @@
       "laps": <%= session.laps.order(:lap_number).collect(&:total) %>,
       "sector1": <%= session.laps.order(:lap_number).collect(&:sector_1).compact %>,
       "sector2": <%= session.laps.order(:lap_number).collect(&:sector_2).compact %>,
-      "sector3": <%= session.laps.order(:lap_number).collect(&:sector_3).compact %>
+      "sector3": <%= session.laps.order(:lap_number).collect(&:sector_3).compact %>,
+      "fuel": <%= session.laps.order(:lap_number).collect { |l| l.fuel.round(3).to_f }.compact %>
     },
     <% end %>
     <% if @compare %>
@@ -22,7 +23,8 @@
       "laps": <%= session.laps.order(:lap_number).collect(&:total) %>,
       "sector1": <%= session.laps.order(:lap_number).collect(&:sector_1).compact %>,
       "sector2": <%= session.laps.order(:lap_number).collect(&:sector_2).compact %>,
-      "sector3": <%= session.laps.order(:lap_number).collect(&:sector_3).compact %>
+      "sector3": <%= session.laps.order(:lap_number).collect(&:sector_3).compact %>,
+      "fuel": <%= session.laps.order(:lap_number).collect { |l| l.fuel.round(3).to_f }.compact %>
     },
       <% end %>
     <% end %>
@@ -52,6 +54,7 @@
   <li><a id="tab-diffs" href="#container-diffs" data-toggle="tab">Diffs</a></li>
   <li><a id="tab-sectors" href="#container-sectors" data-toggle="tab">Sectors</a></li>
   <li><a id="tab-pace" href="#container-pace" data-toggle="tab">Pace</a></li>
+  <li><a id="tab-fuel" href="#container-fuel" data-toggle="tab">Fuel</a></li>
 </ul>
 
 <div class="tab-content">
@@ -93,4 +96,5 @@
     <div id="container-pace-50" class="sectors"></div>
     <div id="container-pace-80" class="sectors"></div>
   </div>
+  <div class="tab-pane chart" id="container-fuel"></div>
 </div>
