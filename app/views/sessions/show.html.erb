@@ -1,6 +1,6 @@
 <h1>Session details</h1>
 <%= render(:partial => 'session_details', :locals => { :sess => @session, :tt => @session.race && @session.race.time_trial }) %>
-<% if !@session.race || @session.race.time_trial %>
+<% if !@session.race || !@session.race.time_trial %>
 <h2>Laps</h2>
 <div class="panel panel-default">
   <div class="panel-heading"><%= @session.driver.name %></div>
