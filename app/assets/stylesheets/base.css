@@ -60,3 +60,7 @@ a {
 .screenshot_cross {
   list-style-image: url(/cross.png)
 }
+
+.help-block-small {
+  font-size: x-small;
+}
