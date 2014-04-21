@@ -45,4 +45,13 @@ class Driver < ActiveRecord::Base
     end
   end
 
+  def self.name_and_token(name, token)
+    user = User.find_by_token(token)
+    if user && user.drivers.collect(&:name).include?(name)
+      user.drivers.find_by_name(name)
+    else
+      nil
+    end
+  end
+
 end

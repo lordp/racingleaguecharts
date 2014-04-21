@@ -63,7 +63,7 @@ class Session < ActiveRecord::Base
   end
 
   def self.register(params)
-    driver = Driver.find_by_name_and_token(params[:driver], params[:token])
+    driver = Driver.name_and_token(params[:driver], params[:token])
     track = Track.find_or_create_by_length(params[:track])
     race = Race.find(params[:race])
     Session.new(:driver_id => driver.try(:id), :track_id => track.try(:id), :race_id => race.try(:id), :session_type => params[:type])
