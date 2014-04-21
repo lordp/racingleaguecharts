@@ -4,6 +4,10 @@ class SayWhat::UsersController < ApplicationController
     @users = User.order(:email)
   end
 
+  def show
+    @user = User.find(params[:id].to_i)
+  end
+
   def new
     @user = User.new
   end
