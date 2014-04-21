@@ -29,6 +29,9 @@ Virtualwdc::Application.routes.draw do
     member do
       get 'chart'
     end
+    collection do
+      get 'without_sessions'
+    end
   end
 
   resources :sessions do

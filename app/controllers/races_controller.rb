@@ -19,6 +19,13 @@ class RacesController < ApplicationController
     @compare = Race.find(params[:compare].to_i) if params[:compare]
   end
 
+  def without_sessions
+    @races = Race.includes(:sessions).where('sessions.id is null').where('name is not null').collect { |r| [r.id, r.full_name] }
+    respond_to do |format|
+      format.json { render :json => @races }
+    end
+  end
+
   private
 
     def find_race

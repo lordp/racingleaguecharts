@@ -5,6 +5,18 @@
   <%= render(:partial => 'form', :locals => { :f => f }) %>
 
   <div class="form-group">
+    <%= f.label :token, 'Auth Token' %>
+    <span class="glyphicon glyphicon-question-sign help-popover" data-container="body" data-toggle="popover" data-placement="right" data-content="This token is used to authenticate you in the app."></span>
+    <%= f.text_field :token, :class => 'form-control', :readonly => true %>
+    <div class="checkbox">
+      <%= f.label(:regenerate_token) do %>
+        <%= f.check_box(:regenerate_token) %> Regenerate Token
+      <% end %>
+      <span class="glyphicon glyphicon-question-sign help-popover" data-container="body" data-toggle="popover" data-placement="right" data-content="WARNING: If you do this, you will need to update the app with the new value."></span>
+    </div>
+  </div>
+
+  <div class="form-group">
     <%= f.label(:driver_ids, 'Claimed Drivers') %>
     <%= f.select(:driver_ids, options_from_collection_for_select(Driver.unclaimed? + @user.drivers, "id", "name", @user.driver_ids), { }, { :multiple => true, :class => 'form-control select2' }) %>
   </div>
