@@ -1,5 +1,5 @@
 set :application, 'virtualwdc'
-set :repo_url, 'git@github.com:lordp/virtualwdc.git'
+set :repo_url, 'git@github.com:lordp/racingleaguecharts.git'
 
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }
 
