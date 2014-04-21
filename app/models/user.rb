@@ -3,7 +3,8 @@ class User < ActiveRecord::Base
   attr_accessible :email, :password, :password_confirmation, :driver_ids, :token, :regenerate_token
   attr_accessor :regenerate_token
 
-  validates_uniqueness_of :email, :token
+  validates_uniqueness_of :email
+  validates_uniqueness_of :token, :allow_blank => true
 
   has_many :driver_users
   has_many :drivers, :through => :driver_users
