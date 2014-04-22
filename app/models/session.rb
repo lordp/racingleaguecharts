@@ -8,6 +8,9 @@ class Session < ActiveRecord::Base
   belongs_to :driver
   belongs_to :race
 
+  SESSION_TYPE_TIME_TRIAL = 10.0
+  SESSION_TYPE_QUALIFYING = 170.0
+
   def name
     "#{driver.try(:name)} on #{track.try(:name)} at #{created_at}"
   end
@@ -65,7 +68,11 @@ class Session < ActiveRecord::Base
   def self.register(params)
     driver = Driver.name_and_token(params[:driver], params[:token])
     track = Track.find_or_create_by_length(params[:track])
-    race = Race.find(params[:race])
+    if [SESSION_TYPE_QUALIFYING, SESSION_TYPE_TIME_TRIAL].include?(params[:type])
+      race = nil
+    else
+      race = Race.find(params[:race])
+    end
     Session.new(:driver_id => driver.try(:id), :track_id => track.try(:id), :race_id => race.try(:id), :session_type => params[:type])
   end
 
