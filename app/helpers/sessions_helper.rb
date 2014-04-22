@@ -11,7 +11,9 @@ module SessionsHelper
       :time => time_link(session, race),
       :laps => session.laps.size,
       :weather => session.is_dry ? 'Dry' : 'Wet',
-      :points => Race::POINTS[index] || 0
+      :points => Race::POINTS[index] || 0,
+      :total => nice_time(session.total_time),
+      :average_lap => nice_time(session.average_lap)
     }
     if race.nil?
       show = parts.select { |key| [:driver, :race, :track, :laps].include?(key) }
@@ -19,7 +21,7 @@ module SessionsHelper
       if race.time_trial
         show = parts.select { |key| [:driver, :time, :weather, :points].include?(key) }
       else
-        show = parts.select { |key| [:driver, :laps].include?(key) }
+        show = parts.select { |key| [:driver, :laps, :total, :average_lap].include?(key) }
       end
     end
 
