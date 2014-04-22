@@ -16,7 +16,7 @@ module SessionsHelper
       :average_lap => nice_time(session.average_lap)
     }
     if race.nil?
-      show = parts.select { |key| [:driver, :race, :track, :laps].include?(key) }
+      show = parts.select { |key| [:driver, :track, :laps].include?(key) }
     else
       if race.time_trial
         show = parts.select { |key| [:driver, :time, :weather, :points].include?(key) }
