@@ -26,7 +26,7 @@ module SessionsHelper
     end
 
     show.map do |key, value|
-      "#{content_tag('strong', "#{key.capitalize}:")} #{value}"
+      "#{content_tag('strong', "#{key.to_s.titleize}:")} #{value}"
     end.join(', ').html_safe
   end
 
