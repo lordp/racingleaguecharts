@@ -5,9 +5,9 @@
   <%= render(:partial => 'form', :locals => { :f => f }) %>
 
   <div class="form-group">
-    <%= f.label :token, 'Auth Token' %>
+    <%= f.label :token, 'Auth Token:' %>
+    <span><%= @user.token %></span>
     <span class="glyphicon glyphicon-question-sign help-popover" data-container="body" data-toggle="popover" data-placement="right" data-content="This token is used to authenticate you in the app."></span>
-    <%= f.text_field :token, :class => 'form-control', :readonly => true %>
     <div class="checkbox">
       <%= f.label(:regenerate_token) do %>
         <%= f.check_box(:regenerate_token) %> Regenerate Token
