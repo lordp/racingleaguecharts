@@ -7,12 +7,12 @@
   <div class="form-group">
     <%= f.label :token, 'Auth Token:' %>
     <span><%= @user.token %></span>
-    <span class="glyphicon glyphicon-question-sign help-popover" data-container="body" data-toggle="popover" data-placement="right" data-content="This token is used to authenticate you in the app."></span>
+    <%= display_help('This token is used to authenticate you in the app.') %>
     <div class="checkbox">
       <%= f.label(:regenerate_token) do %>
         <%= f.check_box(:regenerate_token) %> Regenerate Token
       <% end %>
-      <span class="glyphicon glyphicon-question-sign help-popover" data-container="body" data-toggle="popover" data-placement="right" data-content="WARNING: If you do this, you will need to update the app with the new value."></span>
+      <%= display_help('WARNING: If you do this, you will need to update the app with the new value.') %>
     </div>
   </div>
 

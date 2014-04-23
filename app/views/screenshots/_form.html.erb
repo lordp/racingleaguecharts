@@ -1,7 +1,8 @@
 <div>
   <div class="pull-left" style="margin-right: 10px">
     <div class="form-group">
-      <%= f.label(:parsed, @screenshot.fia? ? "Lap Times" : "Parsed") %>  <span class="glyphicon glyphicon-question-sign help-popover" data-container="body" data-toggle="popover" data-placement="right" data-content="<%= screenshot_popover_content(@screenshot) %>"></span>
+      <%= f.label(:parsed, @screenshot.fia? ? "Lap Times" : "Parsed") %>
+      <%= display_help(screenshot_popover_content(@screenshot)) %>
       <div style="border: solid 1px #000;">
       <%= f.text_area(:parsed, :class => 'form-control', :placeholder => 'Parsed Text') %>
       </div>
@@ -11,7 +12,7 @@
       <%= f.label(:confirmed) do %>
         <%= f.check_box(:confirmed, { :disabled => !@screenshot.fia? && (@screenshot.image.nil? || @screenshot.parsed.blank?) }) %> Lap times are correct?
       <% end %>
-      <span class="glyphicon glyphicon-question-sign help-popover" data-container="body" data-toggle="popover" data-placement="right" data-content="This lets the site know that you believe the lap times are correct and to generate individual lap records. There is no way to confirm the truth of this, please be honest :)"></span>
+      <%= display_help('This lets the site know that you believe the lap times are correct and to generate individual lap records. There is no way to confirm the truth of this, please be honest :)') %>
     </div>
 
     <div class="form-group">

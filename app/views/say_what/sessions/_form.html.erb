@@ -12,7 +12,7 @@
   <%= f.label(:winner) do %>
     <%= f.check_box(:winner) %> Winner of the race?
   <% end %>
-  <span class="glyphicon glyphicon-question-sign help-popover" data-container="body" data-toggle="popover" data-placement="right" data-content="This is primarily used for the gaps chart"></span>
+  <%= display_help('This is primarily used for the gaps chart') %>
 </div>
 
 <div class="form-group">
@@ -21,7 +21,8 @@
 </div>
 
 <div class="form-group">
-  <%= f.label(:image, "Screenshots") %>  <span class="glyphicon glyphicon-question-sign help-popover" data-container="body" data-toggle="popover" data-placement="right" data-content="Multiple screenshots can be selected and are uploaded in the background. Once the progress bar has turned green for all screenshots, it is safe to save the session."></span>
+  <%= f.label(:image, "Screenshots") %>
+  <%= display_help('Multiple screenshots can be selected and are uploaded in the background. Once the progress bar has turned green for all screenshots, it is safe to save the session.') %>
   <%= hidden_field_tag('session[screenshot_ids]', @session.screenshot_ids.join(',')) %>
   <%= f.file_field(:image, :multiple => true, :name => "screenshot[image]") %>
   <ul id="screenshots">

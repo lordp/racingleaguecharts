@@ -121,4 +121,8 @@ module ApplicationHelper
     end
   end
 
+  def display_help(msg)
+    content_tag('span', '', :class => 'glyphicon glyphicon-question-sign help-popover', :data => { :container => 'body', :toggle => 'popover', :placement => 'right', :content => msg })
+  end
+
 end
