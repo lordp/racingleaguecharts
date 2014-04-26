@@ -301,10 +301,8 @@ $(function () {
     // Initialise the show/hide links
     update_show_hide_links();
 
-    var data = race.laps;
-
     // Loop through each driver
-    $.each(data, function (j, driver) {
+    $.each(race.laps, function (j, driver) {
       driver.data = [];
       // Loop through each lap
       $.each(driver.laps, function (i, lap) {
@@ -368,13 +366,13 @@ $(function () {
 
       // Determine the average time for the winner (first array value)
       var winner_laps = [];
-      $.each(data[0].laps, function (i, lap) {
+      $.each(race.laps[0].laps, function (i, lap) {
         winner_laps.push(lap);
       });
       var winner_average = array_sum(winner_laps) / winner_laps.length;
 
       // Figure out the gaps between each driver and the winning time
-      $.each(data, function (i, driver) {
+      $.each(race.laps, function (i, driver) {
         driver.data = [];
         driver.average = [];
         $.each(driver.laps, function (i, lap) {
@@ -414,7 +412,7 @@ $(function () {
       // Third charts - lap by lap time differences
       options.chart.type = 'column';
       options.series = [];
-      $.each(data, function (i, driver) {
+      $.each(race.laps, function (i, driver) {
         var prev_lap = 0;
         driver.data = [];
         $.each(driver.laps, function (i, lap) {
@@ -442,11 +440,11 @@ $(function () {
     }
 
     // Fuel chart
-    if (data[0].fuel.length > 0) {
+    if (race.laps[0].fuel.length > 0) {
       options.title.text = 'Fuel usage';
       options.chart.type = 'spline';
       options.series = [];
-      $.each(data, function (i, driver) {
+      $.each(race.laps, function (i, driver) {
         options.series.push({ name: driver.name, data: driver.fuel });
       });
 
@@ -457,11 +455,11 @@ $(function () {
     }
 
     // 4th charts - various Bar charts
-    if (data[0].sector1.length > 0) {
+    if (race.laps[0].sector1.length > 0) {
       set_bar_chart_options(options);
 
       var sectors = [[], [], []];
-      $.each(data, function (i, driver) {
+      $.each(race.laps, function (i, driver) {
         sectors[0].push(fastest_sector_time(driver, 1));
         sectors[1].push(fastest_sector_time(driver, 2));
         sectors[2].push(fastest_sector_time(driver, 3));
@@ -473,7 +471,7 @@ $(function () {
         "sector3": {},
         "total": 0
       };
-      var fl = "Fastest Lap (" + data[fastest_overall_lap.driver].name + ")";
+      var fl = "Fastest Lap (" + race.laps[fastest_overall_lap.driver].name + ")";
       $.each(sectors, function(i, sector) {
         var sorted = sector.sort(sort_sector);
         var data = [];
