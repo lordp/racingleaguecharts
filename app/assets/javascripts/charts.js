@@ -568,20 +568,25 @@ $(function () {
     }
 
     // Top speed chart
-    options.title.text = 'Speed trap';
-    options.series = [];
-    var speed = [];
-    laps = [];
-    cats = [];
-    $.each(race.laps.sort(sort_speed), function(index, lap) {
-      speed.push(lap.speed[1]);
-      laps.push(lap.speed[0]);
-      cats.push(lap.name);
-    });
-    options.series = [{ data: speed, laps: laps }];
-    options.xAxis.categories = cats;
-    options.plotOptions.bar.dataLabels.formatter = speed_graph_formatter;
-    options.chart.renderTo = 'container-speed';
-    new Highcharts.Chart(options);
+    if (race.laps[0].speed.length > 0) {
+      options.title.text = 'Speed trap';
+      options.series = [];
+      var speed = [];
+      laps = [];
+      cats = [];
+      $.each(race.laps.sort(sort_speed), function (index, lap) {
+        speed.push(lap.speed[1]);
+        laps.push(lap.speed[0]);
+        cats.push(lap.name);
+      });
+      options.series = [{ data: speed, laps: laps }];
+      options.xAxis.categories = cats;
+      options.plotOptions.bar.dataLabels.formatter = speed_graph_formatter;
+      options.chart.renderTo = 'container-speed';
+      new Highcharts.Chart(options);
+    }
+    else {
+      $('#tab-speed').hide();
+    }
   }
 });
