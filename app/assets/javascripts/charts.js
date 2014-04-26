@@ -9,11 +9,12 @@ function array_sum(array) {
 
 function convert_seconds_to_lap(seconds, include_micro) {
   var t1 = Math.floor(seconds / 60);
+  var t2;
   if (include_micro) {
-    var t2 = (seconds % 60).toFixed(3);
+    t2 = (seconds % 60).toFixed(3);
   }
   else {
-    var t2 = (seconds % 60).toFixed(0);
+    t2 = (seconds % 60).toFixed(0);
   }
   return t1 + ":" + (t2 < 10 ? "0" + t2 : t2);
 }
@@ -27,8 +28,8 @@ function pace_graph_formatter() {
 }
 
 function speed_graph_formatter() {
-  k = (this.y * 3.6).toFixed(3);
-  m = (this.y * 2.23694).toFixed(3);
+  var k = (this.y * 3.6).toFixed(3);
+  var m = (this.y * 2.23694).toFixed(3);
   return k + " kmh / " + m + " mph / lap " + this.series.options.laps[this.point.x];
 }
 
@@ -141,8 +142,8 @@ function sort_speed(a, b) {
 }
 
 function manage_params(adding, name) {
-  show = params.show ? params.show.split(',') : [];
-  hide = params.hide ? params.hide.split(',') : [];
+  var show = params.show ? params.show.split(',') : [];
+  var hide = params.hide ? params.hide.split(',') : [];
 
   if (adding) {
     show.push(name);
@@ -258,32 +259,26 @@ $(function () {
     // Pre-fill the show/hide parameter if applicable
     if (!params.show) {
       if (params.hide) {
-        params.show = $.map(race.laps, function(driver, index) {
-          if ($.inArray(driver.name, params.hide.split(',')) >= 0) {
-            return;
-          }
-          else {
+        params.show = $.map(race.laps, function(driver) {
+          if ($.inArray(driver.name, params.hide.split(',')) < 0) {
             return driver.name;
           }
         }).join(',');
       }
       else {
-        params.show = $.map(race.laps, function(driver, index) { return driver.name }).join(',');
+        params.show = $.map(race.laps, function(driver) { return driver.name }).join(',');
       }
     }
     else {
       if (!params.hide) {
-        params.hide = $.map(race.laps, function(driver, index) {
-          if ($.inArray(driver.name, params.show.split(',')) >= 0) {
-            return;
-          }
-          else {
+        params.hide = $.map(race.laps, function(driver) {
+          if ($.inArray(driver.name, params.show.split(',')) < 0) {
             return driver.name;
           }
         }).join(',');
       }
       else {
-        params.hide = $.map(race.laps, function(driver, index) { return driver.name }).join(',');
+        params.hide = $.map(race.laps, function(driver) { return driver.name }).join(',');
       }
     }
 
@@ -541,7 +536,7 @@ $(function () {
         pace.top80.push({ name: driver.name, avg: array_sum(driver.laps.sort(sort_compare).slice(0, l80)) / l80 });
       });
 
-      for (p in pace) {
+      for (var p in pace) {
         var n = p.substring(3);
 
         var laps = [];
