@@ -516,7 +516,12 @@ $(function () {
         $("#tb-" + i + "-driver").html(tb["sector" + i].driver);
         $("#tb-" + i + "-time").html(tb["sector" + i].time);
       }
-      $("#tb-total").html(convert_seconds_to_lap(tb["total"].toFixed(3), true) + " (" + parseFloat(fastest_overall_lap.time - tb["total"]).toFixed(3) + " faster)");
+      var tb_total = convert_seconds_to_lap(tb["total"].toFixed(3), true);
+      var tb_diff = parseFloat(fastest_overall_lap.time - tb["total"]).toFixed(3);
+      if (tb_diff > 0) {
+        tb_total += " (" + tb_diff + " faster)";
+      }
+      $("#tb-total").html(tb_total);
 
       // Pace charts - top 15, 50 and 80% lap times, averaged out per driver
       options.plotOptions.bar.dataLabels.formatter = pace_graph_formatter;
