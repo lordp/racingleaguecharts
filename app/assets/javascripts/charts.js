@@ -547,7 +547,10 @@ $(function () {
         var laps = [];
         var cats = [];
 
+        var lowest_pace = 999;
+
         $.each(pace[p].sort(sort_pace), function(i, driver) {
+          lowest_pace = (lowest_pace > driver.avg ? driver.avg : lowest_pace);
           laps.push(driver.avg);
           cats.push(driver.name);
         });
@@ -556,7 +559,7 @@ $(function () {
         options.chart.renderTo = 'container-pace-' + n;
         options.series = [{ data: laps }];
         options.xAxis.categories = cats;
-        options.yAxis.min = options.series[0].data[0] - 10;
+        options.yAxis.min = Math.floor(lowest_pace - 1);
 
         new Highcharts.Chart(options);
       }
@@ -574,7 +577,9 @@ $(function () {
       var speed = [];
       laps = [];
       cats = [];
+      var lowest_speed = 999;
       $.each(race.laps.sort(sort_speed), function (index, lap) {
+        lowest_speed = (lowest_speed > lap.speed[1] ? lap.speed[1] : lowest_speed);
         speed.push(lap.speed[1]);
         laps.push(lap.speed[0]);
         cats.push(lap.name);
@@ -583,6 +588,7 @@ $(function () {
       options.xAxis.categories = cats;
       options.plotOptions.bar.dataLabels.formatter = speed_graph_formatter;
       options.chart.renderTo = 'container-speed';
+      options.yAxis.min = Math.floor(lowest_speed - 1);
       new Highcharts.Chart(options);
     }
     else {
