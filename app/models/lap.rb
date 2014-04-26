@@ -44,4 +44,8 @@ class Lap < ActiveRecord::Base
     ll ? ll - self.position : 0
   end
 
+  def nice_top_speed
+    [self.lap_number, self.speed.to_f.round(3)]
+  end
+
 end

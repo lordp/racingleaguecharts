@@ -28,7 +28,7 @@ class Session < ActiveRecord::Base
   end
 
   def top_speed
-    (laps.order(:speed).last.speed * 3.6).round(3)
+    laps.order(:speed).last
   end
 
   def total_time
