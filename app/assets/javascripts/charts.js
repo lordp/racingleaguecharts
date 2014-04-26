@@ -183,6 +183,7 @@ function set_bar_chart_options(options) {
   options.plotOptions.bar = {
     dataLabels: {
       enabled: true,
+      padding: 10,
       align: 'right',
       color: 'white',
       style: {
