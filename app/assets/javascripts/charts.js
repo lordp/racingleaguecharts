@@ -488,22 +488,18 @@ $(function () {
 
         tb["sector" + parseInt(i + 1)] = { "time": data[0], "driver": cats[0] };
 
-        data.unshift(fastest_overall_lap.sectors[i]);
-        cats.unshift(fl);
-        laps.unshift(fastest_overall_lap.lap + 1);
-
         options.series = [{ data: data, laps: laps }];
 
-        options.plotOptions.series.stacking = 'normal';
         options.xAxis.categories = cats;
         options.yAxis.min = Math.floor(data[0] - 1.5);
         options.title.text = 'Sector ' + (i + 1) + ' - Fastest Times';
         options.chart.renderTo = 'container-sectors-sector' + (i + 1);
 
-        var chart = new Highcharts.Chart(options);
-        chart.series[0].data[0].graphic.attr({
-          fill: '#FF0000'
-        });
+        data.unshift({ y: fastest_overall_lap.sectors[i], color: 'red' });
+        cats.unshift(fl);
+        laps.unshift(fastest_overall_lap.lap + 1);
+
+        new Highcharts.Chart(options);
 
         // Sector average charts
         var averages = avgs.sort(sort_sector);
