@@ -26,6 +26,12 @@ function pace_graph_formatter() {
   return convert_seconds_to_lap(this.y, true);
 }
 
+function speed_graph_formatter() {
+  k = (this.y * 3.6).toFixed(3);
+  m = (this.y * 2.23694).toFixed(3);
+  return k + " kmh / " + m + " mph / lap " + this.series.options.laps[this.point.x];
+}
+
 // The tooltip formatter for the first graph (laps)
 function graph_one_formatter() {
   var s = '<b>Lap ' + this.x + '</b>';
@@ -128,6 +134,10 @@ function sort_compare(a, b) {
 
 function sort_pace(a, b) {
   return a.avg == b.avg ? 0 : a.avg < b.avg ? -1 : 1
+}
+
+function sort_speed(a, b) {
+  return a.speed[1] == b.speed[1] ? 0 : a.speed[1] < b.speed[1] ? 1 : -1
 }
 
 function manage_params(adding, name) {
@@ -561,5 +571,22 @@ $(function () {
       $('#tab-sectors').hide();
       $('#tab-pace').hide();
     }
+
+    // Top speed chart
+    options.title.text = 'Speed trap';
+    options.series = [];
+    var speed = [];
+    laps = [];
+    cats = [];
+    $.each(race.laps.sort(sort_speed), function(index, lap) {
+      speed.push(lap.speed[1]);
+      laps.push(lap.speed[0]);
+      cats.push(lap.name);
+    });
+    options.series = [{ data: speed, laps: laps }];
+    options.xAxis.categories = cats;
+    options.plotOptions.bar.dataLabels.formatter = speed_graph_formatter;
+    options.chart.renderTo = 'container-speed';
+    new Highcharts.Chart(options);
   }
 });
