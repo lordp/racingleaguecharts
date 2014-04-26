@@ -4,7 +4,7 @@ class RacesController < ApplicationController
   before_filter :menu, :only => [ :show, :index, :chart ]
 
   def index
-    @races = Race.all
+    @races = Race.order(:created_at).page(params[:page].to_i).per(15)
   end
 
   def show
