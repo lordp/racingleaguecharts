@@ -100,7 +100,7 @@ module ApplicationHelper
     unless obj.send(field).nil?
       case field
         when 'speed'
-          (obj.send(field) * 3.6).round(3)
+          "#{(obj.send(field) * 3.6).round(3)} kph / #{(obj.send(field) * 2.23694).round(3)} mph"
         when 'fuel'
           delta = obj.send("#{field}_delta").round(3)
           value = "#{obj.send(field).round(3)}"
