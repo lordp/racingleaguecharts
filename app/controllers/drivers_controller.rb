@@ -7,7 +7,7 @@ class DriversController < ApplicationController
     @drivers = Driver.order(:name)
     respond_to do |format|
       format.html
-      format.json { render :json => @drivers.includes(:user).where('users.token = ?', params[:token]).collect(&:name).compact }
+      format.json { render :json => { :drivers => @drivers.includes(:user).where('users.token = ?', params[:token]).collect(&:name).compact } }
     end
   end
 
