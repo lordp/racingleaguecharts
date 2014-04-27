@@ -4,7 +4,7 @@
 </div>
 <div class="form-group">
   <%= f.label :password %>
-  <%= display_help('Only enter your password here if you wish to change it.') %>
+  <%= display_help('Only enter your password here if you wish to change it.') unless @user.new_record? %>
   <%= f.password_field :password, :class => 'form-control' %>
 </div>
 <div class="form-group">
