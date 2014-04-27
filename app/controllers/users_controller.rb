@@ -20,8 +20,9 @@ class UsersController < ApplicationController
   end
 
   def update
-    if current_user.update_attributes(params[:user])
-      redirect_to(edit_user_path(current_user), :notice => 'User details updated')
+    @user = current_user
+    if @user.update_attributes(params[:user])
+      redirect_to(edit_user_path(@user), :notice => 'User details updated')
     else
       render('edit')
     end
