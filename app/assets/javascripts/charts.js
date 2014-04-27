@@ -138,7 +138,7 @@ function sort_pace(a, b) {
 }
 
 function sort_speed(a, b) {
-  return a.speed[1] == b.speed[1] ? 0 : a.speed[1] < b.speed[1] ? 1 : -1
+  return a.speed == b.speed ? 0 : a.speed < b.speed ? 1 : -1
 }
 
 function manage_params(adding, name) {
@@ -578,11 +578,12 @@ $(function () {
       laps = [];
       cats = [];
       var lowest_speed = 999;
-      $.each(race.laps.sort(sort_speed), function (index, lap) {
-        lowest_speed = (lowest_speed > lap.speed[1] ? lap.speed[1] : lowest_speed);
-        speed.push(lap.speed[1]);
-        laps.push(lap.speed[0]);
-        cats.push(lap.name);
+      var speed_data = $.map(race.laps, function(l, i) { if (l.speed[0]) { return { name: l.name, lap: l.speed[0], speed: l.speed[1] } }});
+      $.each(speed_data.sort(sort_speed), function (index, data) {
+        lowest_speed = (lowest_speed > data.speed ? data.speed : lowest_speed);
+        speed.push(data.speed);
+        laps.push(data.lap);
+        cats.push(data.name);
       });
       options.series = [{ data: speed, laps: laps }];
       options.xAxis.categories = cats;
