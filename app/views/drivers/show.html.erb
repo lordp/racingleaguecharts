@@ -1,13 +1,4 @@
 <h1><%= @driver.claimed? %></h1>
-<% if @driver.name.blank? && @driver.ip == request.env["HTTP_X_FORWARDED_FOR"] %>
-  <p>This driver's ip address matches yours - if this is you, enter a name and claim it.</p>
-  <%= form_for(@driver, :url => driver_claim_path(@driver), :method => :put) do |f| %>
-    <%= f.label(:name) %>
-    <%= f.text_field(:name) %>
-
-    <p><%= f.submit('Claim it!') %></p>
-  <% end %>
-<% end %>
 
 <h2>Sessions</h2>
 <%= paginate @sessions %>
