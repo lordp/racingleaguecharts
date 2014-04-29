@@ -28,6 +28,7 @@ Virtualwdc::Application.routes.draw do
     resources :sessions
     member do
       get 'chart'
+      get 'livetiming'
     end
     collection do
       get 'without_sessions'

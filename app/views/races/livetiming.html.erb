@@ -1,0 +1,20 @@
+<script type="text/javascript" src="<%= request.protocol %><%= request.host %>:3001/faye/client.js"></script>
+<ol class="breadcrumb">
+  <%= breadcrumb(@race, false) %>
+</ol>
+<h1><%= @race.name %></h1>
+<table class="table table-bordered livetiming">
+  <thead>
+    <tr>
+      <th>Position</th>
+      <th>Driver</th>
+      <th>Lap</th>
+      <th>Sector 1</th>
+      <th>Sector 2</th>
+      <th>Sector 3</th>
+      <th>Total</th>
+    </tr>
+  </thead>
+  <tbody>
+  </tbody>
+</table>

@@ -1,6 +1,6 @@
 class RacesController < ApplicationController
 
-  before_filter :find_race, :only => [ :show, :chart ]
+  before_filter :find_race, :only => [ :show, :chart, :livetiming ]
   before_filter :menu, :only => [ :show, :index, :chart ]
 
   def index
@@ -24,6 +24,9 @@ class RacesController < ApplicationController
     respond_to do |format|
       format.json { render :json => @races }
     end
+  end
+
+  def livetiming
   end
 
   private
