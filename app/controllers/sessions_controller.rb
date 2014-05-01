@@ -21,6 +21,7 @@ class SessionsController < ApplicationController
     respond_to do |format|
       if @session.save
         format.json { render :json => { :session_id => @session.id } }
+        format.xml { render :xml => { :session_id => @session.id }.to_xml(:root => 'racingleaguecharts') }
       else
         format.json { render json: @session.errors, status: :unprocessable_entity }
       end

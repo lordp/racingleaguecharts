@@ -15,6 +15,7 @@ class LapsController < ApplicationController
     respond_to do |format|
       if lap.save
         format.json { render :json => { :lap_id => lap.id } }
+        format.xml { render :xml => { :lap_id => lap.id }.to_xml(:root => 'racingleaguecharts') }
       else
         format.json { render json: @lap.errors, status: :unprocessable_entity }
       end

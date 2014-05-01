@@ -5,9 +5,11 @@ class DriversController < ApplicationController
 
   def index
     @drivers = Driver.order(:name)
+    @drivers_api = { :drivers => @drivers.includes(:user).where('users.token = ?', params[:token]).collect(&:name).compact }
     respond_to do |format|
       format.html
-      format.json { render :json => { :drivers => @drivers.includes(:user).where('users.token = ?', params[:token]).collect(&:name).compact } }
+      format.json { render :json => @drivers_api }
+      format.xml { render :xml => @drivers_api.to_xml(:root => 'racingleaguecharts') }
     end
   end
 
