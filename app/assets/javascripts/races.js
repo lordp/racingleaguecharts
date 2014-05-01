@@ -16,6 +16,7 @@ $(function() {
     });
   });
 
+  /*
   var client = new Faye.Client(location.protocol + '//' + location.hostname + ':3001/faye');
   client.subscribe('/livetiming', update_livetiming);
 
@@ -55,4 +56,5 @@ $(function() {
       }
     }
   }
+  */
 });
