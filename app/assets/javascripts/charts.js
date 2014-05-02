@@ -141,9 +141,11 @@ function sort_speed(a, b) {
   return a.speed == b.speed ? 0 : a.speed < b.speed ? 1 : -1
 }
 
-function manage_params(adding, name) {
+function manage_params(target) {
   var show = params.show ? params.show.split(',') : [];
   var hide = params.hide ? params.hide.split(',') : [];
+  var adding = !target.visible;
+  var name = target.name;
 
   if (adding) {
     show.push(name);
@@ -171,12 +173,15 @@ function manage_params(adding, name) {
     }
   });
 
-  update_show_hide_links();
+  update_show_hide_links(target.chart.container.parentNode.id.replace('container-', ''));
 }
 
-function update_show_hide_links() {
-  $('#show_chart').attr('href', '?tab=' + params.tab + (params.show ? '&show=' + params.show : '') + (params.compare ? '&compare=' + params.compare : ''));
-  $('#hide_chart').attr('href', '?tab=' + params.tab + (params.hide ? '&hide=' + params.hide : '') + (params.compare ? '&compare=' + params.compare : ''));
+function update_show_hide_links(tab) {
+  if (!tab) {
+    tab = params.tab;
+  }
+  $('#show_chart_' + tab).attr('href', '?tab=' + params.tab + (params.show ? '&show=' + params.show : '') + (params.compare ? '&compare=' + params.compare : ''));
+  $('#hide_chart_' + tab).attr('href', '?tab=' + params.tab + (params.hide ? '&hide=' + params.hide : '') + (params.compare ? '&compare=' + params.compare : ''));
 }
 
 function set_bar_chart_options(options) {
@@ -217,12 +222,7 @@ var options = {
       pointStart: 1,
       events: {
         legendItemClick: function(e) {
-          if (e.currentTarget.visible == true) {
-            manage_params(false, e.currentTarget.name);
-          }
-          else {
-            manage_params(true, e.currentTarget.name);
-          }
+          manage_params(e.currentTarget);
         }
       }
     }
@@ -287,7 +287,7 @@ $(function () {
       $('li.active').removeClass('active').parent().children().children('a#tab-' + params.tab).parent().addClass('active');
 
       $('.tab-pane').removeClass('active');
-      $('#container-' + params.tab).addClass('active');
+      $('#container-' + params.tab + '-parent').addClass('active');
     }
     else {
       params.tab = 'laps';
@@ -494,6 +494,10 @@ $(function () {
         cats.unshift(fl);
         laps.unshift(fastest_overall_lap.lap + 1);
 
+        if (race.laps.length > 16) {
+          $("#" + options.chart.renderTo).css('height', 1100);
+        }
+
         new Highcharts.Chart(options);
 
         // Sector average charts
@@ -507,6 +511,10 @@ $(function () {
         options.chart.renderTo = 'container-sectors-sector' + (i + 1) + '-average';
         options.series = [{ data: avgs }];
         options.xAxis.categories = average_cats;
+
+        if (race.laps.length > 16) {
+          $("#" + options.chart.renderTo).css('height', 1100);
+        }
 
         new Highcharts.Chart(options);
       });
@@ -560,6 +568,10 @@ $(function () {
         options.series = [{ data: laps }];
         options.xAxis.categories = cats;
         options.yAxis.min = Math.floor(lowest_pace - 5);
+
+        if (race.laps.length > 16) {
+          $("#" + options.chart.renderTo).css('height', 1100);
+        }
 
         new Highcharts.Chart(options);
       }

@@ -37,12 +37,13 @@ $(function() {
   });
 
   $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-    var container = $($(e.target).attr('href'));
+    var href = $(e.target).attr('href');
+    var container = $(href.replace('-parent', ''));
     if (container.highcharts()) {
       container.highcharts().reflow();
     }
     if (params) {
-      params.tab = $(e.target).attr('href').replace('#container-', '');
+      params.tab = href.replace('-parent', '').replace('#container-', '');
       update_show_hide_links();
     }
   });

@@ -10,7 +10,12 @@ class RacesController < ApplicationController
     @race_sessions = if @race.time_trial
       @race.sessions.includes(:laps).order('laps.total')
     else
-      @race.sessions.sort_by { |s| [-s.laps.size, s.total_time] }
+      sessions = @race.sessions
+      if params[:compare]
+        sessions += Race.find(params[:compare].to_i).sessions
+      end
+
+      sessions.sort_by { |s| [-s.laps.size, s.total_time] }
     end
   end
 

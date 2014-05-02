@@ -1,9 +1,127 @@
+<script type="text/javascript">
+  var race = {
+    "time_trial": <%= @race.time_trial?.to_s %>,
+    "laps": [
+      <% @race_sessions.each do |session| %>
+      {
+        "name": "<%= session.driver.name %>",
+        "color": "<%= session.driver.colour unless @race.time_trial? %>",
+        "marker": { symbol: "<%= session.driver.marker unless @race.time_trial? %>" },
+        "laps": <%= session.laps.order(:lap_number).collect(&:total) %>,
+        "sector1": <%= session.laps.order(:lap_number).collect(&:sector_1).compact %>,
+        "sector2": <%= session.laps.order(:lap_number).collect(&:sector_2).compact %>,
+        "sector3": <%= session.laps.order(:lap_number).collect(&:sector_3).compact %>,
+        "fuel": <%= session.laps.order(:lap_number).where('fuel is not null').collect { |l| l.fuel.round(3).to_f }.compact %>,
+        "speed": <%= session.top_speed.nice_top_speed %>
+      },
+      <% end %>
+    ]
+  };
+</script>
+
 <ol class="breadcrumb">
   <%= breadcrumb(@race, true) %>
 </ol>
 <h1><%= @race.name %></h1>
-<h3><%= link_to('View Charts', chart_race_path(@race)) %></h3>
 
-<% @race_sessions.each_with_index do |session, index| %>
-  <%= render(:partial => 'sessions/session', :object => session, :locals => { :index => index }) %>
-<% end %>
+<ul class="nav nav-tabs">
+  <li class="active"><a id="tab-results" href="#container-results" data-toggle="tab">Results</a></li>
+  <li><a id="tab-laps" href="#container-laps-parent" data-toggle="tab">Laps</a></li>
+  <li><a id="tab-gaps" href="#container-gaps-parent" data-toggle="tab">Gaps</a></li>
+  <li><a id="tab-diffs" href="#container-diffs-parent" data-toggle="tab">Diffs</a></li>
+  <li><a id="tab-sectors" href="#container-sectors" data-toggle="tab">Sectors</a></li>
+  <li><a id="tab-pace" href="#container-pace" data-toggle="tab">Pace</a></li>
+  <li><a id="tab-fuel" href="#container-fuel-parent" data-toggle="tab">Fuel</a></li>
+  <li><a id="tab-speed" href="#container-speed-parent" data-toggle="tab">Speed</a></li>
+  <li><a id="tab-options" href="#container-options" data-toggle="tab">Compare</a></li>
+</ul>
+
+<div class="tab-content">
+  <div class="tab-pane active" id="container-results">
+    <table class="table">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Driver</th>
+          <th>Total Time</th>
+          <th>Fastest Lap</th>
+          <th>Gap</th>
+        </tr>
+      </thead>
+      <tbody>
+      <% @race_sessions.each_with_index do |session, index| %>
+        <tr>
+          <td><%= (index + 1).ordinalize %></td>
+          <td><%= session.driver.try(:name) %></td>
+          <td><%= nice_time(session.total_time) %></td>
+          <td><%= nice_time(session.fastest_lap.total) %></td>
+          <td><%= nice_gap(@race_sessions, session, index) %></td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+  <div class="tab-pane" id="container-laps-parent">
+    <%= render(:partial => 'chart_link_options', :locals => { :chart => 'laps' }) %>
+    <div class="chart" id="container-laps"></div>
+  </div>
+  <div class="tab-pane" id="container-gaps-parent">
+    <%= render(:partial => 'chart_link_options', :locals => { :chart => 'gaps' }) %>
+    <div class="chart" id="container-gaps"></div>
+  </div>
+  <div class="tab-pane" id="container-diffs-parent">
+    <%= render(:partial => 'chart_link_options', :locals => { :chart => 'diffs' }) %>
+    <div class="chart" id="container-diffs"></div>
+  </div>
+  <div class="tab-pane" id="container-sectors">
+    <%= render(:partial => 'chart_link_options', :locals => { :chart => 'sectors' }) %>
+    <div>
+      <div style="width: 510px; margin-left: 508px;">
+        <table class="table table-bordered table-condensed" style="margin:5px;">
+          <thead>
+          <tr>
+            <th>Sector</th>
+            <th>Driver</th>
+            <th>Sector Time</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr><td>1</td><td id="tb-1-driver"></td><td id="tb-1-time"></td></tr>
+          <tr><td>2</td><td id="tb-2-driver"></td><td id="tb-2-time"></td></tr>
+          <tr><td>3</td><td id="tb-3-driver"></td><td id="tb-3-time"></td></tr>
+          <tr><td></td><td>Total</td><td id="tb-total"></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div id="container-sectors-sector1" class="sectors"></div>
+      <div id="container-sectors-sector2" class="sectors"></div>
+      <div id="container-sectors-sector3" class="sectors"></div>
+    </div>
+    <div>
+      <div id="container-sectors-sector1-average" class="sectors"></div>
+      <div id="container-sectors-sector2-average" class="sectors"></div>
+      <div id="container-sectors-sector3-average" class="sectors"></div>
+    </div>
+  </div>
+  <div class="tab-pane" id="container-pace">
+    <%= render(:partial => 'chart_link_options', :locals => { :chart => 'pace' }) %>
+    <p class="well">These charts show each drivers average lap time over the top 15, 50 and 80 percent of the laps they completed. This attempts to show a better metric for driver speed/pace by effectively excluding out laps and big mistakes (thanks splendidtree!).</p>
+    <div id="container-pace-15" class="sectors"></div>
+    <div id="container-pace-50" class="sectors"></div>
+    <div id="container-pace-80" class="sectors"></div>
+  </div>
+  <div class="tab-pane" id="container-fuel-parent">
+    <%= render(:partial => 'chart_link_options', :locals => { :chart => 'fuel' }) %>
+    <div class="chart" id="container-fuel"></div>
+  </div>
+  <div class="tab-pane" id="container-speed-parent">
+    <%= render(:partial => 'chart_link_options', :locals => { :chart => 'speed' }) %>
+    <div class="chart" id="container-speed"></div>
+  </div>
+  <div class="tab-pane" id="container-options">
+    <div class="form-group">
+      <%= label_tag(:compare, 'Compare with other race') %><br/>
+      <%= select_tag(:compare, options_from_collection_for_select(Race.all, "id", "full_name", params[:compare] ? params[:compare].to_i : nil), { :class => 'form-control select2', :id => 'race_compare' }) %>
+    </div>
+  </div>
+</div>

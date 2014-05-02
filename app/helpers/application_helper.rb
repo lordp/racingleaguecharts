@@ -5,7 +5,7 @@ module ApplicationHelper
     nice = ""
     nice = "#{time.floor / 60}:" if time > 60
     mod = time % 60
-    "#{nice}#{mod < 10 ? '0' : ''}#{number_with_precision(mod, :precision => 3)}"
+    "#{nice}#{!nice.blank? && mod < 10 ? '0' : ''}#{number_with_precision(mod, :precision => 3)}"
   end
 
   def is_current?(obj, at_obj)
@@ -130,6 +130,17 @@ module ApplicationHelper
     ancestors = race.get_ancestors
     sym = obj.class.to_s.downcase.to_sym
     ancestors.has_key?(sym) && ancestors[sym] == obj.id ? "block" : "none"
+  end
+
+  def nice_gap(sessions, session, index)
+    if index > 0
+      if sessions[0].laps.count > session.laps.count
+        "+#{(sessions[0].laps.count - session.laps.count).abs} lap"
+      else
+        previous_session = sessions[index - 1]
+        "+#{nice_time((previous_session.total_time - session.total_time).abs)}"
+      end
+    end
   end
 
 end
