@@ -31,4 +31,8 @@ $(function() {
     window.location.assign(url);
   }
 
+  $('a.toggle').click(function (e) {
+    e.preventDefault();
+    $(this).next().toggle();
+  });
 });

@@ -9,100 +9,51 @@
 </head>
 <body>
 
-<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-  <div class="navbar-header">
-    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-      <span class="sr-only">Toggle navigation</span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-    </button>
-    <a class="navbar-brand" href="/">Racing League Charts</a>
-  </div>
-  <div class="navbar-collapse collapse">
-    <ul class="nav navbar-nav nav-default" id="nav">
-    <% unless admin_path %>
-      <% if @super_leagues %>
-      <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Leagues <strong class="caret"></strong></a>
-        <ul class="dropdown-menu" id="leagues">
+<div id="page-wrapper">
+  <div id="sidebar-wrapper">
+    <div class="brand">RACING<br/>LEAGUE<br/>CHARTS</div>
+    <div class="middle">
+      <ul class="nav nav-pills nav-stacked nav-list nav-list-1">
         <% @super_leagues.each do |super_league| %>
-          <li class="dropdown-header"><%= super_league.name %></li>
+        <li>
+          <%= link_to(super_league.name, '', :class => 'toggle') %>
+          <ul class="nav nav-pills nav-stacked nav-list nav-list-2" style="display: <%= expand_menu?(@race, super_league) %>;">
           <% super_league.leagues.each do |league| %>
-            <li class="<%= is_current?(league, @league) %>">
-              <%= link_to(league_path(league)) do %>
-                <%= league.name %>
+            <li>
+              <%= link_to(league.name, '', :class => 'toggle') %>
+              <ul class="nav nav-pills nav-stacked nav-list nav-list-3" style="display: <%= expand_menu?(@race, league) %>;">
+              <% league.seasons.each do |season| %>
+                <li>
+                  <%= link_to(season.name, '', :class => 'toggle') %>
+                  <ul class="nav nav-pills nav-stacked nav-list nav-list-4" style="display: <%= expand_menu?(@race, season) %>;">
+                    <% season.races.each do |race| %>
+                    <li class="<%= @race == race ? "active" : "" %>"><%= link_to(race.name, race_path(race)) %></li>
+                    <% end %>
+                  </ul>
+                </li>
               <% end %>
+              </ul>
             </li>
           <% end %>
-        <% end %>
-        </ul>
-      </li>
-      <% end %>
-      <% if @seasons %>
-      <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Seasons <strong class="caret"></strong></a>
-        <ul class="dropdown-menu" id="seasons">
-        <% @seasons.each do |season| %>
-          <li class="<%= is_current?(season, @season) %>">
-            <%= link_to(season_path(season)) do %>
-              <%= season.name %>
-            <% end %>
-          </li>
-        <% end %>
-        </ul>
-      </li>
-      <% end %>
-      <% if @races %>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Races <strong class="caret"></strong></a>
-          <ul class="dropdown-menu" id="races">
-            <% @races.each do |race| %>
-              <li class="<%= is_current?(race, @race) %>">
-                <%= link_to(race_path(race)) do %>
-                  <%= race.name %>
-                <% end %>
-              </li>
-            <% end %>
           </ul>
         </li>
       <% end %>
-    <% end %>
-    </ul>
-    <ul class="nav navbar-nav navbar-right" style="margin-right:1px">
-    <% if current_user %>
-      <li class="navbar-text">
-        Signed in as <%= link_to(current_user.email, edit_user_path(current_user), :class => 'no-padding-nav') %> | <%= link_to('Sign out', sign_out_users_path, :class => 'no-padding-nav') %>
-      </li>
-      <% if current_user.admin? %>
-      <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin <strong class="caret"></strong></a>
-        <ul class="dropdown-menu" id="admin">
-          <li><%= link_to('Super Leagues', say_what_super_leagues_path) %></li>
-          <li><%= link_to('Leagues', say_what_leagues_path) %></li>
-          <li><%= link_to('Seasons', say_what_seasons_path) %></li>
-          <li><%= link_to('Races', say_what_races_path) %></li>
-          <li><%= link_to('Sessions', say_what_sessions_path) %></li>
-          <li><%= link_to('Screenshots', say_what_screenshots_path) %></li>
-          <li><%= link_to('Laps', say_what_laps_path) %></li>
-          <li><%= link_to('Drivers', say_what_drivers_path) %></li>
-          <li><%= link_to('Tracks', say_what_tracks_path) %></li>
-          <li><%= link_to('Users', say_what_users_path) %></li>
-        </ul>
-      </li>
-      <% end %>
-    <% else %>
-      <li class="navbar-text"><%= link_to('Sign in', sign_in_users_path, :class => 'no-padding-nav') %> | <%= link_to('Sign up', sign_up_users_path, :class => 'no-padding-nav') %></li>
-    <% end %>
-    </ul>
+      </ul>
+    </div>
+    <div class="bottom">
+      <ul class="list-inline">
+        <li><%= link_to('Sign in', sign_in_users_path, :class => 'btn btn-success rlc-btn') %></li>
+        <li><%= link_to('Sign up', sign_up_users_path, :class => 'btn btn-primary rlc-btn') %></li>
+      </ul>
+    </div>
   </div>
-</div>
 
-<div id="wrapper">
-  <% flash.each do |name, msg| %>
-    <%= content_tag(:div, msg, :class => "alert #{bootstrap_alert(name)}") %>
-  <% end %>
-  <%= yield %>
+  <div id="page-content-wrapper">
+    <% flash.each do |name, msg| %>
+      <%= content_tag(:div, msg, :class => "alert #{bootstrap_alert(name)}") %>
+    <% end %>
+    <%= yield %>
+  </div>
 </div>
 
 </body>

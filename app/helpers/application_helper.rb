@@ -125,4 +125,11 @@ module ApplicationHelper
     content_tag('span', '', :class => 'glyphicon glyphicon-question-sign help-popover', :data => { :container => 'body', :toggle => 'popover', :placement => 'right', :content => msg })
   end
 
+  def expand_menu?(race, obj)
+    return "none" if race.nil?
+    ancestors = race.get_ancestors
+    sym = obj.class.to_s.downcase.to_sym
+    ancestors.has_key?(sym) && ancestors[sym] == obj.id ? "block" : "none"
+  end
+
 end

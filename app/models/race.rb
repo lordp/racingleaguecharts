@@ -169,4 +169,18 @@ class Race < ActiveRecord::Base
     end
     stats
   end
+
+  def get_ancestors
+    ancestors = {}
+    if season = self.season
+      ancestors[:season] = self.season_id
+      if league = season.league
+        ancestors[:league] = season.league_id
+        if league.super_league
+          ancestors[:superleague] = league.super_league_id
+        end
+      end
+    end
+    ancestors
+  end
 end
