@@ -35,4 +35,12 @@ $(function() {
     e.preventDefault();
     $(this).next().toggle();
   });
+
+  $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+    var container = $($(e.target).attr('href'));
+    if (container.highcharts()) {
+      container.highcharts().reflow();
+    }
+  })
+
 });
