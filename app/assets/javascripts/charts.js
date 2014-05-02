@@ -259,26 +259,26 @@ $(function () {
     // Pre-fill the show/hide parameter if applicable
     if (!params.show) {
       if (params.hide) {
-        params.show = $.map(race.laps, function(driver) {
+        params.show = $.map(race.sessions, function(driver) {
           if ($.inArray(driver.name, params.hide.split(',')) < 0) {
             return driver.name;
           }
         }).join(',');
       }
       else {
-        params.show = $.map(race.laps, function(driver) { return driver.name }).join(',');
+        params.show = $.map(race.sessions, function(driver) { return driver.name }).join(',');
       }
     }
     else {
       if (!params.hide) {
-        params.hide = $.map(race.laps, function(driver) {
+        params.hide = $.map(race.sessions, function(driver) {
           if ($.inArray(driver.name, params.show.split(',')) < 0) {
             return driver.name;
           }
         }).join(',');
       }
       else {
-        params.hide = $.map(race.laps, function(driver) { return driver.name }).join(',');
+        params.hide = $.map(race.sessions, function(driver) { return driver.name }).join(',');
       }
     }
 
@@ -297,7 +297,7 @@ $(function () {
     update_show_hide_links();
 
     // Loop through each driver
-    $.each(race.laps, function (j, driver) {
+    $.each(race.sessions, function (j, driver) {
       driver.data = [];
       // Loop through each lap
       $.each(driver.laps, function (i, lap) {
@@ -361,13 +361,13 @@ $(function () {
 
       // Determine the average time for the winner (first array value)
       var winner_laps = [];
-      $.each(race.laps[0].laps, function (i, lap) {
+      $.each(race.sessions[0].laps, function (i, lap) {
         winner_laps.push(lap);
       });
       var winner_average = array_sum(winner_laps) / winner_laps.length;
 
       // Figure out the gaps between each driver and the winning time
-      $.each(race.laps, function (i, driver) {
+      $.each(race.sessions, function (i, driver) {
         driver.data = [];
         driver.average = [];
         $.each(driver.laps, function (i, lap) {
@@ -407,7 +407,7 @@ $(function () {
       // Third charts - lap by lap time differences
       options.chart.type = 'column';
       options.series = [];
-      $.each(race.laps, function (i, driver) {
+      $.each(race.sessions, function (i, driver) {
         var prev_lap = 0;
         driver.data = [];
         $.each(driver.laps, function (i, lap) {
@@ -435,11 +435,11 @@ $(function () {
     }
 
     // Fuel chart
-    if (race.laps[0].fuel.length > 0) {
+    if (race.sessions[0].fuel.length > 0) {
       options.title.text = 'Fuel usage';
       options.chart.type = 'spline';
       options.series = [];
-      $.each(race.laps, function (i, driver) {
+      $.each(race.sessions, function (i, driver) {
         options.series.push({
           name: driver.name,
           data: driver.fuel,
@@ -456,11 +456,11 @@ $(function () {
     }
 
     // 4th charts - various Bar charts
-    if (race.laps[0].sector1.length > 0) {
+    if (race.sessions[0].sector1.length > 0) {
       set_bar_chart_options(options);
 
       var sectors = [[], [], []];
-      $.each(race.laps, function (i, driver) {
+      $.each(race.sessions, function (i, driver) {
         sectors[0].push(fastest_sector_time(driver, 1));
         sectors[1].push(fastest_sector_time(driver, 2));
         sectors[2].push(fastest_sector_time(driver, 3));
@@ -472,7 +472,7 @@ $(function () {
         "sector3": {},
         "total": 0
       };
-      var fl = "Fastest Lap (" + race.laps[fastest_overall_lap.driver].name + ")";
+      var fl = "Fastest Lap (" + race.sessions[fastest_overall_lap.driver].name + ")";
       $.each(sectors, function(i, sector) {
         var sorted = sector.sort(sort_sector);
         var data = [];
@@ -545,7 +545,7 @@ $(function () {
         top80: []
       };
 
-      $.each(race.laps, function(index, driver) {
+      $.each(race.sessions, function(index, driver) {
         var l15 = Math.ceil(driver.laps.length * 0.15);
         var l50 = Math.ceil(driver.laps.length * 0.50);
         var l80 = Math.ceil(driver.laps.length * 0.80);
@@ -589,14 +589,14 @@ $(function () {
     }
 
     // Top speed chart
-    if (race.laps[0].speed.length > 0) {
+    if (race.sessions[0].speed.length > 0) {
       options.title.text = 'Speed trap';
       options.series = [];
       var speed = [];
       laps = [];
       cats = [];
       var lowest_speed = 999;
-      var speed_data = $.map(race.laps, function(l, i) { if (l.speed[0]) { return { name: l.name, lap: l.speed[0], speed: l.speed[1] } }});
+      var speed_data = $.map(race.sessions, function(l, i) { if (l.speed[0]) { return { name: l.name, lap: l.speed[0], speed: l.speed[1] } }});
       $.each(speed_data.sort(sort_speed), function (index, data) {
         lowest_speed = (lowest_speed > data.speed ? data.speed : lowest_speed);
         speed.push(data.speed);

@@ -1,7 +1,7 @@
 <script type="text/javascript">
   var race = {
     "time_trial": <%= @race.time_trial?.to_s %>,
-    "laps": [
+    "sessions": [
       <% @race_sessions.each do |session| %>
       {
         "name": "<%= session.driver.name %>",
