@@ -500,9 +500,7 @@ $(function () {
         cats.unshift(fl);
         laps.unshift(fastest_overall_lap.lap + 1);
 
-        if (race.laps.length > 16) {
-          $("#" + options.chart.renderTo).css('height', 1100);
-        }
+        $("#" + options.chart.renderTo).css('height', race.sessions.length * 45);
 
         new Highcharts.Chart(options);
 
@@ -518,9 +516,7 @@ $(function () {
         options.series = [{ data: avgs }];
         options.xAxis.categories = average_cats;
 
-        if (race.laps.length > 16) {
-          $("#" + options.chart.renderTo).css('height', 1100);
-        }
+        $("#" + options.chart.renderTo).css('height', race.sessions.length * 45);
 
         new Highcharts.Chart(options);
       });
@@ -575,9 +571,7 @@ $(function () {
         options.xAxis.categories = cats;
         options.yAxis.min = Math.floor(lowest_pace - 5);
 
-        if (race.laps.length > 16) {
-          $("#" + options.chart.renderTo).css('height', 1100);
-        }
+        $("#" + options.chart.renderTo).css('height', race.sessions.length * 45);
 
         new Highcharts.Chart(options);
       }
