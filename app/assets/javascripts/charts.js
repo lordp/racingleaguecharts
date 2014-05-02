@@ -492,7 +492,7 @@ $(function () {
         options.series = [{ data: data, laps: laps }];
 
         options.xAxis.categories = cats;
-        options.yAxis.min = Math.floor(data[0] - 2);
+        options.yAxis.min = Math.floor(data[0] - 3);
         options.title.text = 'Sector ' + (i + 1) + ' - Fastest Times';
         options.chart.renderTo = 'container-sectors-sector' + (i + 1);
 
