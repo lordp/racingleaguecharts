@@ -41,9 +41,17 @@
       </ul>
     </div>
     <div class="bottom">
+      <% if current_user %>
+      <p>Logged in as <%= current_user.email %></p>
+      <% end %>
       <ul class="list-inline">
+      <% if current_user %>
+        <li><%= link_to('Profile', edit_user_path(current_user), :class => 'btn btn-success rlc-btn') %></li>
+        <li><%= link_to('Sign out', sign_out_users_path, :class => 'btn btn-danger rlc-btn') %></li>
+      <% else %>
         <li><%= link_to('Sign in', sign_in_users_path, :class => 'btn btn-success rlc-btn') %></li>
         <li><%= link_to('Sign up', sign_up_users_path, :class => 'btn btn-primary rlc-btn') %></li>
+      <% end %>
       </ul>
     </div>
   </div>
