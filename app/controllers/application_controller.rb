@@ -2,32 +2,10 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
 
   before_filter :authorize_admin, :if => lambda { params[:controller] =~ /say_what/ }
+  before_filter :build_menu
 
-  def build_menu(obj = nil)
-    case obj
-      when Session
-        @race = obj.race
-        build_menu(@race)
-      when Race
-        @season = obj.season
-        @races = @season.races.order(:created_at)
-        build_menu(@season)
-      when Season
-        @league = obj.league
-        @seasons = @league.seasons.order(:created_at)
-        @races = @season.races.order(:created_at)
-        build_menu(@league)
-      when League
-        @super_league = obj.super_league
-        @leagues = @super_league.leagues
-        @seasons = obj.seasons
-        build_menu(@super_league)
-      when SuperLeague
-        @super_leagues = SuperLeague.all
-        @leagues = @super_league.leagues
-      else
-        @super_leagues = SuperLeague.all
-    end
+  def build_menu
+    @super_leagues = SuperLeague.all
   end
 
   private

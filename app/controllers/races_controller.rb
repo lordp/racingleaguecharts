@@ -1,7 +1,6 @@
 class RacesController < ApplicationController
 
   before_filter :find_race, :only => [ :show, :chart, :livetiming ]
-  before_filter :menu, :only => [ :show, :index, :chart ]
 
   def index
     @races = Race.order(:created_at).page(params[:page].to_i).per(15)
@@ -33,10 +32,6 @@ class RacesController < ApplicationController
 
     def find_race
       @race = Race.find(params[:id].to_i) if params[:id]
-    end
-
-    def menu
-      build_menu(@race)
     end
 
 end

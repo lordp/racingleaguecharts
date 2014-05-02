@@ -1,7 +1,7 @@
 class SessionsController < ApplicationController
 
   before_filter :find_session, :only => [ :show, :chart ]
-  before_filter :menu, :except => [ :register ]
+  skip_before_filter :build_menu, :only => [ :register ]
 
   skip_before_filter :verify_authenticity_token, :only => [ :register ]
 
@@ -34,7 +34,4 @@ class SessionsController < ApplicationController
       @session = Session.find(params[:id].to_i)
     end
 
-    def menu
-      build_menu(@session)
-    end
 end
