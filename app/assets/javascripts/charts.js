@@ -515,6 +515,7 @@ $(function () {
         options.chart.renderTo = 'container-sectors-sector' + (i + 1) + '-average';
         options.series = [{ data: avgs }];
         options.xAxis.categories = average_cats;
+        options.yAxis.min = Math.floor(avgs[0][1] - 3);
 
         $("#" + options.chart.renderTo).css('height', race.sessions.length * 45);
 
