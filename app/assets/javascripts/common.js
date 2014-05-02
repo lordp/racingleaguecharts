@@ -41,7 +41,11 @@ $(function() {
     if (container.highcharts()) {
       container.highcharts().reflow();
     }
-  })
+    if (params) {
+      params.tab = $(e.target).attr('href').replace('#container-', '');
+      update_show_hide_links();
+    }
+  });
 
   $('.brand').on('click', function() {
     window.location.assign('/');
