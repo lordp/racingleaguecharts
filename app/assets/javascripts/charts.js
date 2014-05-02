@@ -440,7 +440,13 @@ $(function () {
       options.chart.type = 'spline';
       options.series = [];
       $.each(race.laps, function (i, driver) {
-        options.series.push({ name: driver.name, data: driver.fuel, visible: hide_driver(params, driver.name) });
+        options.series.push({
+          name: driver.name,
+          data: driver.fuel,
+          visible: !hide_driver(params, driver.name),
+          color: driver.color,
+          marker: driver.marker
+        });
       });
 
       $('#container-fuel').highcharts(options);
