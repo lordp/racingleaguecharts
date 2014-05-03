@@ -70,7 +70,7 @@ a {
   left: 0;
   bottom: 0;
   z-index: 3;
-  width: 300px;
+  width: 240px;
   background: #1f1f1f;
   overflow-y: hidden;
 }
@@ -78,13 +78,13 @@ a {
 #page-content-wrapper {
   position: relative;
   height: 100%;
-  margin-left: 300px;
+  margin-left: 240px;
   z-index: 2;
   overflow: hidden;
 }
 
 .nav-list > li > a {
-  padding: 5px 15px;
+  padding: 2px 15px;
 }
 
 .nav-list-1 {
@@ -159,9 +159,9 @@ a {
 }
 
 .rlc-btn {
-  width: 130px;
+  width: 100px;
 }
 
 .rlc-btn-admin {
-  width: 274px;
+  width: 214px;
 }
