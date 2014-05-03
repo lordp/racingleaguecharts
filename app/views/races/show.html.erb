@@ -65,7 +65,7 @@
           <td><%= session.laps.count %></td>
           <td><%= nice_time(session.total_time) %></td>
           <% end %>
-          <td><%= nice_time(session.fastest_lap.total) %></td>
+          <td><%= nice_time(session.fastest_lap.total) %> (lap <%= session.fastest_lap.lap_number + 1 %>)</td>
           <td><%= nice_gap(@race_sessions, session, index) %></td>
           <% if @race.time_trial? %>
           <td><%= Race::POINTS[index] || 0 %></td>
