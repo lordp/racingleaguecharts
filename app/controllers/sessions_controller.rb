@@ -32,8 +32,8 @@ class SessionsController < ApplicationController
   end
 
   def update
-    if @session.update_attribute(:session_type, params[:session][:session_type])
-      redirect_to(user_path(current_user), :notice => 'Session type was successfully updated.')
+    if @session.update_attributes({:session_type => params[:session][:session_type], :track_id => params[:session][:track_id]})
+      redirect_to(user_path(current_user), :notice => 'Session details were successfully updated.')
     else
       render "edit"
     end
