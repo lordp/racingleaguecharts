@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140421032110) do
+ActiveRecord::Schema.define(:version => 20140503031212) do
 
   create_table "driver_aliases", :force => true do |t|
     t.integer  "driver_id"
@@ -130,6 +130,7 @@ ActiveRecord::Schema.define(:version => 20140421032110) do
     t.datetime "updated_at",      :null => false
     t.boolean  "admin"
     t.string   "token"
+    t.string   "name"
   end
 
 end

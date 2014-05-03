@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
   has_secure_password
-  attr_accessible :email, :password, :password_confirmation, :driver_ids, :token, :regenerate_token
+  attr_accessible :email, :password, :password_confirmation, :driver_ids, :token, :regenerate_token, :name
   attr_accessor :regenerate_token
 
   validates_uniqueness_of :email
