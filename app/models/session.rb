@@ -15,6 +15,29 @@ class Session < ActiveRecord::Base
     "#{driver.try(:name)} on #{track.try(:name)} at #{created_at}"
   end
 
+  def nice_session_type
+    case session_type
+      when 10.0
+        'Time Trial'
+      when 170.0
+        'Qualifying'
+      when nil
+        'Unknown'
+      else
+        'Race'
+    end
+  end
+
+  def session_time
+    case session_type
+      when 10.0
+      when 170.0
+        fastest_lap.try(:total)
+      else
+        total_time
+    end
+  end
+
   def average_lap
     laps.average(:total)
   end

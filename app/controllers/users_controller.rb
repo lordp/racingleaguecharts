@@ -2,6 +2,10 @@ class UsersController < ApplicationController
 
   before_filter :authorize, :only => [ :edit, :update ]
 
+  def show
+    @user = User.find(params[:id].to_i)
+  end
+
   def new
     @user = User.new
   end

@@ -52,4 +52,15 @@ $(function() {
     window.location.assign('/');
   });
 
+  $('.session-filter').on('change', function(e) {
+    var filter = $(e.target).data('filter');
+    var target = e.target.id.replace('_', '-').toLowerCase();
+    if (e.target.checked) {
+      $('tr[data-session-' + filter + '=' + target +']').show();
+    }
+    else {
+      $('tr[data-session-' + filter + '=' + target +']').hide();
+    }
+  });
+
 });

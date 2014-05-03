@@ -9,6 +9,8 @@ class User < ActiveRecord::Base
   has_many :driver_users
   has_many :drivers, :through => :driver_users
 
+  has_many :sessions, :through => :drivers
+
   before_save :generate_token, :if => lambda { |u| u.regenerate_token == "1" || u.new_record? || u.token.blank? }
 
   def has_claimed?(driver)
