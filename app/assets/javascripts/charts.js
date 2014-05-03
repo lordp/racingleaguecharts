@@ -252,7 +252,7 @@ var fastest_overall_lap = {
 
 // When the browser/page has been loaded...
 $(function () {
-  if (typeof race == 'object' && race.hasOwnProperty('laps')) {
+  if (typeof race == 'object' && race.hasOwnProperty('sessions')) {
     // Figure out what race/league the user wants from the URL
     params = getQueryString();
 
