@@ -26,6 +26,7 @@
 
 <ul class="nav nav-tabs">
   <li class="active"><a id="tab-results" href="#container-results" data-toggle="tab">Results</a></li>
+<% unless @race.time_trial? %>
   <li><a id="tab-laps" href="#container-laps-parent" data-toggle="tab">Laps</a></li>
   <li><a id="tab-gaps" href="#container-gaps-parent" data-toggle="tab">Gaps</a></li>
   <li><a id="tab-diffs" href="#container-diffs-parent" data-toggle="tab">Diffs</a></li>
@@ -34,6 +35,7 @@
   <li><a id="tab-fuel" href="#container-fuel-parent" data-toggle="tab">Fuel</a></li>
   <li><a id="tab-speed" href="#container-speed-parent" data-toggle="tab">Speed</a></li>
   <li><a id="tab-options" href="#container-options" data-toggle="tab">Compare</a></li>
+<% end %>
 </ul>
 
 <div class="tab-content">
