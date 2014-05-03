@@ -23,5 +23,5 @@
   <%= f.select(:driver_ids, options_from_collection_for_select(Driver.unclaimed? + @user.drivers, "id", "name", @user.driver_ids), { }, { :multiple => true, :class => 'form-control select2' }) %>
 </div>
 <div class="form-group">
-  <%= f.submit "Save", :class => 'btn btn-default' %>
+  <%= f.submit "Save", :class => 'btn btn-default' %> <%= cancel_link(@user) %>
 </div>
