@@ -46,7 +46,8 @@
           <th></th>
           <th>Driver</th>
           <% unless @race.time_trial? %>
-          <th>Total Time</th>
+            <th>Laps</th>
+            <th>Total Time</th>
           <% end %>
           <th>Fastest Lap</th>
           <th>Gap</th>
@@ -61,6 +62,7 @@
           <td><%= (index + 1).ordinalize %></td>
           <td><%= session.driver.try(:name) %></td>
           <% unless @race.time_trial? %>
+          <td><%= session.laps.count %></td>
           <td><%= nice_time(session.total_time) %></td>
           <% end %>
           <td><%= nice_time(session.fastest_lap.total) %></td>
