@@ -67,6 +67,9 @@
           <td><%= nice_time(session.session_time) %></td>
           <td><%= session.nice_session_type %></td>
           <td><%= session.track.try(:name) %></td>
+          <% if current_user && current_user == @user %>
+            <td><%= link_to('Edit', edit_session_path(session)) %></td>
+          <% end %>
         </tr>
       <% end %>
       </tbody>

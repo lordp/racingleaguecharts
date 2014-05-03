@@ -1,6 +1,6 @@
 class SessionsController < ApplicationController
 
-  before_filter :find_session, :only => [ :show, :chart ]
+  before_filter :find_session, :only => [ :show, :chart, :edit, :update ]
   skip_before_filter :build_menu, :only => [ :register ]
 
   skip_before_filter :verify_authenticity_token, :only => [ :register ]
@@ -25,6 +25,17 @@ class SessionsController < ApplicationController
       else
         format.json { render json: @session.errors, status: :unprocessable_entity }
       end
+    end
+  end
+
+  def edit
+  end
+
+  def update
+    if @session.update_attribute(:session_type, params[:session][:session_type])
+      redirect_to(user_path(current_user), :notice => 'Session type was successfully updated.')
+    else
+      render "edit"
     end
   end
 
