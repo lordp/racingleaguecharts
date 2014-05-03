@@ -78,6 +78,8 @@ module ApplicationHelper
           admin ? say_what_drivers_path : edit_user_path(obj.user)
         when Lap
           say_what_laps_path
+        when User
+          admin ? say_what_users_path : user_path(obj)
         else
           nil
       end
