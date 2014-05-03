@@ -30,8 +30,7 @@ class Session < ActiveRecord::Base
 
   def session_time
     case session_type
-      when 10.0
-      when 170.0
+      when 10.0, 170.0
         fastest_lap.try(:total)
       else
         total_time
