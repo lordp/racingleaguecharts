@@ -603,6 +603,7 @@ $(function () {
       options.plotOptions.bar.dataLabels.formatter = speed_graph_formatter;
       options.chart.renderTo = 'container-speed';
       options.yAxis.min = Math.floor(lowest_speed - 1);
+      options.yAxis.title.text = 'Speed (m/s)';
       new Highcharts.Chart(options);
     }
     else {
