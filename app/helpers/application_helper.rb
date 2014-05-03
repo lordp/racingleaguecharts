@@ -137,7 +137,7 @@ module ApplicationHelper
   def nice_gap(sessions, session, index)
     if index > 0
       if sessions[0].laps.count > session.laps.count
-        "+#{(sessions[0].laps.count - session.laps.count).abs} lap"
+        "+#{pluralize((sessions[0].laps.count - session.laps.count).abs, 'lap')}"
       else
         previous_session = sessions[index - 1]
         "+#{nice_time((previous_session.total_time - session.total_time).abs)}"
