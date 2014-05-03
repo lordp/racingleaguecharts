@@ -43,16 +43,16 @@
     <table class="table">
       <thead>
         <tr>
-          <th></th>
+          <th class="col-sm-1"></th>
           <th>Driver</th>
           <% unless @race.time_trial? %>
-            <th>Laps</th>
-            <th>Total Time</th>
+          <th class="col-sm-1">Laps</th>
+          <th class="col-sm-1">Total Time</th>
           <% end %>
-          <th>Fastest Lap</th>
-          <th>Gap</th>
+          <th class="col-sm-2">Gap</th>
+          <th class="col-sm-1">Fastest Lap</th>
           <% if @race.time_trial? %>
-          <th>Points</th>
+          <th class="col-sm-1">Points</th>
           <% end %>
         </tr>
       </thead>
@@ -65,8 +65,8 @@
           <td><%= session.laps.count %></td>
           <td><%= nice_time(session.total_time) %></td>
           <% end %>
-          <td><%= nice_time(session.fastest_lap.total) %> (lap <%= session.fastest_lap.lap_number + 1 %>)</td>
           <td><%= nice_gap(@race_sessions, session, index) %></td>
+          <td><%= nice_time(session.fastest_lap.total) %> (lap <%= session.fastest_lap.lap_number + 1 %>)</td>
           <% if @race.time_trial? %>
           <td><%= Race::POINTS[index] || 0 %></td>
           <% end %>
