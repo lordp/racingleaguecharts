@@ -61,7 +61,7 @@
       </thead>
       <tbody>
       <% @user.sessions.order('created_at desc').each do |session| %>
-        <tr data-session-type="<%= session.nice_session_type.parameterize %>" data-session-driver="<%= session.driver.try(:name).try(:parameterize) %>" data-session-track="<%= session.track.try(:name).try(:parameterize) %>">
+        <tr data-type="<%= session.nice_session_type.parameterize %>" data-driver="<%= session.driver.try(:name).try(:parameterize) %>" data-track="<%= session.track.try(:name).try(:parameterize) %>">
           <td><%= session.driver.try(:name) %></td>
           <td><%= session.created_at.strftime('%d %b %Y') %></td>
           <td><%= nice_time(session.session_time) %></td>

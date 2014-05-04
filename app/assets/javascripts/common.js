@@ -56,11 +56,13 @@ $(function() {
     var filter = $(e.target).data('filter');
     var target = e.target.id.replace('_', '-').toLowerCase();
     if (e.target.checked) {
-      $('tr[data-session-' + filter + '=' + target +']').show();
+      $('tr[data-' + filter + '=' + target +']').show();
     }
     else {
-      $('tr[data-session-' + filter + '=' + target +']').hide();
+      $('tr[data-' + filter + '=' + target +']').hide();
     }
+
+    $('input[data-parent=' + e.target.name + ']').attr('disabled', !e.target.checked);
   });
 
 });

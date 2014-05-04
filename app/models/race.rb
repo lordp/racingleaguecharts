@@ -183,4 +183,28 @@ class Race < ActiveRecord::Base
     end
     ancestors
   end
+
+  def winner
+    self.winner_session.first.try(:driver).try(:name) || 'Unknown'
+  end
+
+  def laps
+    self.winner_session.first.try(:laps).try(:count)
+  end
+
+  def winner_session
+    winner_session = self.sessions.where(:winner => true)
+    unless winner_session
+      winner_session = self.sessions.includes(:laps).order('count(laps) desc').order('sum(laps.total)').limit(1)
+    end
+    winner_session
+  end
+
+  def super_league
+    self.try(:season).try(:league).try(:super_league)
+  end
+
+  def league
+    self.try(:season).try(:league)
+  end
 end

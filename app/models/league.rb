@@ -8,4 +8,8 @@ class League < ActiveRecord::Base
     "#{super_league.name} - #{name}"
   end
 
+  def filter_name
+    "#{self.try(:super_league).try(:name).try(:parameterize)}-#{self.try(:name).try(:parameterize)}"
+  end
+
 end

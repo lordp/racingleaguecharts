@@ -20,4 +20,12 @@ class Season < ActiveRecord::Base
     lb.sort_by { |k, v| v }.reverse
   end
 
+  def filter_name
+    "#{self.try(:league).try(:filter_name)}-#{self.try(:name).try(:parameterize)}"
+  end
+
+  def formatted_ancestors
+    "#{self.try(:league).try(:super_league).try(:name)} #{self.try(:league).try(:name)}"
+  end
+
 end
