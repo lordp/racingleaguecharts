@@ -24,9 +24,10 @@ class RacesController < ApplicationController
   end
 
   def without_sessions
-    @races = Race.includes(:sessions).where('sessions.id is null').where('name is not null').collect { |r| [r.id, r.full_name] }
+    @races = Race.includes(:sessions).where('sessions.id is null').where('name is not null').collect { |r| { :id => r.id, :name => r.full_name } }
     respond_to do |format|
       format.json { render :json => @races }
+      format.xml { render :xml => @races.to_xml(:root => 'races') }
     end
   end
 
