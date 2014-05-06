@@ -176,7 +176,7 @@
           <td><%= race.super_league.try(:name) %></td>
           <td><%= race.league.try(:name) %></td>
           <td><%= race.try(:season).try(:name) %></td>
-          <td><%= race.try(:name) %></td>
+          <td><%= link_to(race.try(:name), "?compare=#{race.id}") %></td>
           <td><%= race.try(:track).try(:name) %></td>
           <td><%= race.created_at.strftime('%d %b %Y') %></td>
           <td><%= race.winner %></td>
