@@ -172,7 +172,7 @@
       </thead>
       <tbody>
       <% Race.order(:created_at).where('id != ?', @race.id).each do |race| %>
-        <tr data-super-league="<%= race.super_league.try(:name).try(:parameterize) %>" data-league="<%= race.league.filter_name %>" data-season="<%= race.try(:season).try(:filter_name) %>" data-track="<%= race.try(:track).try(:name).try(:parameterize) %>" data-winner="<%= race.winner.try(:parameterize) %>">
+        <tr class="<%= params[:compare].to_i == race.id ? 'bg-success' : ''  %>" data-super-league="<%= race.super_league.try(:name).try(:parameterize) %>" data-league="<%= race.league.filter_name %>" data-season="<%= race.try(:season).try(:filter_name) %>" data-track="<%= race.try(:track).try(:name).try(:parameterize) %>" data-winner="<%= race.winner.try(:parameterize) %>">
           <td><%= race.super_league.try(:name) %></td>
           <td><%= race.league.try(:name) %></td>
           <td><%= race.try(:season).try(:name) %></td>
