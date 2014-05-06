@@ -4,8 +4,8 @@ class DriversController < ApplicationController
   before_filter :authorize_claimed, :only => [ :edit, :update ]
 
   def index
-    @drivers = Driver.order(:name)
-    @drivers_api = { :drivers => @drivers.includes(:user).where('users.token = ?', params[:token]).collect { |d| d.name }.compact }
+    @drivers = Driver.order('drivers.name')
+    @drivers_api = { :drivers => @drivers.includes(:user).where('users.token = ?', params[:token]).collect(&:name).compact }
     respond_to do |format|
       format.html
       format.json { render :json => @drivers_api }
