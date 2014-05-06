@@ -12,7 +12,7 @@
         "sector2": <%= session.laps.order(:lap_number).collect(&:sector_2).compact %>,
         "sector3": <%= session.laps.order(:lap_number).collect(&:sector_3).compact %>,
         "fuel": <%= session.laps.order(:lap_number).where('fuel is not null').collect { |l| l.fuel.round(3).to_f }.compact %>,
-        "speed": <%= session.top_speed.nice_top_speed %>
+        "speed": <%= session.top_speed.try(:nice_top_speed) %>
       },
       <% end %>
     ]
@@ -66,7 +66,7 @@
           <td><%= nice_time(session.total_time) %></td>
           <% end %>
           <td><%= nice_gap(@race_sessions, session, index) %></td>
-          <td><%= nice_time(session.fastest_lap.total) %> (lap <%= session.fastest_lap.lap_number + 1 %>)</td>
+          <td><%= nice_time(session.fastest_lap.try(:total)) %> (lap <%= session.fastest_lap ? session.fastest_lap.lap_number + 1 : 1 %>)</td>
           <% if @race.time_trial? %>
           <td><%= Race::POINTS[index] || 0 %></td>
           <% end %>
