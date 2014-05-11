@@ -364,11 +364,7 @@ $(function () {
       }
 
       // Determine the average time for the winner (first array value)
-      var winner_laps = [];
-      $.each(race.sessions[0].laps, function (i, lap) {
-        winner_laps.push(lap);
-      });
-      var winner_average = array_sum(winner_laps) / winner_laps.length;
+      var winner_average = array_sum(race.sessions[0].laps) / race.sessions[0].laps.length;
 
       // Figure out the gaps between each driver and the winning time
       $.each(race.sessions, function (i, driver) {
