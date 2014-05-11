@@ -115,10 +115,10 @@
   var winner_average;
     <% if @compare.laps.size > @session.laps.size || @compare.laps.sum(:total) < @session.laps.sum(:total) %>
   data.unshift({ name: "<%= @compare.driver.name %>", laps: [ <%= @compare.laps.order(:lap_number).collect { |l| l.total.round(3).to_f }.join(",") %> ]});
-  winner_average = <%= @compare.laps.average(:total).round(3) %>;
+  winner_average = <%= @compare.average_lap %>;
     <% else %>
   data.push({ name: "<%= @compare.driver.name %>", laps: [ <%= @compare.laps.order(:lap_number).collect { |l| l.total.round(3).to_f }.join(",") %> ]});
-  winner_average = <%= @session.laps.average(:total).round(3) %>;
+  winner_average = <%= @session.average_lap %>;
     <% end %>
 
   // Figure out the gaps between each driver and the winning time
