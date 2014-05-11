@@ -229,6 +229,13 @@ var options = {
           manage_params(e.currentTarget);
         }
       }
+    },
+    column: {
+      events: {
+        legendItemClick: function(e) {
+          manage_params(e.currentTarget);
+        }
+      }
     }
   },
   xAxis: {
