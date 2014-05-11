@@ -69,6 +69,7 @@
           <td><%= session.track.try(:name) %></td>
           <% if current_user && current_user == @user %>
             <td><%= link_to('Edit', edit_session_path(session)) %></td>
+            <td><%= link_to('Delete', session_path(session), :method => :delete, :confirm => "This action cannot be undone - are you sure?") %></td>
           <% end %>
         </tr>
       <% end %>
