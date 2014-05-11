@@ -38,7 +38,7 @@ class Session < ActiveRecord::Base
   end
 
   def average_lap
-    laps.average(:total)
+    laps.size > 0 ? laps.average(:total).round(3) : 0
   end
 
   def fastest_lap
