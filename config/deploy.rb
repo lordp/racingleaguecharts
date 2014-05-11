@@ -10,7 +10,7 @@ set :format, :pretty
 set :log_level, :info
 # set :pty, true
 
-set :linked_files, %w{config/database.yml config/reddit.yml config/rollbar.yml public/racingleaguecharts.exe public/version.xml}
+set :linked_files, %w{config/database.yml config/reddit.yml config/rollbar.yml public/racingleaguecharts.exe public/racingleaguecharts-no-upx.exe public/version.xml}
 set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
 
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
