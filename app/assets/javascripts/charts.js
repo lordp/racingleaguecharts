@@ -50,7 +50,11 @@ function graph_two_formatter() {
   var s = '<b>Lap ' + this.x + '</b>';
 
   $.each(this.points, function (i, point) {
-    s += '<br/><span style="color: ' + point.series.color + ';">' + point.series.name + '</span>: ' + Math.abs(point.y).toFixed(3);
+    var v = Math.abs(point.y).toFixed(3);
+    if (point.y > 0) {
+      v = '<span style="font-weight: bold">' + v + '</span>';
+    }
+    s += '<br/><span style="color: ' + point.series.color + ';">' + point.series.name + '</span>: ' + v;
   });
 
   return s;
