@@ -393,6 +393,7 @@ $(function () {
           driver.visible = false;
         }
 
+        driver.data.unshift(0);
         options.series.push(driver);
       });
 
@@ -400,6 +401,7 @@ $(function () {
       options.tooltip.formatter = graph_two_formatter;
       options.title.text = "Gaps to winner";
       options.yAxis.title.text = 'Gap';
+      options.plotOptions.spline.pointStart = 0;
 
       // Instruct highcharts to render this chart
       $('#container-gaps').highcharts(options);
