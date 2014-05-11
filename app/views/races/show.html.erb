@@ -4,9 +4,9 @@
     "sessions": [
       <% @race_sessions.each do |session| %>
       {
-        "name": "<%= session.driver.name %>",
-        "color": "<%= session.driver.colour unless @race.time_trial? %>",
-        "marker": { symbol: "<%= session.driver.marker unless @race.time_trial? %>" },
+        "name": "<%= session.driver.try(:name) %>",
+        "color": "<%= session.driver.try(:colour) unless @race.time_trial? %>",
+        "marker": { symbol: "<%= session.driver.try(:marker) unless @race.time_trial? %>" },
         "laps": <%= session.laps.order(:lap_number).collect(&:total) %>,
         "sector1": <%= session.laps.order(:lap_number).collect(&:sector_1).compact %>,
         "sector2": <%= session.laps.order(:lap_number).collect(&:sector_2).compact %>,
