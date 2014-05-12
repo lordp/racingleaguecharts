@@ -129,6 +129,7 @@ class Race < ActiveRecord::Base
         driver.update_attribute(:flair, lap_info[:flair].split(/ /).first) unless lap_info[:flair].nil?
         session = self.sessions.find_or_initialize_by_driver_id_and_is_dry(driver.id, is_dry)
         session.track_id = track_id
+        session.session_type = 10.0
         session.save
         lap = session.laps.find_or_create_by_lap_number(:lap_number => 0)
         lap.total = lap_info[:time]
