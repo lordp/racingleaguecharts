@@ -1,3 +1,5 @@
+var chart_height_multiplier = 60;
+
 // Helper method to return a total time for an array or array slice
 function array_sum(array) {
   var race = array.reduce(function (a, b) {
@@ -509,7 +511,7 @@ $(function () {
         cats.unshift(fl);
         laps.unshift(fastest_overall_lap.lap + 1);
 
-        $("#" + options.chart.renderTo).css('height', race.sessions.length * 45);
+        $("#" + options.chart.renderTo).css('height', race.sessions.length * chart_height_multiplier);
 
         new Highcharts.Chart(options);
 
@@ -526,7 +528,7 @@ $(function () {
         options.xAxis.categories = average_cats;
         options.yAxis.min = Math.floor(avgs[0][1] - 3);
 
-        $("#" + options.chart.renderTo).css('height', race.sessions.length * 45);
+        $("#" + options.chart.renderTo).css('height', race.sessions.length * chart_height_multiplier);
 
         new Highcharts.Chart(options);
       });
@@ -581,7 +583,7 @@ $(function () {
         options.xAxis.categories = cats;
         options.yAxis.min = Math.floor(lowest_pace - 5);
 
-        $("#" + options.chart.renderTo).css('height', race.sessions.length * 45);
+        $("#" + options.chart.renderTo).css('height', race.sessions.length * chart_height_multiplier);
 
         new Highcharts.Chart(options);
       }
