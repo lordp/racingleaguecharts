@@ -38,12 +38,12 @@ $(function() {
 
   $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
     var href = $(e.target).attr('href');
-    var container = $(href.replace('-parent', ''));
+    var container = $(href + '-child');
     if (container.highcharts()) {
       container.highcharts().reflow();
     }
     if (params) {
-      params.tab = href.replace('-parent', '').replace('#container-', '');
+      params.tab = href.replace('#container-', '');
       update_show_hide_links();
     }
   });

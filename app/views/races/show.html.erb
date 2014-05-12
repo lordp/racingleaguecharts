@@ -27,13 +27,13 @@
 <ul class="nav nav-tabs">
   <li class="active"><a id="tab-results" href="#container-results" data-toggle="tab">Results</a></li>
 <% unless @race.time_trial? %>
-  <li><a id="tab-laps" href="#container-laps-parent" data-toggle="tab">Laps</a></li>
-  <li><a id="tab-gaps" href="#container-gaps-parent" data-toggle="tab">Gaps</a></li>
-  <li><a id="tab-diffs" href="#container-diffs-parent" data-toggle="tab">Diffs</a></li>
+  <li><a id="tab-laps" href="#container-laps" data-toggle="tab">Laps</a></li>
+  <li><a id="tab-gaps" href="#container-gaps" data-toggle="tab">Gaps</a></li>
+  <li><a id="tab-diffs" href="#container-diffs" data-toggle="tab">Diffs</a></li>
   <li><a id="tab-sectors" href="#container-sectors" data-toggle="tab">Sectors</a></li>
   <li><a id="tab-pace" href="#container-pace" data-toggle="tab">Pace</a></li>
-  <li><a id="tab-fuel" href="#container-fuel-parent" data-toggle="tab">Fuel</a></li>
-  <li><a id="tab-speed" href="#container-speed-parent" data-toggle="tab">Speed</a></li>
+  <li><a id="tab-fuel" href="#container-fuel" data-toggle="tab">Fuel</a></li>
+  <li><a id="tab-speed" href="#container-speed" data-toggle="tab">Speed</a></li>
   <li><a id="tab-options" href="#container-options" data-toggle="tab">Compare</a></li>
 <% end %>
 </ul>
@@ -75,17 +75,17 @@
       </tbody>
     </table>
   </div>
-  <div class="tab-pane" id="container-laps-parent">
+  <div class="tab-pane" id="container-laps">
     <%= render(:partial => 'chart_link_options', :locals => { :chart => 'laps' }) %>
-    <div class="chart" id="container-laps"></div>
+    <div class="chart" id="container-laps-child"></div>
   </div>
-  <div class="tab-pane" id="container-gaps-parent">
+  <div class="tab-pane" id="container-gaps">
     <%= render(:partial => 'chart_link_options', :locals => { :chart => 'gaps' }) %>
-    <div class="chart" id="container-gaps"></div>
+    <div class="chart" id="container-gaps-child"></div>
   </div>
-  <div class="tab-pane" id="container-diffs-parent">
+  <div class="tab-pane" id="container-diffs">
     <%= render(:partial => 'chart_link_options', :locals => { :chart => 'diffs' }) %>
-    <div class="chart" id="container-diffs"></div>
+    <div class="chart" id="container-diffs-child"></div>
   </div>
   <div class="tab-pane" id="container-sectors">
     <div>
@@ -122,12 +122,12 @@
     <div id="container-pace-50" class="sectors"></div>
     <div id="container-pace-80" class="sectors"></div>
   </div>
-  <div class="tab-pane" id="container-fuel-parent">
+  <div class="tab-pane" id="container-fuel">
     <%= render(:partial => 'chart_link_options', :locals => { :chart => 'fuel' }) %>
-    <div class="chart" id="container-fuel"></div>
+    <div class="chart" id="container-fuel-child"></div>
   </div>
-  <div class="tab-pane" id="container-speed-parent">
-    <div class="chart" id="container-speed"></div>
+  <div class="tab-pane" id="container-speed">
+    <div class="chart" id="container-speed-child"></div>
   </div>
   <div class="tab-pane" id="container-options">
     <fieldset>

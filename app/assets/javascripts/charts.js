@@ -300,7 +300,7 @@ $(function () {
       $('li.active').removeClass('active').parent().children().children('a#tab-' + params.tab).parent().addClass('active');
 
       $('.tab-pane').removeClass('active');
-      $('#container-' + params.tab + '-parent').addClass('active');
+      $('#container-' + params.tab).addClass('active');
     }
     else {
       params.tab = 'laps';
@@ -363,7 +363,7 @@ $(function () {
       };
     }
 
-    $('#container-laps').highcharts(options);
+    $('#container-laps-child').highcharts(options);
 
     if (!race.time_trial) {
       // Clear out the series for the second chart
@@ -413,7 +413,7 @@ $(function () {
       options.plotOptions.spline.pointStart = 0;
 
       // Instruct highcharts to render this chart
-      $('#container-gaps').highcharts(options);
+      $('#container-gaps-child').highcharts(options);
 
       // Third charts - lap by lap time differences
       options.chart.type = 'column';
@@ -438,7 +438,7 @@ $(function () {
       });
 
       options.title.text = 'Lap diffs';
-      $('#container-diffs').highcharts(options);
+      $('#container-diffs-child').highcharts(options);
     }
     else {
       $('#tab-gaps').hide();
@@ -460,7 +460,7 @@ $(function () {
         });
       });
 
-      $('#container-fuel').highcharts(options);
+      $('#container-fuel-child').highcharts(options);
     }
     else {
       $('#tab-fuel').hide();
@@ -612,7 +612,7 @@ $(function () {
       options.series = [{ data: speed, laps: laps }];
       options.xAxis.categories = cats;
       options.plotOptions.bar.dataLabels.formatter = speed_graph_formatter;
-      options.chart.renderTo = 'container-speed';
+      options.chart.renderTo = 'container-speed-child';
       options.yAxis.min = Math.floor(lowest_speed - 1);
       options.yAxis.title.text = 'Speed (m/s)';
       new Highcharts.Chart(options);
