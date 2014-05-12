@@ -76,7 +76,9 @@
       </tbody>
     </table>
   </div>
+  <% if current_user && current_user == @user %>
   <div class="tab-pane" id="auth">
     <p>Your authentication token for the app is: <%= current_user.token %></p>
   </div>
+  <% end %>
 </div>
