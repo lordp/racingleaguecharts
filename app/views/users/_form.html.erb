@@ -1,9 +1,14 @@
 <div class="form-group">
+  <%= f.label :name %>
+  <%= f.text_field :name, :class => 'form-control' %>
+</div>
+<div class="form-group">
   <%= f.label :email %>
   <%= f.text_field :email, :class => 'form-control' %>
 </div>
 <div class="form-group">
   <%= f.label :password %>
+  <%= display_help('Only enter your password here if you wish to change it.') unless @user.new_record? %>
   <%= f.password_field :password, :class => 'form-control' %>
 </div>
 <div class="form-group">

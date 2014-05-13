@@ -1,5 +1,6 @@
 class LapsController < ApplicationController
   skip_before_filter :verify_authenticity_token, :only => [ :create ]
+  skip_before_filter :build_menu
 
   def create
     lap = Lap.find_or_initialize_by_session_id_and_lap_number(params[:session_id], params[:lap_number])
@@ -15,6 +16,7 @@ class LapsController < ApplicationController
     respond_to do |format|
       if lap.save
         format.json { render :json => { :lap_id => lap.id } }
+        format.xml { render :xml => { :lap_id => lap.id }.to_xml(:root => 'racingleaguecharts') }
       else
         format.json { render json: @lap.errors, status: :unprocessable_entity }
       end

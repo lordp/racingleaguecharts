@@ -1,9 +1,189 @@
+<script type="text/javascript">
+  var race = {
+    "time_trial": <%= @race.time_trial?.to_s %>,
+    "sessions": [
+      <% @race_sessions.each do |session| %>
+      {
+        "name": "<%= session.driver.try(:name) %>",
+        "color": "<%= session.driver.try(:colour) unless @race.time_trial? %>",
+        "marker": { symbol: "<%= session.driver.try(:marker) unless @race.time_trial? %>" },
+        "laps": <%= session.laps.order(:lap_number).collect(&:total) %>,
+        "sector1": <%= session.laps.order(:lap_number).collect(&:sector_1).compact %>,
+        "sector2": <%= session.laps.order(:lap_number).collect(&:sector_2).compact %>,
+        "sector3": <%= session.laps.order(:lap_number).collect(&:sector_3).compact %>,
+        "fuel": <%= session.laps.order(:lap_number).where('fuel is not null').collect { |l| l.fuel.round(3).to_f }.compact %>,
+        "speed": <%= session.top_speed.try(:nice_top_speed) %>
+      },
+      <% end %>
+    ]
+  };
+</script>
+
 <ol class="breadcrumb">
   <%= breadcrumb(@race, true) %>
 </ol>
 <h1><%= @race.name %></h1>
-<h3><%= link_to('View Charts', chart_race_path(@race)) %></h3>
 
-<% @race_sessions.each_with_index do |session, index| %>
-  <%= render(:partial => 'sessions/session', :object => session, :locals => { :index => index }) %>
+<ul class="nav nav-tabs">
+  <li class="active"><a id="tab-results" href="#container-results" data-toggle="tab">Results</a></li>
+<% unless @race.time_trial? %>
+  <li><a id="tab-laps" href="#container-laps" data-toggle="tab">Laps</a></li>
+  <li><a id="tab-gaps" href="#container-gaps" data-toggle="tab">Gaps</a></li>
+  <li><a id="tab-diffs" href="#container-diffs" data-toggle="tab">Diffs</a></li>
+  <li><a id="tab-sectors" href="#container-sectors" data-toggle="tab">Sectors</a></li>
+  <li><a id="tab-pace" href="#container-pace" data-toggle="tab">Pace</a></li>
+  <li><a id="tab-fuel" href="#container-fuel" data-toggle="tab">Fuel</a></li>
+  <li><a id="tab-speed" href="#container-speed" data-toggle="tab">Speed</a></li>
+  <li><a id="tab-options" href="#container-options" data-toggle="tab">Compare</a></li>
 <% end %>
+</ul>
+
+<div class="tab-content">
+  <div class="tab-pane active" id="container-results">
+    <table class="table">
+      <thead>
+        <tr>
+          <th class="col-sm-1"></th>
+          <th>Driver</th>
+          <% unless @race.time_trial? %>
+          <th class="col-sm-1">Laps</th>
+          <th class="col-sm-1">Total Time</th>
+          <% end %>
+          <th class="col-sm-2">Gap</th>
+          <th class="col-sm-1">Fastest Lap</th>
+          <% if @race.time_trial? %>
+          <th class="col-sm-1">Points</th>
+          <% end %>
+        </tr>
+      </thead>
+      <tbody>
+      <% @race_sessions.each_with_index do |session, index| %>
+        <tr>
+          <td><%= (index + 1).ordinalize %></td>
+          <td><%= session.driver.try(:name) %></td>
+          <% unless @race.time_trial? %>
+          <td><%= session.laps.count %></td>
+          <td><%= nice_time(session.total_time) %></td>
+          <% end %>
+          <td><%= nice_gap(@race_sessions, session, index) %></td>
+          <td><%= nice_time(session.fastest_lap.try(:total)) %> <% if !@race.time_trial? %>(lap <%= session.fastest_lap ? session.fastest_lap.lap_number + 1 : 1 %>)<% end %></td>
+          <% if @race.time_trial? %>
+          <td><%= Race::POINTS[index] || 0 %></td>
+          <% end %>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+  <div class="tab-pane" id="container-laps">
+    <%= render(:partial => 'chart_link_options', :locals => { :chart => 'laps' }) %>
+    <div class="chart" id="container-laps-child"></div>
+  </div>
+  <div class="tab-pane" id="container-gaps">
+    <%= render(:partial => 'chart_link_options', :locals => { :chart => 'gaps' }) %>
+    <div class="chart" id="container-gaps-child"></div>
+  </div>
+  <div class="tab-pane" id="container-diffs">
+    <%= render(:partial => 'chart_link_options', :locals => { :chart => 'diffs' }) %>
+    <div class="chart" id="container-diffs-child"></div>
+  </div>
+  <div class="tab-pane" id="container-sectors">
+    <div>
+      <div style="width: 510px; margin-left: 508px;">
+        <table class="table table-bordered table-condensed" style="margin:5px;">
+          <thead>
+          <tr>
+            <th>Sector</th>
+            <th>Driver</th>
+            <th>Sector Time</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr><td>1</td><td id="tb-1-driver"></td><td id="tb-1-time"></td></tr>
+          <tr><td>2</td><td id="tb-2-driver"></td><td id="tb-2-time"></td></tr>
+          <tr><td>3</td><td id="tb-3-driver"></td><td id="tb-3-time"></td></tr>
+          <tr><td></td><td>Total</td><td id="tb-total"></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div id="container-sectors-sector1" class="sectors"></div>
+      <div id="container-sectors-sector2" class="sectors"></div>
+      <div id="container-sectors-sector3" class="sectors"></div>
+    </div>
+    <div>
+      <div id="container-sectors-sector1-average" class="sectors"></div>
+      <div id="container-sectors-sector2-average" class="sectors"></div>
+      <div id="container-sectors-sector3-average" class="sectors"></div>
+    </div>
+  </div>
+  <div class="tab-pane" id="container-pace">
+    <p class="well">These charts show each drivers average lap time over the top 15, 50 and 80 percent of the laps they completed. This attempts to show a better metric for driver speed/pace by effectively excluding out laps and big mistakes (thanks splendidtree!).</p>
+    <div id="container-pace-15" class="sectors"></div>
+    <div id="container-pace-50" class="sectors"></div>
+    <div id="container-pace-80" class="sectors"></div>
+  </div>
+  <div class="tab-pane" id="container-fuel">
+    <%= render(:partial => 'chart_link_options', :locals => { :chart => 'fuel' }) %>
+    <div class="chart" id="container-fuel-child"></div>
+  </div>
+  <div class="tab-pane" id="container-speed">
+    <div class="chart" id="container-speed-child"></div>
+  </div>
+  <div class="tab-pane" id="container-options">
+    <fieldset>
+      <legend>Filters</legend>
+      <div class="form-group">
+        <strong>Super League: </strong>
+        <% SuperLeague.all.each do |super_league| %>
+          <%= label_tag(super_league.name.parameterize, :class => 'checkbox-inline session-filter') do %>
+            <%= check_box_tag(super_league.name.parameterize, 1, true, :data => { :filter => 'super-league' }, :name => "super-league-#{super_league.id}") %> <%= super_league.name %>
+          <% end %>
+        <% end %>
+      </div>
+      <div class="form-group">
+        <strong>League: </strong>
+        <% League.all.each do |league| %>
+          <%= label_tag(league.filter_name, :class => 'checkbox-inline session-filter') do %>
+            <%= check_box_tag(league.filter_name, 1, true, :data => { :filter => 'league', :parent => "super-league-#{league.super_league_id}" }, :name => "league-#{league.id}") %> <%= league.name %>
+          <% end %>
+        <% end %>
+      </div>
+      <div class="form-group">
+        <strong>Season: </strong>
+        <% Season.all.each do |season| %>
+          <%= label_tag(season.filter_name, :class => 'checkbox-inline session-filter', :title => season.formatted_ancestors) do %>
+            <%= check_box_tag(season.filter_name, 1, true, :data => { :filter => 'season', :parent => "league-#{season.league_id}" }) %> <%= season.name %>
+          <% end %>
+        <% end %>
+      </div>
+    </fieldset>
+    <table class="table">
+      <thead>
+      <tr>
+        <th>Super League</th>
+        <th>League</th>
+        <th>Season</th>
+        <th>Race</th>
+        <th>Track</th>
+        <th>Date</th>
+        <th>Winner</th>
+        <th>Laps</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% Race.order(:created_at).where('id != ?', @race.id).each do |race| %>
+        <tr class="<%= params[:compare].to_i == race.id ? 'bg-success' : ''  %>" data-super-league="<%= race.super_league.try(:name).try(:parameterize) %>" data-league="<%= race.league.filter_name %>" data-season="<%= race.try(:season).try(:filter_name) %>" data-track="<%= race.try(:track).try(:name).try(:parameterize) %>" data-winner="<%= race.winner.try(:parameterize) %>">
+          <td><%= race.super_league.try(:name) %></td>
+          <td><%= race.league.try(:name) %></td>
+          <td><%= race.try(:season).try(:name) %></td>
+          <td><%= link_to(race.try(:name), "?compare=#{race.id}") %></td>
+          <td><%= race.try(:track).try(:name) %></td>
+          <td><%= race.created_at.strftime('%d %b %Y') %></td>
+          <td><%= race.winner %></td>
+          <td><%= race.laps %></td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

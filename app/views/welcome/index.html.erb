@@ -22,7 +22,7 @@
 
 <h3>Logging Application</h3>
 <p>An alternate option for generating charts is having drivers use the logging application. This collects data output by the game via its telemetry system, parses it for lap and sector times, and creates sessions and laps automatically. These sessions are then attached to a race by an administrator.</p>
-<p>You can download a copy of the application <%= link_to('here', '/rlc.zip') %>.</p>
+<p>You can download a copy of the application <%= link_to('here', '/racingleaguecharts.exe') %>.</p>
 
 <h3>Technical Details</h3>
 <p>Uploaded screenshots are processed in the background. Each screenshot is cropped to only include the lap number and lap and sector times. An edge detection routine is run over this cropped version, and the <%= link_to('Tesseract OCR', "https://code.google.com/p/tesseract-ocr/") %> system is invoked to pull out the text.</p>

@@ -4,6 +4,10 @@ class SayWhat::UsersController < ApplicationController
     @users = User.order(:email)
   end
 
+  def show
+    @user = User.find(params[:id].to_i)
+  end
+
   def new
     @user = User.new
   end
@@ -11,7 +15,7 @@ class SayWhat::UsersController < ApplicationController
   def create
     @user = User.new(params[:user])
     if @user.save
-      redirect_to(root_url, :notice => 'User created!')
+      redirect_to(say_what_user_path(@user), :notice => 'User created!')
     else
       render('new')
     end
@@ -24,7 +28,7 @@ class SayWhat::UsersController < ApplicationController
   def update
     @user = User.find(params[:id].to_i)
     if @user.update_attributes(params[:user])
-      redirect_to(edit_user_path(@user), :notice => 'User updated')
+      redirect_to(edit_say_what_user_path(@user), :notice => 'User updated')
     else
       render('edit')
     end

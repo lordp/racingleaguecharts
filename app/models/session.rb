@@ -10,16 +10,49 @@ class Session < ActiveRecord::Base
 
   validates_presence_of :driver_id, :track_id
 
+  SESSION_TYPE_TIME_TRIAL = 10.0
+  SESSION_TYPE_QUALIFYING = 170.0
+
   def name
     "#{driver.try(:name)} on #{track.try(:name)} at #{created_at}"
   end
 
+  def nice_session_type
+    case session_type
+      when 10.0
+        'Time Trial'
+      when 170.0
+        'Qualifying'
+      when nil
+        'Unknown'
+      else
+        'Race'
+    end
+  end
+
+  def session_time
+    case session_type
+      when 10.0, 170.0
+        fastest_lap.try(:total)
+      else
+        total_time
+    end
+  end
+
   def average_lap
-    laps.average(:total)
+    laps.size > 0 ? laps.average(:total).round(3) : 0
   end
 
   def fastest_lap
     laps.order(:total).first
+  end
+
+  def fuel_remaining
+    laps.order(:lap_number).last.fuel.round(3)
+  end
+
+  def top_speed
+    laps.order(:speed).last
   end
 
   def total_time
@@ -57,9 +90,13 @@ class Session < ActiveRecord::Base
   end
 
   def self.register(params)
-    driver = Driver.find_or_create_by_name(params[:driver])
+    driver = Driver.name_and_token(params[:driver], params[:token])
     track = Track.find_or_create_by_length(params[:track])
-    Session.new(:driver_id => driver.id, :track_id => track.id, :session_type => params[:type])
+    race = nil
+    unless [SESSION_TYPE_QUALIFYING, SESSION_TYPE_TIME_TRIAL].include?(params[:type])
+      race = Race.find(params[:race].to_i) if params[:race]
+    end
+    Session.new(:driver_id => driver.try(:id), :track_id => track.try(:id), :race_id => race.try(:id), :session_type => params[:type])
   end
 
 end

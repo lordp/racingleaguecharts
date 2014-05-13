@@ -14,5 +14,24 @@
 </div>
 
 <div class="form-group">
+  <%= f.label(:merge_session_ids, 'Merge sessions from this driver') %>
+  <%= f.select(:merge_session_ids, options_from_collection_for_select(@driver.user.drivers.reject { |d| d.id == @driver.id }, "id", "name"), { :include_blank => true }, { :class => 'form-control select2', :multiple => true }) %>
+</div>
+
+<div class="form-group">
+  <%= f.label('driver[aliases]', 'Driver Aliases') %>
+  <%= text_field_tag('driver[aliases]', @driver.driver_aliases.collect(&:name).join(','), :class => 'form-control') %>
+  <span class="help-block help-block-small">These are alternate spellings or aliases for your driver name - eg if your Reddit name is different to your Steam name, add either one here.</span>
+</div>
+
+<div class="form-group">
   <%= f.submit('Save', :class => 'btn btn-default') %> <%= cancel_link(@driver, false) %>
 </div>
+
+<script type="text/javascript">
+  $('#driver_aliases').select2({
+    tags: true,
+    multiple: true,
+    tokenSeparators: [","]
+  });
+</script>

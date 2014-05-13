@@ -4,10 +4,12 @@ class DriversController < ApplicationController
   before_filter :authorize_claimed, :only => [ :edit, :update ]
 
   def index
-    @drivers = Driver.order(:name)
+    @drivers = Driver.order('drivers.name')
+    @drivers_api = { :drivers => @drivers.includes(:user).where('users.token = ?', params[:token]).collect(&:name).compact }
     respond_to do |format|
       format.html
-      format.json { render :json => @drivers.collect(&:name).compact }
+      format.json { render :json => @drivers_api }
+      format.xml { render :xml => @drivers_api.to_xml(:root => 'racingleaguecharts') }
     end
   end
 

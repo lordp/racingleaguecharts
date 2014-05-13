@@ -5,19 +5,28 @@
   <%= select_tag(:compare, options_from_collection_for_select(Session.all, "id", "name", @compare ? @compare.id : nil), { :class => 'form-control select2', :id => 'session_compare' }) %>
 </div>
 
-<div id="container" class="chart"></div>
+<ul class="nav nav-tabs">
+  <li class="active"><a id="tab-laps" href="#container-laps" data-toggle="tab">Laps</a></li>
+  <li><a id="tab-gaps" href="#container-gaps" data-toggle="tab">Gaps</a></li>
+  <li><a id="tab-fuel" href="#container-fuel" data-toggle="tab">Fuel</a></li>
+</ul>
+
+<div class="tab-content">
+  <div class="tab-pane active chart" id="container-laps"></div>
+  <div class="tab-pane chart" id="container-gaps"><%= "Gaps chart is only relevant if you're comparing with another session" unless @compare %></div>
+  <div class="tab-pane chart" id="container-fuel"></div>
+</div>
+
 <script type="text/javascript">
-  function graph_one_formatter() {
-    var s = '<b>Lap ' + this.x + '</b>';
+  params = getQueryString();
+  if (params.tab) {
+    $('li.active').removeClass('active').parent().children().children('a#tab-' + params.tab).parent().addClass('active');
 
-    $.each(this.points, function (i, point) {
-      // Converts seconds to mm:ss.ddd format - ie 106.322 = 1:46.322
-      var t1 = Math.floor(point.y / 60);
-      var t2 = (point.y % 60).toFixed(3);
-      s += '<br/><span style="color: ' + point.series.color + ';">' + point.series.name + '</span>: ' + t1 + 'm' + (t2 < 10 ? '0' + t2 : t2);
-    });
-
-    return s;
+    $('.tab-pane').removeClass('active');
+    $('#container-' + params.tab).addClass('active');
+  }
+  else {
+    params.tab = 'laps';
   }
 
   var options = {
@@ -76,5 +85,80 @@
   });
 <% end %>
 
-  $('#container').highcharts(options);
+  $('#container-laps').highcharts(options);
+
+  // Fuel chart
+  options.series = [{
+    name: "<%= @session.driver.name %>",
+    data: [ <%= @session.laps.order(:lap_number).where('fuel is not null').collect { |l| l.fuel.round(3).to_f }.join(",") %> ]
+  }];
+
+  <% if @compare %>
+  options.series.push({ name: "<%= @compare.driver.name %>", data: [ <%= @compare.laps.order(:lap_number).where('fuel is not null').collect { |l| l.fuel.round(3).to_f }.join(",") %> ]});
+  <% end %>
+
+  delete options.tooltip.formatter;
+  delete options.yAxis.labels.formatter;
+  delete options.yAxis.plotLines;
+
+  $('#container-fuel').highcharts(options);
+
+  // Gaps chart
+  <% if @compare %>
+  options.series = [];
+  delete options.yAxis.plotLines;
+  var data = [{
+    name: "<%= @session.driver.name %>",
+    laps: [ <%= @session.laps.collect(&:total).join(",") %> ]
+  }];
+
+  var winner_average;
+    <% if @compare.laps.size > @session.laps.size || @compare.laps.sum(:total) < @session.laps.sum(:total) %>
+  data.unshift({ name: "<%= @compare.driver.name %>", laps: [ <%= @compare.laps.order(:lap_number).collect { |l| l.total.round(3).to_f }.join(",") %> ]});
+  winner_average = <%= @compare.average_lap %>;
+    <% else %>
+  data.push({ name: "<%= @compare.driver.name %>", laps: [ <%= @compare.laps.order(:lap_number).collect { |l| l.total.round(3).to_f }.join(",") %> ]});
+  winner_average = <%= @session.average_lap %>;
+    <% end %>
+
+  // Figure out the gaps between each driver and the winning time
+  $.each(data, function (i, driver) {
+    driver.data = [];
+    driver.average = [];
+    $.each(driver.laps, function (i, lap) {
+      // First lap is handled separately
+      if (i == 0) {
+        driver.average.push(lap);
+      }
+      // Other laps are added together as you go
+      else {
+        laps_slice = [];
+        $.each(driver.laps.slice(0, i + 1), function (i, lap) {
+          laps_slice.push(lap);
+        });
+        driver.average.push(array_sum(laps_slice));
+      }
+
+      // Keep a track of the difference
+      driver.data.push(((winner_average * (i + 1)) - driver.average[i]));
+    });
+
+    // Hide or show drivers if applicable.
+    if (hide_driver(params, driver.name)) {
+      driver.visible = false;
+    }
+
+    console.log(driver);
+    options.series.push(driver);
+  });
+
+  // Change the tooltip formatter, chart title and y-axis title options
+  options.tooltip.formatter = graph_two_formatter;
+  options.title.text = "Gaps to winner";
+  options.yAxis.title.text = 'Gap';
+
+  // Instruct highcharts to render this chart
+  $('#container-gaps').highcharts(options);
+  <% end %>
+
 </script>

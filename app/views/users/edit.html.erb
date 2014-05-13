@@ -5,17 +5,41 @@
   <%= render(:partial => 'form', :locals => { :f => f }) %>
 
   <div class="form-group">
+    <%= f.label :token, 'Auth Token:' %>
+    <span><%= @user.token %></span>
+    <%= display_help('This token is used to authenticate you in the app.') %>
+    <div class="checkbox">
+      <%= f.label(:regenerate_token) do %>
+        <%= f.check_box(:regenerate_token) %> Regenerate Token
+      <% end %>
+      <%= display_help('WARNING: If you do this, you will need to update the app with the new value.') %>
+    </div>
+  </div>
+
+  <div class="form-group">
     <%= f.label(:driver_ids, 'Claimed Drivers') %>
     <%= f.select(:driver_ids, options_from_collection_for_select(Driver.unclaimed? + @user.drivers, "id", "name", @user.driver_ids), { }, { :multiple => true, :class => 'form-control select2' }) %>
   </div>
 
-  <ul>
-    <% @user.drivers.each do |driver| %>
-    <li><%= link_to("Edit driver #{driver.name}", edit_driver_path(driver)) %></li>
-    <% end %>
-  </ul>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Driver</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @user.drivers.each do |driver| %>
+      <tr>
+        <td class="col-sm-1"><%= driver.name %></td>
+        <td class="col-sm-1"><%= link_to("View", driver_path(driver)) %></td>
+        <td><%= link_to("Edit", edit_driver_path(driver)) %></td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
 
   <div class="form-group">
-    <%= f.submit "Save", :class => 'btn btn-default' %>
+    <%= f.submit "Save", :class => 'btn btn-default' %> <%= cancel_link(@user, false) %>
   </div>
 <% end %>

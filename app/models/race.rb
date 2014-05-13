@@ -131,6 +131,7 @@ class Race < ActiveRecord::Base
         driver.update_attribute(:flair, lap_info[:flair].split(/ /).first) unless lap_info[:flair].nil?
         session = self.sessions.find_or_initialize_by_driver_id_and_is_dry(driver.id, is_dry)
         session.track_id = track_id
+        session.session_type = 10.0
         session.save
         lap = session.laps.find_or_create_by_lap_number(:lap_number => 0)
         lap.total = lap_info[:time]
@@ -163,4 +164,50 @@ class Race < ActiveRecord::Base
     end
   end
 
+  def get_stats()
+    stats = { :speed => [], :fuel => []}
+    self.sessions.each do |s|
+      stats[:speed].push({ :value => s.top_speed, :name => s.driver.name, :units => 'km/h' })
+      stats[:fuel].push({ :value => s.fuel_remaining, :name => s.driver.name, :units => 'litres' })
+    end
+    stats
+  end
+
+  def get_ancestors
+    ancestors = {}
+    if season = self.season
+      ancestors[:season] = self.season_id
+      if league = season.league
+        ancestors[:league] = season.league_id
+        if league.super_league
+          ancestors[:superleague] = league.super_league_id
+        end
+      end
+    end
+    ancestors
+  end
+
+  def winner
+    self.winner_session.first.try(:driver).try(:name) || 'Unknown'
+  end
+
+  def laps
+    self.winner_session.first.try(:laps).try(:count)
+  end
+
+  def winner_session
+    winner_session = self.sessions.where(:winner => true)
+    unless winner_session
+      winner_session = self.sessions.includes(:laps).order('count(laps) desc').order('sum(laps.total)').limit(1)
+    end
+    winner_session
+  end
+
+  def super_league
+    self.try(:season).try(:league).try(:super_league)
+  end
+
+  def league
+    self.try(:season).try(:league)
+  end
 end

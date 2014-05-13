@@ -1,0 +1,84 @@
+<h1><%= @user.name %></h1>
+<% if current_user && @user == current_user %>
+<p><%= link_to('Edit Profile', edit_user_path(@user)) %></p>
+<% end %>
+
+<ul class="nav nav-tabs">
+  <li class="active"><a id="tab-sessions" href="#sessions" data-toggle="tab">Sessions</a></li>
+  <% if current_user && @user == current_user %>
+  <li><a id="tab-auth" href="#auth" data-toggle="tab">Auth Token</a></li>
+  <% end %>
+</ul>
+
+<div class="tab-content">
+  <div class="tab-pane active" id="sessions">
+    <div class="form-group" style="margin-top: 10px;">
+      <fieldset>
+        <legend>Filters</legend>
+        <div class="form-group">
+          <strong>Driver: </strong>
+          <% @user.sessions.collect(&:driver).uniq.each do |driver| %>
+            <%= label_tag(driver.name, :class => 'checkbox-inline session-filter') do %>
+              <%= check_box_tag(driver.name, 1, true, :data => { :filter => 'driver' }) %> <%= driver.name %>
+            <% end %>
+          <% end %>
+        </div>
+        <div class="form-group">
+          <strong>Session Type: </strong>
+          <%= label_tag(:time_trial, :class => 'checkbox-inline session-filter') do %>
+            <%= check_box_tag(:time_trial, 1, true, :data => { :filter => 'type' }) %> Time Trial
+          <% end %>
+          <%= label_tag(:qualifying, :class => 'checkbox-inline session-filter') do %>
+            <%= check_box_tag(:qualifying, 1, true, :data => { :filter => 'type' }) %> Qualifying
+          <% end %>
+          <%= label_tag(:race, :class => 'checkbox-inline session-filter') do %>
+            <%= check_box_tag(:race, 1, true, :data => { :filter => 'type' }) %> Race
+          <% end %>
+          <%= label_tag(:unknown, :class => 'checkbox-inline session-filter') do %>
+            <%= check_box_tag(:unknown, 1, true, :data => { :filter => 'type' }) %> Unknown
+          <% end %>
+        </div>
+        <div class="form-group">
+          <strong>Circuit: </strong>
+          <% @user.sessions.includes(:track).order('tracks.name').collect(&:track).uniq.each do |track| %>
+            <% name = track.nil? ? 'Unknown' : track.name %>
+            <%= label_tag(name.parameterize, :class => 'checkbox-inline session-filter') do %>
+              <%= check_box_tag(name.parameterize, 1, true, :data => { :filter => 'track' }) %> <%= name %>
+            <% end %>
+          <% end %>
+        </div>
+      </fieldset>
+    </div>
+    <table class="table" id="session_list">
+      <thead>
+      <tr>
+        <th>Driver</th>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Type</th>
+        <th>Circuit</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @user.sessions.order('created_at desc').each do |session| %>
+        <tr data-type="<%= session.nice_session_type.parameterize %>" data-driver="<%= session.driver.try(:name).try(:parameterize) %>" data-track="<%= session.track.try(:name).try(:parameterize) %>">
+          <td><%= session.driver.try(:name) %></td>
+          <td><%= session.created_at.strftime('%d %b %Y') %></td>
+          <td><%= nice_time(session.session_time) %></td>
+          <td><%= session.nice_session_type %></td>
+          <td><%= session.track.try(:name) %></td>
+          <% if current_user && current_user == @user %>
+            <td><%= link_to('Edit', edit_session_path(session)) %></td>
+            <td><%= link_to('Delete', session_path(session), :method => :delete, :confirm => "This action cannot be undone - are you sure?") %></td>
+          <% end %>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+  <% if current_user && current_user == @user %>
+  <div class="tab-pane" id="auth">
+    <p>Your authentication token for the app is: <%= current_user.token %></p>
+  </div>
+  <% end %>
+</div>

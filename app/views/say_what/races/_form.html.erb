@@ -17,13 +17,13 @@
   <legend>Session Options</legend>
   <div class="form-group">
     <%= f.label(:driver_session_ids, 'New Sessions') %>
-    <span class="glyphicon glyphicon-question-sign help-popover" data-container="body" data-toggle="popover" data-placement="right" data-content="Type in the names of the drivers involved and select from the list. Sessions will be created for the selected drivers if required, and unassigned if you deselect a driver."></span>
+    <%= display_help('Type in the names of the drivers involved and select from the list. Sessions will be created for the selected drivers if required, and unassigned if you deselect a driver.') %>
     <%= f.select(:driver_session_ids, options_from_collection_for_select(Driver.all, "id", "name", @sessions), {}, { :multiple => true, :class => 'form-control select2' }) %>
   </div>
 
   <div class="form-group">
     <%= f.label(:existing_driver_session_ids, 'Existing Sessions') %>
-    <span class="glyphicon glyphicon-question-sign help-popover" data-container="body" data-toggle="popover" data-placement="right" data-content="Type in session numbers given to you by those using the logging app. This is used to (re)assign existing sessions to this race, it doesn't create new ones."></span>
+    <%= display_help('Type in session numbers given to you by those using the logging app. This is used to (re)assign existing sessions to this race, it doesn\'t create new ones.') %>
     <%= f.select(:existing_driver_session_ids, options_from_collection_for_select(Session.all, "id", "id", @race.session_ids), {}, { :multiple => true, :class => 'form-control select2' }) %>
   </div>
 </fieldset>

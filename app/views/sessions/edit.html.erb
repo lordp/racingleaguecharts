@@ -1,0 +1,16 @@
+<h1>Editing Session Type</h1>
+
+<%= form_for(@session, :url => session_path(@session)) do |f| %>
+  <%= render(:partial => 'shared/errors', :object => @session ) %>
+  <div class="form-group">
+    <%= f.label(:session_type) %>
+    <%= f.select(:session_type, [['Race', 11.0], ['Time Trial', 10.0], ['Qualifying', 170.0], ['Unknown', nil]], {}, { :class => 'form-control select2' }) %>
+  </div>
+  <div class="form-group">
+    <%= f.label(:track_id, 'Track') %>
+    <%= f.select(:track_id, options_from_collection_for_select(Track.where('name is not null').where('name != ?', '').order(:name), "id", "name", @session.track_id), {}, { :class => 'form-control select2' }) %>
+  </div>
+  <div class="form-group">
+    <%= f.submit('Save', :class => 'btn btn-default') %> <%= link_to('Cancel', user_path(current_user)) %>
+  </div>
+<% end %>

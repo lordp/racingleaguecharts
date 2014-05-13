@@ -1,3 +1,5 @@
+var chart_height_multiplier = 60;
+
 // Helper method to return a total time for an array or array slice
 function array_sum(array) {
   var race = array.reduce(function (a, b) {
@@ -9,11 +11,12 @@ function array_sum(array) {
 
 function convert_seconds_to_lap(seconds, include_micro) {
   var t1 = Math.floor(seconds / 60);
+  var t2;
   if (include_micro) {
-    var t2 = (seconds % 60).toFixed(3);
+    t2 = (seconds % 60).toFixed(3);
   }
   else {
-    var t2 = (seconds % 60).toFixed(0);
+    t2 = (seconds % 60).toFixed(0);
   }
   return t1 + ":" + (t2 < 10 ? "0" + t2 : t2);
 }
@@ -24,6 +27,12 @@ function graph_one_axis_formatter() {
 
 function pace_graph_formatter() {
   return convert_seconds_to_lap(this.y, true);
+}
+
+function speed_graph_formatter() {
+  var k = (this.y * 3.6).toFixed(3);
+  var m = (this.y * 2.23694).toFixed(3);
+  return k + " kmh / " + m + " mph / lap " + this.series.options.laps[this.point.x];
 }
 
 // The tooltip formatter for the first graph (laps)
@@ -43,7 +52,11 @@ function graph_two_formatter() {
   var s = '<b>Lap ' + this.x + '</b>';
 
   $.each(this.points, function (i, point) {
-    s += '<br/><span style="color: ' + point.series.color + ';">' + point.series.name + '</span>: ' + Math.abs(point.y).toFixed(3);
+    var v = Math.abs(point.y).toFixed(3);
+    if (point.y > 0) {
+      v = '<span style="font-weight: bold">' + v + '</span>';
+    }
+    s += '<br/><span style="color: ' + point.series.color + ';">' + point.series.name + '</span>: ' + v;
   });
 
   return s;
@@ -130,9 +143,15 @@ function sort_pace(a, b) {
   return a.avg == b.avg ? 0 : a.avg < b.avg ? -1 : 1
 }
 
-function manage_params(adding, name) {
-  show = params.show ? params.show.split(',') : [];
-  hide = params.hide ? params.hide.split(',') : [];
+function sort_speed(a, b) {
+  return a.speed == b.speed ? 0 : a.speed < b.speed ? 1 : -1
+}
+
+function manage_params(target) {
+  var show = params.show ? params.show.split(',') : [];
+  var hide = params.hide ? params.hide.split(',') : [];
+  var adding = !target.visible;
+  var name = target.name;
 
   if (adding) {
     show.push(name);
@@ -160,12 +179,15 @@ function manage_params(adding, name) {
     }
   });
 
-  update_show_hide_links();
+  update_show_hide_links(target.chart.container.parentNode.id.replace('container-', ''));
 }
 
-function update_show_hide_links() {
-  $('#show_chart').attr('href', '?tab=' + params.tab + (params.show ? '&show=' + params.show : '') + (params.compare ? '&compare=' + params.compare : ''));
-  $('#hide_chart').attr('href', '?tab=' + params.tab + (params.hide ? '&hide=' + params.hide : '') + (params.compare ? '&compare=' + params.compare : ''));
+function update_show_hide_links(tab) {
+  if (!tab) {
+    tab = params.tab;
+  }
+  $('#show_chart_' + tab).attr('href', '?tab=' + params.tab + (params.show ? '&show=' + params.show : '') + (params.compare ? '&compare=' + params.compare : ''));
+  $('#hide_chart_' + tab).attr('href', '?tab=' + params.tab + (params.hide ? '&hide=' + params.hide : '') + (params.compare ? '&compare=' + params.compare : ''));
 }
 
 function set_bar_chart_options(options) {
@@ -173,6 +195,7 @@ function set_bar_chart_options(options) {
   options.plotOptions.bar = {
     dataLabels: {
       enabled: true,
+      padding: 10,
       align: 'right',
       color: 'white',
       style: {
@@ -205,12 +228,14 @@ var options = {
       pointStart: 1,
       events: {
         legendItemClick: function(e) {
-          if (e.currentTarget.visible == true) {
-            manage_params(false, e.currentTarget.name);
-          }
-          else {
-            manage_params(true, e.currentTarget.name);
-          }
+          manage_params(e.currentTarget);
+        }
+      }
+    },
+    column: {
+      events: {
+        legendItemClick: function(e) {
+          manage_params(e.currentTarget);
         }
       }
     }
@@ -240,39 +265,33 @@ var fastest_overall_lap = {
 
 // When the browser/page has been loaded...
 $(function () {
-  if (typeof race != 'undefined') {
+  if (typeof race == 'object' && race.hasOwnProperty('sessions')) {
     // Figure out what race/league the user wants from the URL
     params = getQueryString();
 
     // Pre-fill the show/hide parameter if applicable
     if (!params.show) {
       if (params.hide) {
-        params.show = $.map(race.laps, function(driver, index) {
-          if ($.inArray(driver.name, params.hide.split(',')) >= 0) {
-            return;
-          }
-          else {
+        params.show = $.map(race.sessions, function(driver) {
+          if ($.inArray(driver.name, params.hide.split(',')) < 0) {
             return driver.name;
           }
         }).join(',');
       }
       else {
-        params.show = $.map(race.laps, function(driver, index) { return driver.name }).join(',');
+        params.show = $.map(race.sessions, function(driver) { return driver.name }).join(',');
       }
     }
     else {
       if (!params.hide) {
-        params.hide = $.map(race.laps, function(driver, index) {
-          if ($.inArray(driver.name, params.show.split(',')) >= 0) {
-            return;
-          }
-          else {
+        params.hide = $.map(race.sessions, function(driver) {
+          if ($.inArray(driver.name, params.show.split(',')) < 0) {
             return driver.name;
           }
         }).join(',');
       }
       else {
-        params.hide = $.map(race.laps, function(driver, index) { return driver.name }).join(',');
+        params.hide = $.map(race.sessions, function(driver) { return driver.name }).join(',');
       }
     }
 
@@ -290,10 +309,8 @@ $(function () {
     // Initialise the show/hide links
     update_show_hide_links();
 
-    var data = race.laps;
-
     // Loop through each driver
-    $.each(data, function (j, driver) {
+    $.each(race.sessions, function (j, driver) {
       driver.data = [];
       // Loop through each lap
       $.each(driver.laps, function (i, lap) {
@@ -346,7 +363,7 @@ $(function () {
       };
     }
 
-    $('#container-laps').highcharts(options);
+    $('#container-laps-child').highcharts(options);
 
     if (!race.time_trial) {
       // Clear out the series for the second chart
@@ -356,14 +373,10 @@ $(function () {
       }
 
       // Determine the average time for the winner (first array value)
-      var winner_laps = [];
-      $.each(data[0].laps, function (i, lap) {
-        winner_laps.push(lap);
-      });
-      var winner_average = array_sum(winner_laps) / winner_laps.length;
+      var winner_average = array_sum(race.sessions[0].laps) / race.sessions[0].laps.length;
 
       // Figure out the gaps between each driver and the winning time
-      $.each(data, function (i, driver) {
+      $.each(race.sessions, function (i, driver) {
         driver.data = [];
         driver.average = [];
         $.each(driver.laps, function (i, lap) {
@@ -389,6 +402,7 @@ $(function () {
           driver.visible = false;
         }
 
+        driver.data.unshift(0);
         options.series.push(driver);
       });
 
@@ -396,14 +410,15 @@ $(function () {
       options.tooltip.formatter = graph_two_formatter;
       options.title.text = "Gaps to winner";
       options.yAxis.title.text = 'Gap';
+      options.plotOptions.spline.pointStart = 0;
 
       // Instruct highcharts to render this chart
-      $('#container-gaps').highcharts(options);
+      $('#container-gaps-child').highcharts(options);
 
       // Third charts - lap by lap time differences
       options.chart.type = 'column';
       options.series = [];
-      $.each(data, function (i, driver) {
+      $.each(race.sessions, function (i, driver) {
         var prev_lap = 0;
         driver.data = [];
         $.each(driver.laps, function (i, lap) {
@@ -423,19 +438,40 @@ $(function () {
       });
 
       options.title.text = 'Lap diffs';
-      $('#container-diffs').highcharts(options);
+      $('#container-diffs-child').highcharts(options);
     }
     else {
       $('#tab-gaps').hide();
       $('#tab-diffs').hide();
     }
 
+    // Fuel chart
+    if (race.sessions[0].fuel.length > 0) {
+      options.title.text = 'Fuel usage';
+      options.chart.type = 'spline';
+      options.series = [];
+      $.each(race.sessions, function (i, driver) {
+        options.series.push({
+          name: driver.name,
+          data: driver.fuel,
+          visible: !hide_driver(params, driver.name),
+          color: driver.color,
+          marker: driver.marker
+        });
+      });
+
+      $('#container-fuel-child').highcharts(options);
+    }
+    else {
+      $('#tab-fuel').hide();
+    }
+
     // 4th charts - various Bar charts
-    if (data[0].sector1.length > 0) {
+    if (race.sessions[0].sector1.length > 0) {
       set_bar_chart_options(options);
 
       var sectors = [[], [], []];
-      $.each(data, function (i, driver) {
+      $.each(race.sessions, function (i, driver) {
         sectors[0].push(fastest_sector_time(driver, 1));
         sectors[1].push(fastest_sector_time(driver, 2));
         sectors[2].push(fastest_sector_time(driver, 3));
@@ -447,7 +483,7 @@ $(function () {
         "sector3": {},
         "total": 0
       };
-      var fl = "Fastest Lap (" + data[fastest_overall_lap.driver].name + ")";
+      var fl = "Fastest Lap (" + race.sessions[fastest_overall_lap.driver].name + ")";
       $.each(sectors, function(i, sector) {
         var sorted = sector.sort(sort_sector);
         var data = [];
@@ -464,22 +500,20 @@ $(function () {
 
         tb["sector" + parseInt(i + 1)] = { "time": data[0], "driver": cats[0] };
 
-        data.unshift(fastest_overall_lap.sectors[i]);
-        cats.unshift(fl);
-        laps.unshift(fastest_overall_lap.lap + 1);
-
         options.series = [{ data: data, laps: laps }];
 
-        options.plotOptions.series.stacking = 'normal';
         options.xAxis.categories = cats;
-        options.yAxis.min = Math.floor(data[0] - 1.5);
+        options.yAxis.min = Math.floor(data[0] - 3);
         options.title.text = 'Sector ' + (i + 1) + ' - Fastest Times';
         options.chart.renderTo = 'container-sectors-sector' + (i + 1);
 
-        var chart = new Highcharts.Chart(options);
-        chart.series[0].data[0].graphic.attr({
-          fill: '#FF0000'
-        });
+        data.unshift({ y: fastest_overall_lap.sectors[i], color: 'red' });
+        cats.unshift(fl);
+        laps.unshift(fastest_overall_lap.lap + 1);
+
+        $("#" + options.chart.renderTo).css('height', (race.sessions.length + 1) * chart_height_multiplier);
+
+        new Highcharts.Chart(options);
 
         // Sector average charts
         var averages = avgs.sort(sort_sector);
@@ -492,6 +526,9 @@ $(function () {
         options.chart.renderTo = 'container-sectors-sector' + (i + 1) + '-average';
         options.series = [{ data: avgs }];
         options.xAxis.categories = average_cats;
+        options.yAxis.min = Math.floor(avgs[0][1] - 3);
+
+        $("#" + options.chart.renderTo).css('height', race.sessions.length * chart_height_multiplier);
 
         new Highcharts.Chart(options);
       });
@@ -501,7 +538,12 @@ $(function () {
         $("#tb-" + i + "-driver").html(tb["sector" + i].driver);
         $("#tb-" + i + "-time").html(tb["sector" + i].time);
       }
-      $("#tb-total").html(convert_seconds_to_lap(tb["total"].toFixed(3), true) + " (" + parseFloat(fastest_overall_lap.time - tb["total"]).toFixed(3) + " faster)");
+      var tb_total = convert_seconds_to_lap(tb["total"].toFixed(3), true);
+      var tb_diff = parseFloat(fastest_overall_lap.time - tb["total"]).toFixed(3);
+      if (tb_diff > 0) {
+        tb_total += " (" + tb_diff + " faster)";
+      }
+      $("#tb-total").html(tb_total);
 
       // Pace charts - top 15, 50 and 80% lap times, averaged out per driver
       options.plotOptions.bar.dataLabels.formatter = pace_graph_formatter;
@@ -511,7 +553,7 @@ $(function () {
         top80: []
       };
 
-      $.each(race.laps, function(index, driver) {
+      $.each(race.sessions, function(index, driver) {
         var l15 = Math.ceil(driver.laps.length * 0.15);
         var l50 = Math.ceil(driver.laps.length * 0.50);
         var l80 = Math.ceil(driver.laps.length * 0.80);
@@ -521,13 +563,16 @@ $(function () {
         pace.top80.push({ name: driver.name, avg: array_sum(driver.laps.sort(sort_compare).slice(0, l80)) / l80 });
       });
 
-      for (p in pace) {
+      for (var p in pace) {
         var n = p.substring(3);
 
         var laps = [];
         var cats = [];
 
+        var lowest_pace = 999;
+
         $.each(pace[p].sort(sort_pace), function(i, driver) {
+          lowest_pace = (lowest_pace > driver.avg ? driver.avg : lowest_pace);
           laps.push(driver.avg);
           cats.push(driver.name);
         });
@@ -536,7 +581,9 @@ $(function () {
         options.chart.renderTo = 'container-pace-' + n;
         options.series = [{ data: laps }];
         options.xAxis.categories = cats;
-        options.yAxis.min = options.series[0].data[0] - 10;
+        options.yAxis.min = Math.floor(lowest_pace - 5);
+
+        $("#" + options.chart.renderTo).css('height', race.sessions.length * chart_height_multiplier);
 
         new Highcharts.Chart(options);
       }
@@ -545,6 +592,33 @@ $(function () {
       // Hide the sector and pace charts as both rely on the missing sector times
       $('#tab-sectors').hide();
       $('#tab-pace').hide();
+    }
+
+    // Top speed chart
+    if (race.sessions[0].speed.length > 0) {
+      options.title.text = 'Speed trap';
+      options.series = [];
+      var speed = [];
+      laps = [];
+      cats = [];
+      var lowest_speed = 999;
+      var speed_data = $.map(race.sessions, function(l, i) { if (l.speed[0]) { return { name: l.name, lap: l.speed[0], speed: l.speed[1] } }});
+      $.each(speed_data.sort(sort_speed), function (index, data) {
+        lowest_speed = (lowest_speed > data.speed ? data.speed : lowest_speed);
+        speed.push(data.speed);
+        laps.push(data.lap);
+        cats.push(data.name);
+      });
+      options.series = [{ data: speed, laps: laps }];
+      options.xAxis.categories = cats;
+      options.plotOptions.bar.dataLabels.formatter = speed_graph_formatter;
+      options.chart.renderTo = 'container-speed-child';
+      options.yAxis.min = Math.floor(lowest_speed - 1);
+      options.yAxis.title.text = 'Speed (m/s)';
+      new Highcharts.Chart(options);
+    }
+    else {
+      $('#tab-speed').hide();
     }
   }
 });

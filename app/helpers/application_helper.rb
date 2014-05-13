@@ -5,7 +5,7 @@ module ApplicationHelper
     nice = ""
     nice = "#{time.floor / 60}:" if time > 60
     mod = time % 60
-    "#{nice}#{mod < 10 ? '0' : ''}#{number_with_precision(mod, :precision => 3)}"
+    "#{nice}#{!nice.blank? && mod < 10 ? '0' : ''}#{number_with_precision(mod, :precision => 3)}"
   end
 
   def is_current?(obj, at_obj)
@@ -78,6 +78,8 @@ module ApplicationHelper
           admin ? say_what_drivers_path : edit_user_path(obj.user)
         when Lap
           say_what_laps_path
+        when User
+          admin ? say_what_users_path : user_path(obj)
         else
           nil
       end
@@ -100,13 +102,49 @@ module ApplicationHelper
     unless obj.send(field).nil?
       case field
         when 'speed'
-          (obj.send(field) * 3.6).round(3)
+          "#{(obj.send(field) * 3.6).round(3)} kph / #{(obj.send(field) * 2.23694).round(3)} mph"
         when 'fuel'
-          "#{obj.send(field).round(3)} (&#916; #{obj.send("#{field}_delta").round(3)})".html_safe
+          delta = obj.send("#{field}_delta").round(3)
+          value = "#{obj.send(field).round(3)}"
+          unless delta == 0
+            value += " (#{delta < 0 ? '' : '+'}#{delta})"
+          end
+          value.html_safe
         when 'position'
-          "#{obj.send(field)} (&#916; #{obj.send("#{field}_delta")})".html_safe
+          delta = obj.send("#{field}_delta")
+          value = "#{obj.send(field)}"
+          unless delta == 0
+            value += "(#{delta < 0 ? '' : '+'}#{delta})"
+          end
+          value.html_safe
+        else
+          nil
       end
     end
+  end
+
+  def display_help(msg)
+    content_tag('span', '', :class => 'glyphicon glyphicon-question-sign help-popover', :data => { :container => 'body', :toggle => 'popover', :placement => 'right', :content => msg })
+  end
+
+  def expand_menu?(race, obj)
+    return "none" if race.nil?
+    ancestors = race.get_ancestors
+    sym = obj.class.to_s.downcase.to_sym
+    ancestors.has_key?(sym) && ancestors[sym] == obj.id ? "block" : "none"
+  end
+
+  def nice_gap(sessions, session, index)
+    if index > 0
+      if sessions[0].laps.count > session.laps.count
+        gap = "+#{pluralize((sessions[0].laps.count - session.laps.count).abs, 'lap')}"
+      else
+        previous_session = sessions[index - 1]
+        gap = "+#{nice_time((previous_session.total_time - session.total_time).abs)}"
+        gap += " / +#{nice_time((sessions[0].total_time - session.total_time).abs)}" if index > 1
+      end
+    end
+    gap
   end
 
 end

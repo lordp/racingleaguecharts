@@ -36,12 +36,20 @@ class Lap < ActiveRecord::Base
 
   def fuel_delta
     ll = self.last_lap('fuel')
-    ll ? ll - self.fuel : 0
+    ll ? self.fuel - ll : 0
   end
 
   def position_delta
     ll = self.last_lap('position')
     ll ? ll - self.position : 0
+  end
+
+  def nice_top_speed
+    if self.speed
+      [self.lap_number, self.speed.to_f.round(3)]
+    else
+      []
+    end
   end
 
 end

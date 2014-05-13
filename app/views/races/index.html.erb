@@ -1,6 +1,6 @@
 <h1>Races</h1>
 
-<p><%= link_to('New Race', new_super_league_league_season_race_path(@super_league, @league, @season)) %></p>
+<%= paginate @races %>
 
 <table class="table table-bordered">
   <thead>
@@ -12,9 +12,11 @@
   <tbody>
   <% @races.each do |race| %>
     <tr>
-      <td><%= race.name %></td>
-      <td><%= link_to('Chart', chart_super_league_league_season_race_path(@super_league, @league, @season, race)) %> | <%= link_to('Edit', edit_super_league_league_season_race_path(@super_league, @league, @season, race)) %></td>
+      <td><%= link_to(race.full_name, race_path(race)) %></td>
+      <td><%= link_to('Chart', chart_race_path(race)) %></td>
     </tr>
   <% end %>
   </tbody>
 </table>
+
+<%= paginate @races %>
