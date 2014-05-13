@@ -511,7 +511,7 @@ $(function () {
         cats.unshift(fl);
         laps.unshift(fastest_overall_lap.lap + 1);
 
-        $("#" + options.chart.renderTo).css('height', race.sessions.length * chart_height_multiplier);
+        $("#" + options.chart.renderTo).css('height', (race.sessions.length + 1) * chart_height_multiplier);
 
         new Highcharts.Chart(options);
 
