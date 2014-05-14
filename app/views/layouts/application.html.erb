@@ -6,10 +6,11 @@
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
   <%= favicon_link_tag('rlc.ico') %>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
 
-<div id="page-wrapper">
+<div id="page-wrapper" class="container-fluid">
   <div id="sidebar-wrapper">
     <div class="brand">RACING<br/>LEAGUE<br/>CHARTS</div>
     <div class="middle">
@@ -42,19 +43,19 @@
     </div>
     <div class="bottom">
       <% if current_user %>
-      <p>Logged in as <%= current_user.name %></p>
+      <p id="current-user">Logged in as <%= current_user.name %></p>
       <% end %>
       <ul class="list-inline">
       <% if current_user %>
-        <li><%= link_to('Dashboard', user_path(current_user), :class => 'btn btn-success rlc-btn') %></li>
-        <li><%= link_to('Sign out', sign_out_users_path, :class => 'btn btn-danger rlc-btn') %></li>
+        <li><%= link_to('Dashboard', user_path(current_user), :class => 'btn btn-success rlc-btn', :id => 'rlc-dashboard') %></li>
+        <li><%= link_to('Sign out', sign_out_users_path, :class => 'btn btn-danger rlc-btn', :id => 'rlc-sign-out') %></li>
       <% else %>
-        <li><%= link_to('Sign in', sign_in_users_path, :class => 'btn btn-success rlc-btn') %></li>
-        <li><%= link_to('Sign up', sign_up_users_path, :class => 'btn btn-primary rlc-btn') %></li>
+        <li><%= link_to('Sign in', sign_in_users_path, :class => 'btn btn-success rlc-btn', :id => 'rlc-sign-in') %></li>
+        <li><%= link_to('Sign up', sign_up_users_path, :class => 'btn btn-primary rlc-btn', :id => 'rlc-sign-up') %></li>
       <% end %>
       </ul>
       <% if current_user && current_user.admin? %>
-        <p><%= link_to('ADMIN', say_what_welcome_path, :class => 'btn btn-primary rlc-btn-admin') %></p>
+        <p><%= link_to('ADMIN', say_what_welcome_path, :class => 'btn btn-primary rlc-btn-admin', :id => 'rlc-admin') %></p>
       <% end %>
     </div>
   </div>

@@ -65,4 +65,11 @@ $(function() {
     $('input[data-parent=' + e.target.name + ']').attr('disabled', !e.target.checked);
   });
 
+  if (screen.width < 768) {
+    $("#rlc-admin").text('').addClass('glyphicon glyphicon-user');
+    $("#rlc-dashboard").text('').addClass('glyphicon glyphicon-dashboard');
+    $("#rlc-sign-out").text('').addClass('glyphicon glyphicon-off');
+    $("#rlc-sign-in").text('').addClass('glyphicon glyphicon-on');
+    $("#rlc-sign-up").text('').addClass('glyphicon glyphicon-plus');
+  }
 });
