@@ -65,11 +65,17 @@ $(function() {
     $('input[data-parent=' + e.target.name + ']').attr('disabled', !e.target.checked);
   });
 
-  if (screen.width < 768) {
-    $("#rlc-admin").text('').addClass('glyphicon glyphicon-user');
-    $("#rlc-dashboard").text('').addClass('glyphicon glyphicon-dashboard');
-    $("#rlc-sign-out").text('').addClass('glyphicon glyphicon-off');
-    $("#rlc-sign-in").text('').addClass('glyphicon glyphicon-on');
-    $("#rlc-sign-up").text('').addClass('glyphicon glyphicon-plus');
-  }
+//  if (screen.width < 768) {
+//    $("#rlc-admin").text('').addClass('glyphicon glyphicon-user');
+//    $("#rlc-dashboard").text('').addClass('glyphicon glyphicon-dashboard');
+//    $("#rlc-sign-out").text('').addClass('glyphicon glyphicon-log-out');
+//    $("#rlc-sign-in").text('').addClass('glyphicon glyphicon-log-in');
+//    $("#rlc-sign-up").text('').addClass('glyphicon glyphicon-plus');
+//  }
+
+  $('#off-canvas-button').on('click', function() {
+    $('.brand').toggle();
+    $('.middle').toggle();
+    $('#sidebar-wrapper').toggle();
+  });
 });
