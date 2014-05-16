@@ -6,14 +6,12 @@
   <thead>
     <tr>
       <th>Name</th>
-      <th></th>
     </tr>
   </thead>
   <tbody>
   <% @races.each do |race| %>
     <tr>
       <td><%= link_to(race.full_name, race_path(race)) %></td>
-      <td><%= link_to('Chart', chart_race_path(race)) %></td>
     </tr>
   <% end %>
   </tbody>
