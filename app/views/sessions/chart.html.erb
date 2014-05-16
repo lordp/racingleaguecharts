@@ -71,13 +71,13 @@
       formatter: graph_one_formatter
     },
     series: [{
-      name: "<%= @session.driver.name %>",
+      name: "<%= @session.driver.try(:name) %>",
       data: [ <%= @session.laps.order(:lap_number).collect(&:total).join(",") %> ]
     }]
   };
 
 <% if @compare %>
-  options.series.push({ name: "<%= @compare.driver.name %>", data: [ <%= @compare.laps.order(:lap_number).collect(&:total).join(",") %> ]});
+  options.series.push({ name: "<%= @compare.driver.try(:name) %>", data: [ <%= @compare.laps.order(:lap_number).collect(&:total).join(",") %> ]});
   options.yAxis.plotLines.push({
     value: <%= @compare.average_lap %>,
     color: 'green',
@@ -89,12 +89,12 @@
 
   // Fuel chart
   options.series = [{
-    name: "<%= @session.driver.name %>",
+    name: "<%= @session.driver.try(:name) %>",
     data: [ <%= @session.laps.order(:lap_number).where('fuel is not null').collect { |l| l.fuel.round(3).to_f }.join(",") %> ]
   }];
 
   <% if @compare %>
-  options.series.push({ name: "<%= @compare.driver.name %>", data: [ <%= @compare.laps.order(:lap_number).where('fuel is not null').collect { |l| l.fuel.round(3).to_f }.join(",") %> ]});
+  options.series.push({ name: "<%= @compare.driver.try(:name) %>", data: [ <%= @compare.laps.order(:lap_number).where('fuel is not null').collect { |l| l.fuel.round(3).to_f }.join(",") %> ]});
   <% end %>
 
   delete options.tooltip.formatter;
@@ -108,16 +108,16 @@
   options.series = [];
   delete options.yAxis.plotLines;
   var data = [{
-    name: "<%= @session.driver.name %>",
+    name: "<%= @session.driver.try(:name) %>",
     laps: [ <%= @session.laps.collect(&:total).join(",") %> ]
   }];
 
   var winner_average;
     <% if @compare.laps.size > @session.laps.size || @compare.laps.sum(:total) < @session.laps.sum(:total) %>
-  data.unshift({ name: "<%= @compare.driver.name %>", laps: [ <%= @compare.laps.order(:lap_number).collect { |l| l.total.round(3).to_f }.join(",") %> ]});
+  data.unshift({ name: "<%= @compare.driver.try(:name) %>", laps: [ <%= @compare.laps.order(:lap_number).collect { |l| l.total.round(3).to_f }.join(",") %> ]});
   winner_average = <%= @compare.average_lap %>;
     <% else %>
-  data.push({ name: "<%= @compare.driver.name %>", laps: [ <%= @compare.laps.order(:lap_number).collect { |l| l.total.round(3).to_f }.join(",") %> ]});
+  data.push({ name: "<%= @compare.driver.try(:name) %>", laps: [ <%= @compare.laps.order(:lap_number).collect { |l| l.total.round(3).to_f }.join(",") %> ]});
   winner_average = <%= @session.average_lap %>;
     <% end %>
 
