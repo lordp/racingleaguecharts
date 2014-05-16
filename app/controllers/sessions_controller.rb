@@ -51,7 +51,11 @@ class SessionsController < ApplicationController
     end
 
     def authorize_claimed
-      redirect_to(user_path(current_user), :alert => 'Not authorized!') if current_user.nil? || !current_user.has_claimed?(@session.driver)
+      if current_user
+        redirect_to(user_path(current_user), :alert => 'Not authorized!') unless current_user.has_claimed?(@session.driver)
+      else
+        redirect_to(sign_in_users_path, :alert => 'Not authorized!')
+      end
     end
 
 end
