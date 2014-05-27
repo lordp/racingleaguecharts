@@ -89,11 +89,9 @@ class Session < ActiveRecord::Base
 
   def self.register(params)
     driver = Driver.name_and_token(params[:driver], params[:token])
-    track = Track.find_or_create_by_length(params[:track])
-    race = nil
-    unless [SESSION_TYPE_QUALIFYING, SESSION_TYPE_TIME_TRIAL].include?(params[:type])
-      race = Race.find(params[:race].to_i) if params[:race]
-    end
+    track = Track.find_or_create_by_length(params[:track].to_f)
+    race = Race.find(params[:race].to_i) if params[:type].to_i != SESSION_TYPE_QUALIFYING && params[:race]
+    race ||= nil
     Session.new(:driver_id => driver.try(:id), :track_id => track.try(:id), :race_id => race.try(:id), :session_type => params[:type])
   end
 
