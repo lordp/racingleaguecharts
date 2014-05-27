@@ -17,9 +17,9 @@ class Session < ActiveRecord::Base
 
   def nice_session_type
     case session_type
-      when 10.0
+      when SESSION_TYPE_TIME_TRIAL
         'Time Trial'
-      when 170.0
+      when SESSION_TYPE_QUALIFYING
         'Qualifying'
       when nil
         'Unknown'
@@ -30,7 +30,7 @@ class Session < ActiveRecord::Base
 
   def session_time
     case session_type
-      when 10.0, 170.0
+      when SESSION_TYPE_QUALIFYING, SESSION_TYPE_TIME_TRIAL
         fastest_lap.try(:total)
       else
         total_time
