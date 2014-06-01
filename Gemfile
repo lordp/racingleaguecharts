@@ -12,7 +12,7 @@ gem 'kaminari-bootstrap', '~> 3.0.1'
 
 gem 'sidekiq', '~> 2.17.3'
 
-gem 'codemirror-rails', '~> 3.21'
+gem 'codemirror-rails', '~> 4.1'
 gem 'paperclip', '~> 3.5.2'
 gem 'delayed_paperclip'
 
