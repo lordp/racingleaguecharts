@@ -14,6 +14,7 @@ Virtualwdc::Application.routes.draw do
       get 'sign_up', :to => 'users#new'
       post 'do_sign_in'
     end
+    resources :sessions
   end
 
   resources :leagues do
