@@ -109,7 +109,7 @@
   delete options.yAxis.plotLines;
   var data = [{
     name: "<%= @session.driver.try(:name) %>",
-    laps: [ <%= @session.laps.collect(&:total).join(",") %> ]
+    laps: [ <%= @session.laps.order(:lap_number).collect(&:total).join(",") %> ]
   }];
 
   var winner_average;
