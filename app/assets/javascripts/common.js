@@ -39,6 +39,9 @@ $(function() {
   $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
     var href = $(e.target).attr('href');
     var container = $(href + '-child');
+    if (container.length == 0) {
+      container = $(href);
+    }
     if (container.highcharts()) {
       container.highcharts().reflow();
     }
