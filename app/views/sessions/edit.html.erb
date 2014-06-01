@@ -11,6 +11,12 @@
     <%= f.select(:track_id, options_from_collection_for_select(Track.where('name is not null').where('name != ?', '').order(:name), "id", "name", @session.track_id), {}, { :class => 'form-control select2' }) %>
   </div>
   <div class="form-group">
+    <%= f.label(:lap_text) %>  <%= display_help('Copy the relevant lap lines from the logging app and paste them here. The text colour indicates correctness - black = formatting error, red = calculation error (check sector times), blue = formatting and calculation are correct') %>
+    <div style="border: solid 1px #000;">
+      <%= f.text_area(:lap_text, { :class => 'form-control' }) %>
+    </div>
+  </div>
+  <div class="form-group">
     <%= f.submit('Save', :class => 'btn btn-default') %> <%= link_to('Cancel', user_path(current_user)) %>
   </div>
 <% end %>

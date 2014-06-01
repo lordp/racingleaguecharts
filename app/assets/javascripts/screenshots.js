@@ -20,10 +20,12 @@ $(function() {
   CodeMirror.defineMode("vrl", function() {
     return {
       token: function(stream, state) {
-        var re = /^([\d]{2}) (([\d]+:)?[\d]{2}\.[\d]{3}) (([\d]+:)?[\d]{2}\.[\d]{3}) (([\d]+:)?[\d]{2}\.[\d]{3}) (([\d]+:)?[\d]{2}\.[\d]{3})/;
-        if (stream.match(re)) {
+        var re = /([\d]+) ([\d:\.]+) ([\d:\.]+) ([\d:\.]+) ([\d:\.]+)( ([\d\.]+) ([\d\.]+))?$/;
+        var tmp = stream.string;
+        if (tmp.match(re)) {
           var values = stream.string.match(re);
-          return check_lap_times(values[2], values[4], values[6], values[8]) ? 'vrl-st-correct-calc-correct' : 'vrl-st-correct-calc-wrong';
+          stream.skipToEnd();
+          return check_lap_times(values[2], values[3], values[4], values[5]) ? 'vrl-st-correct-calc-correct' : 'vrl-st-correct-calc-wrong';
         }
         else {
           stream.skipToEnd();
@@ -33,7 +35,7 @@ $(function() {
     };
   });
 
-  var myTextArea = document.getElementById('screenshot_parsed');
+  var myTextArea = document.getElementById('screenshot_parsed') || document.getElementById('session_lap_text');
   if (myTextArea != null) {
     var myCodeMirror = CodeMirror.fromTextArea(myTextArea, { mode: "vrl" });
     //myCodeMirror.setSize(300, 300);

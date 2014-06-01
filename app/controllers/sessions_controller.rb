@@ -28,11 +28,24 @@ class SessionsController < ApplicationController
     end
   end
 
+  def new
+    @session = Session.new
+  end
+
+  def create
+    @session = Session.new(params[:session])
+    if @session.save
+      redirect_to(user_path(current_user), :notice => 'Session was successfully created.')
+    else
+      render "new"
+    end
+  end
+
   def edit
   end
 
   def update
-    if @session.update_attributes({:session_type => params[:session][:session_type], :track_id => params[:session][:track_id]})
+    if @session.update_attributes(params[:session])
       redirect_to(user_path(current_user), :notice => 'Session details were successfully updated.')
     else
       render "edit"

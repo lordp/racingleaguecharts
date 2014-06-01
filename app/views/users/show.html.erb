@@ -12,6 +12,9 @@
 
 <div class="tab-content">
   <div class="tab-pane active" id="sessions">
+    <% if current_user && @user == current_user %>
+    <h3><%= link_to('Add session', new_user_session_path(current_user)) %></h3>
+    <% end %>
     <div class="form-group" style="margin-top: 10px;">
       <fieldset>
         <legend>Filters</legend>

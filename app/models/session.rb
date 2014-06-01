@@ -11,6 +11,33 @@ class Session < ActiveRecord::Base
   SESSION_TYPE_TIME_TRIAL = 10.0
   SESSION_TYPE_QUALIFYING = 170.0
 
+  LINE_REGEX = /([\d]+) ([\d:\.]+) ([\d:\.]+) ([\d:\.]+) ([\d:\.]+)( ([\d\.]+) ([\d\.]+))?$/
+
+  validate :laps_are_in_order, :on => :update, :unless => lambda { |s| s.lap_text.blank? }
+  after_save :create_laps, :unless => lambda { |s| s.lap_text.blank? }
+
+  def create_laps
+    self.lap_text.split(/\r\n/).each do |line|
+      match = line.match(LINE_REGEX)
+      self.laps.find_or_create_by_lap_number(match[1].to_i - 1) do |lap|
+        lap.total = Lap.convert_lap(match[2])
+        lap.sector_1 = Lap.convert_lap(match[3])
+        lap.sector_2 = Lap.convert_lap(match[4])
+        lap.sector_3 = Lap.convert_lap(match[5])
+        lap.speed = match[6]
+        lap.fuel = match[7]
+      end
+    end
+  end
+
+  def laps_are_in_order
+    input = lap_text.scan(LINE_REGEX).map { |l| l[1].to_i }
+    expected = (input.first..input.last).to_a
+    if input != expected
+      errors[:base] << "The lap numbers are out of order or incorrect"
+    end
+  end
+
   def name
     "#{driver.try(:name)} on #{track.try(:name)} at #{created_at}"
   end
