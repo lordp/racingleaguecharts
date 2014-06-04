@@ -97,7 +97,7 @@
   options.series.push({ name: "<%= @compare.driver.try(:name) %>", data: [ <%= @compare.laps.order(:lap_number).where('fuel is not null').collect { |l| l.fuel.round(3).to_f }.join(",") %> ]});
   <% end %>
 
-  delete options.tooltip.formatter;
+  options.tooltip.formatter = graph_two_formatter;
   delete options.yAxis.labels.formatter;
   delete options.yAxis.plotLines;
 
