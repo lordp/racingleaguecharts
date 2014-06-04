@@ -503,7 +503,7 @@ $(function () {
         options.series = [{ data: data, laps: laps }];
 
         options.xAxis.categories = cats;
-        options.yAxis.min = Math.floor(data[0] - 3);
+        options.yAxis.min = Math.floor(data[0] - 5);
         options.title.text = 'Sector ' + (i + 1) + ' - Fastest Times';
         options.chart.renderTo = 'container-sectors-sector' + (i + 1);
 
@@ -526,7 +526,7 @@ $(function () {
         options.chart.renderTo = 'container-sectors-sector' + (i + 1) + '-average';
         options.series = [{ data: avgs }];
         options.xAxis.categories = average_cats;
-        options.yAxis.min = Math.floor(avgs[0][1] - 3);
+        options.yAxis.min = Math.floor(avgs[0][1] - 2);
 
         $("#" + options.chart.renderTo).css('height', race.sessions.length * chart_height_multiplier);
 
