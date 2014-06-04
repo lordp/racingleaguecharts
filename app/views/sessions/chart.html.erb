@@ -100,8 +100,8 @@
   }];
 
   <% if @compare %>
-  options.series.push({ 
-    name: "<%= @compare.name %>", 
+  options.series.push({
+    name: "<%= @compare.name %>",
     data: [ <%= @compare.laps.order(:lap_number).where('fuel is not null').collect { |l| l.fuel.round(3).to_f }.join(",") %> ],
     color: '#000000'
   });
@@ -124,15 +124,15 @@
 
   var winner_average;
     <% if @compare.laps.size > @session.laps.size || @compare.laps.sum(:total) < @session.laps.sum(:total) %>
-  data.unshift({ 
-    name: "<%= @compare.name %>", 
+  data.unshift({
+    name: "<%= @compare.name %>",
     laps: [ <%= @compare.laps.order(:lap_number).collect { |l| l.total.round(3).to_f }.join(",") %> ],
     color: '#000000'
   });
   winner_average = <%= @compare.average_lap %>;
     <% else %>
-  data.push({ 
-    name: "<%= @compare.name %>", 
+  data.push({
+    name: "<%= @compare.name %>",
     laps: [ <%= @compare.laps.order(:lap_number).collect { |l| l.total.round(3).to_f }.join(",") %> ],
     color: '#000000'
   });
