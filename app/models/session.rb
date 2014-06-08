@@ -24,8 +24,8 @@ class Session < ActiveRecord::Base
         lap.sector_1 = Lap.convert_lap(match[3])
         lap.sector_2 = Lap.convert_lap(match[4])
         lap.sector_3 = Lap.convert_lap(match[5])
-        lap.speed = match[6]
-        lap.fuel = match[7]
+        lap.speed = match[7]
+        lap.fuel = match[8]
       end
     end
   end
