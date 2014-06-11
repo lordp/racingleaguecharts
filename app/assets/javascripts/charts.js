@@ -2,9 +2,14 @@ var chart_height_multiplier = 60;
 
 // Helper method to return a total time for an array or array slice
 function array_sum(array) {
-  var race = array.reduce(function (a, b) {
-    return a + b;
-  });
+  if (array.length > 0) {
+    var race = array.reduce(function (a, b) {
+      return a + b;
+    });
+  }
+  else {
+    race = 0;
+  }
 
   return parseFloat(race);
 }
