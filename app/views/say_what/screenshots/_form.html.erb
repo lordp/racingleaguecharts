@@ -30,9 +30,9 @@
     </div>
   </div>
 
-  <div class="pull-left">
+  <div class="pull-left" style="width:70%">
     <p><strong>Image</strong></p>
-    <%= image_tag(@screenshot.image.url(:three_quarters)) %>
+    <%= image_tag(@screenshot.image.url(:three_quarters), :style => 'width:100%') %>
   </div>
 
 </div>
