@@ -565,13 +565,15 @@ $(function () {
       };
 
       $.each(race.sessions, function(index, driver) {
-        var l15 = Math.ceil(driver.laps.length * 0.15);
-        var l50 = Math.ceil(driver.laps.length * 0.50);
-        var l80 = Math.ceil(driver.laps.length * 0.80);
+        if (driver.laps.length > 0) {
+          var l15 = Math.ceil(driver.laps.length * 0.15);
+          var l50 = Math.ceil(driver.laps.length * 0.50);
+          var l80 = Math.ceil(driver.laps.length * 0.80);
 
-        pace.top15.push({ name: driver.name, avg: array_sum(driver.laps.sort(sort_compare).slice(0, l15)) / l15 });
-        pace.top50.push({ name: driver.name, avg: array_sum(driver.laps.sort(sort_compare).slice(0, l50)) / l50 });
-        pace.top80.push({ name: driver.name, avg: array_sum(driver.laps.sort(sort_compare).slice(0, l80)) / l80 });
+          pace.top15.push({ name: driver.name, avg: array_sum(driver.laps.sort(sort_compare).slice(0, l15)) / l15 });
+          pace.top50.push({ name: driver.name, avg: array_sum(driver.laps.sort(sort_compare).slice(0, l50)) / l50 });
+          pace.top80.push({ name: driver.name, avg: array_sum(driver.laps.sort(sort_compare).slice(0, l80)) / l80 });
+        }
       });
 
       for (var p in pace) {
