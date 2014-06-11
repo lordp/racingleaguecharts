@@ -7,6 +7,7 @@
   <thead>
     <tr>
       <th>Name</th>
+      <th>Confirmed</th>
       <th></th>
     </tr>
   </thead>
@@ -14,6 +15,7 @@
 <% @screenshots.each do |screenshot| %>
     <tr>
       <td><%= link_to(screenshot.image_file_name, say_what_screenshot_path(screenshot)) %></td>
+      <td><%= screenshot.confirmed? ? 'Yes' : 'No' %></td>
       <td><%= link_to('Edit', edit_say_what_screenshot_path(screenshot)) %> | <%= link_to('Destroy', say_what_screenshot_path(screenshot), :method => :delete, :data => { :confirm => 'Are you sure?' }) %></td>
     </tr>
 <% end %>
