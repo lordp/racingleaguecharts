@@ -477,9 +477,15 @@ $(function () {
 
       var sectors = [[], [], []];
       $.each(race.sessions, function (i, driver) {
-        sectors[0].push(fastest_sector_time(driver, 1));
-        sectors[1].push(fastest_sector_time(driver, 2));
-        sectors[2].push(fastest_sector_time(driver, 3));
+        if (driver.sector1.length > 0) {
+          sectors[0].push(fastest_sector_time(driver, 1));
+        }
+        if (driver.sector2.length > 0) {
+          sectors[1].push(fastest_sector_time(driver, 2));
+        }
+        if (driver.sector3.length > 0) {
+          sectors[2].push(fastest_sector_time(driver, 3));
+        }
       });
 
       var tb = {
