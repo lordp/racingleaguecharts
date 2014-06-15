@@ -11,8 +11,8 @@
     <div class="checkbox">
       <%= f.label(:regenerate_token) do %>
         <%= f.check_box(:regenerate_token) %> Regenerate Token
+        <%= display_help('WARNING: If you do this, you will need to update the app with the new value.') %>
       <% end %>
-      <%= display_help('WARNING: If you do this, you will need to update the app with the new value.') %>
     </div>
   </div>
 
