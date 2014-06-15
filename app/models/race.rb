@@ -148,16 +148,20 @@ class Race < ActiveRecord::Base
     self.thing = nil if self.thing.blank?
   end
 
-  def scan_f1(race_number)
-    response = HTTParty.get("http://ergast.com/api/f1/2014/#{race_number}/laps.json?limit=2000")
+  def scan_f1(race_number, offset = 0)
+    response = HTTParty.get("http://ergast.com/api/f1/2014/#{race_number}/laps.json?limit=1000&offset=#{offset}")
     if response.code == 200
-      response.parsed_response['MRData']['RaceTable']['Races'].first['Laps'].collect { |l| l['Timings'] }.each_with_index do |lap, index|
+      data = response.parsed_response['MRData']
+      data['RaceTable']['Races'].first['Laps'].collect { |l| [ l['number'], l['Timings'] ] }.each do |index, lap|
         lap.each do |lap_info|
           session = self.sessions.find_or_create_by_driver_id(F1_MAP[lap_info['driverId']])
-          this_lap = session.laps.find_or_initialize_by_lap_number(:lap_number => index)
+          this_lap = session.laps.find_or_initialize_by_lap_number(:lap_number => (index.to_i - 1))
           this_lap.total = convert_lap_to_seconds(lap_info['time'])
           this_lap.save
         end
+      end
+      if data['total'].to_i > offset + 1000
+        self.scan_f1(race_number, offset + 1000)
       end
     end
   end
