@@ -12,12 +12,15 @@ class Season < ActiveRecord::Base
     lb = {}
     self.races.each do |race|
       race.sessions.includes(:laps).order('laps.total').limit(10).each_with_index do |s, i|
-        driver = Driver.find(s.driver_id)
-        lb[driver] ||= 0
-        lb[driver] += Race::POINTS[i]
+        driver = Driver.find(s.driver_id || Driver::UNKNOWN_DRIVER)
+        lb[driver] ||= { :points => 0, :positions => {} }
+        lb[driver][:points] += Race::POINTS[i]
+
+        lb[driver][:positions][i] ||= 0
+        lb[driver][:positions][i] += 1
       end
     end
-    lb.sort_by { |k, v| v }.reverse
+    lb.sort_by { |k, v| v[:points] }.reverse
   end
 
   def filter_name

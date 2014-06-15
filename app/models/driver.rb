@@ -11,6 +11,8 @@ class Driver < ActiveRecord::Base
   before_save :adjust_aliases
   after_save :adjust_sessions
 
+  UNKNOWN_DRIVER = 430
+
   def claimed?
     if name.blank?
       'Unknown'
