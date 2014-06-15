@@ -68,4 +68,10 @@ $(function() {
     $('input[data-parent=' + e.target.name + ']').attr('disabled', !e.target.checked);
   });
 
+  $('.tt-results').on('mouseover', function() {
+    $(this).children().show();
+  }).on('mouseout', function() {
+    $(this).children().hide();
+  });
+
 });

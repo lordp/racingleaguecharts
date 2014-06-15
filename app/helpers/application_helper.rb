@@ -147,4 +147,11 @@ module ApplicationHelper
     gap
   end
 
+  def nice_results(results)
+    result = []
+    results.each do |pos, cnt|
+      result << "#{(pos + 1).ordinalize} x #{cnt}"
+    end
+    result.join(', ')
+  end
 end

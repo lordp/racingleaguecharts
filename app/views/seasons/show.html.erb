@@ -8,9 +8,9 @@
   <tbody>
 <% @season.leaderboard.each_with_index do |pts, i| %>
     <tr>
-      <td><%= (i + 1).ordinalize %></td>
-      <td><%= pts[0].name %></td>
-      <td><%= pts[1] %></td>
+      <td class="col-sm-1"><%= (i + 1).ordinalize %></td>
+      <td class="tt-results"><%= pts[0].name %> <span style="display:none; color: gray; font-size: x-small"><%= nice_results(pts[1][:positions]) %></span></td>
+      <td class="col-sm-1"><%= pts[1][:points] %></td>
     </tr>
 <% end %>
   </tbody>
