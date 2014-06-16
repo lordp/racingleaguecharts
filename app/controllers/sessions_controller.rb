@@ -4,6 +4,7 @@ class SessionsController < ApplicationController
   skip_before_filter :build_menu, :only => [ :register ]
   skip_before_filter :verify_authenticity_token, :only => [ :register ]
   before_filter :authorize_claimed, :only => [ :edit, :update, :destroy ]
+  before_filter :logged_in, :only => [ :new, :create, :edit, :update, :destroy ]
 
   def index
     @sessions = Session.order(:created_at).page(params[:page].to_i).per(15)
