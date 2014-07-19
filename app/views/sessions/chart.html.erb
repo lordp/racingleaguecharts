@@ -8,12 +8,14 @@
 
 <ul class="nav nav-tabs">
   <li class="active"><a id="tab-laps" href="#container-laps" data-toggle="tab">Laps</a></li>
+  <li><a id="tab-sectors" href="#container-sectors" data-toggle="tab">Sectors</a></li>
   <li><a id="tab-gaps" href="#container-gaps" data-toggle="tab">Gaps</a></li>
   <li><a id="tab-fuel" href="#container-fuel" data-toggle="tab">Fuel</a></li>
 </ul>
 
 <div class="tab-content">
   <div class="tab-pane active chart" id="container-laps"></div>
+  <div class="tab-pane chart" id="container-sectors"><%= "Sectors chart is only relevant if you're not comparing with another session" if @compare %></div>
   <div class="tab-pane chart" id="container-gaps"><%= "Gaps chart is only relevant if you're comparing with another session" unless @compare %></div>
   <div class="tab-pane chart" id="container-fuel"></div>
 </div>
@@ -197,6 +199,41 @@
 
   // Instruct highcharts to render this chart
   $('#container-gaps').highcharts(options);
-  <% end %>
+  <% else %>
 
+  options.chart.type = 'areaspline';
+  options.plotOptions.areaspline = {
+    stacking: 'normal',
+    pointStart: 1,
+    lineColor: '#666666',
+    lineWidth: 1,
+    marker: {
+      enabled: false
+    }
+  };
+  options.xAxis.tickInterval = 1;
+
+  options.series = [
+    { name: 'Sector 3', data: [ <%= @session.laps.order(:lap_number).collect(&:sector_3).join(",") %> ] },
+    { name: 'Sector 2', data: [ <%= @session.laps.order(:lap_number).collect(&:sector_2).join(",") %> ] },
+    { name: 'Sector 1', data: [ <%= @session.laps.order(:lap_number).collect(&:sector_1).join(",") %> ] }
+  ];
+
+  options.tooltip.formatter = function() {
+    var s = '<b>Lap ' + this.x + '</b>';
+    var total = 0;
+
+    $.each(this.points, function (i, point) {
+      // Converts seconds to mm:ss.ddd format - ie 106.322 = 1:46.322
+      s += '<br/><span style="color: ' + point.series.color + ';">' + point.series.name + '</span>: ' + convert_seconds_to_lap(point.y, true);
+      total += point.y;
+    });
+
+    s += '<br/><strong>Total: </strong>' + convert_seconds_to_lap(total, true);
+    return s;
+  };
+
+  $('#container-sectors').highcharts(options);
+
+  <% end %>
 </script>
