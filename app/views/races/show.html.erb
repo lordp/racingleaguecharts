@@ -12,7 +12,8 @@
         "sector2": <%= session.laps.order(:lap_number).collect(&:sector_2).compact %>,
         "sector3": <%= session.laps.order(:lap_number).collect(&:sector_3).compact %>,
         "fuel": <%= session.laps.order(:lap_number).where('fuel is not null').collect { |l| l.fuel.round(3).to_f }.compact %>,
-        "speed": <%= session.top_speed.try(:nice_top_speed) || [] %>
+        "speed": <%= session.top_speed.try(:nice_top_speed) || [] %>,
+        "position": <%= session.laps.order(:lap_number).collect(&:position).compact %>
       },
       <% end %>
     ]
@@ -34,6 +35,7 @@
   <li><a id="tab-pace" href="#container-pace" data-toggle="tab">Pace</a></li>
   <li><a id="tab-fuel" href="#container-fuel" data-toggle="tab">Fuel</a></li>
   <li><a id="tab-speed" href="#container-speed" data-toggle="tab">Speed</a></li>
+  <li><a id="tab-position" href="#container-position" data-toggle="tab">Position</a></li>
   <li><a id="tab-options" href="#container-options" data-toggle="tab">Compare</a></li>
 <% end %>
 </ul>
@@ -128,6 +130,9 @@
   </div>
   <div class="tab-pane" id="container-speed">
     <div class="chart" id="container-speed-child"></div>
+  </div>
+  <div class="tab-pane" id="container-position">
+    <div class="chart" id="container-position-child"></div>
   </div>
   <div class="tab-pane" id="container-options">
     <fieldset>

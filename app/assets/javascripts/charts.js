@@ -80,6 +80,17 @@ function time_trial_formatter() {
   return convert_seconds_to_lap(this.y.toFixed(3), true);
 }
 
+function position_tooltip_formatter() {
+  var s = '<b>Lap ' + this.x + '</b>';
+
+  $.each(this.points, function (i, point) {
+    var v = Math.floor(point.y);
+    s += '<br/><span style="color: ' + point.series.color + ';">' + point.series.name + '</span>: ' + v;
+  });
+
+  return s;
+}
+
 // Helper function to get information from the URL
 function getQueryString() {
   var ret = {};
@@ -469,6 +480,28 @@ $(function () {
     }
     else {
       $('#tab-fuel').hide();
+    }
+
+    // Position chart
+    if (race.sessions[0].position.length > 0) {
+      options.title.text = 'Position Changes';
+      options.chart.type = 'spline';
+      options.tooltip.formatter = position_tooltip_formatter;
+      options.series = [];
+      $.each(race.sessions, function (i, driver) {
+        options.series.push({
+          name: driver.name,
+          data: driver.position,
+          visible: !hide_driver(params, driver.name),
+          color: driver.color,
+          marker: driver.marker
+        });
+      });
+
+      $('#container-position-child').highcharts(options);
+    }
+    else {
+      $('#tab-position').hide();
     }
 
     // 4th charts - various Bar charts
