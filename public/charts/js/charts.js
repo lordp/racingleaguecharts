@@ -333,7 +333,7 @@ $(function () {
           dataLabels: {
             enabled: true,
             align: 'right',
-            color: 'white',
+            color: '#333333',
             style: {
               fontWeight: 'bold'
             },
