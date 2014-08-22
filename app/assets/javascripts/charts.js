@@ -213,7 +213,7 @@ function set_bar_chart_options(options) {
       enabled: true,
       padding: 10,
       align: 'right',
-      color: 'white',
+      color: '#333333',
       style: {
         fontWeight: 'bold'
       },
