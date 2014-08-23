@@ -6,6 +6,8 @@
   <thead>
     <tr>
       <th>Name</th>
+      <th>Length</th>
+      <th>Sessions</th>
       <th></th>
     </tr>
   </thead>
@@ -13,6 +15,8 @@
 <% @tracks.each do |track| %>
     <tr>
       <td><%= link_to(track.name, say_what_track_path(track)) %></td>
+      <td><%= track.length %></td>
+      <td><%= track.sessions.count %></td>
       <td><%= link_to('Edit', edit_say_what_track_path(track)) %> | <%= link_to('Destroy', say_what_track_path(track), :method => :delete, :data => { :confirm => 'Are you sure?' }) %></td>
     </tr>
 <% end %>
