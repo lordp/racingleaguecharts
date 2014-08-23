@@ -88,6 +88,22 @@ class Session < ActiveRecord::Base
     laps.average("sector_#{sector}")
   end
 
+  def has_sectors?
+    laps.collect(&:sector_1).compact.count > 0
+  end
+
+  def has_speed?
+    laps.collect(&:speed).compact.count > 0
+  end
+
+  def has_fuel?
+    laps.collect(&:fuel).compact.count > 0
+  end
+
+  def has_position?
+    laps.collect(&:position).compact.count > 0
+  end
+
   def set_info(ip, length)
     driver = Driver.find_or_create_by_ip(ip)
     track = Track.find_or_create_by_length(length)

@@ -462,7 +462,7 @@ $(function () {
     }
 
     // Fuel chart
-    if (race.sessions[0].fuel.length > 0) {
+    if (race.fuel_available) {
       options.title.text = 'Fuel usage';
       options.chart.type = 'spline';
       options.series = [];
@@ -483,7 +483,7 @@ $(function () {
     }
 
     // Position chart
-    if (race.sessions[0].position.length > 0) {
+    if (race.position_available) {
       options.title.text = 'Position Changes';
       options.chart.type = 'spline';
       options.tooltip.formatter = position_tooltip_formatter;
@@ -505,7 +505,7 @@ $(function () {
     }
 
     // 4th charts - various Bar charts
-    if (race.sessions[0].sector1.length > 0) {
+    if (race.sectors_available) {
       set_bar_chart_options(options);
 
       var sectors = [[], [], []];
@@ -641,7 +641,7 @@ $(function () {
     }
 
     // Top speed chart
-    if (race.sessions[0].speed.length > 0) {
+    if (race.speed_available) {
       options.title.text = 'Speed trap';
       options.series = [];
       var speed = [];

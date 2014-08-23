@@ -212,4 +212,21 @@ class Race < ActiveRecord::Base
   def league
     self.try(:season).try(:league)
   end
+
+  def has_sectors?
+    sessions.collect(&:has_sectors?).include?(true)
+  end
+
+  def has_speed?
+    sessions.collect(&:has_speed?).include?(true)
+  end
+
+  def has_fuel?
+    sessions.collect(&:has_fuel?).include?(true)
+  end
+
+  def has_position?
+    sessions.collect(&:has_position?).include?(true)
+  end
+
 end

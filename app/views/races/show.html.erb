@@ -1,6 +1,10 @@
 <script type="text/javascript">
   var race = {
     "time_trial": <%= @race.time_trial?.to_s %>,
+    "sectors_available": <%= @race.has_sectors?.to_s %>,
+    "speed_available": <%= @race.has_speed?.to_s %>,
+    "fuel_available": <%= @race.has_fuel?.to_s %>,
+    "position_available": <%= @race.has_position?.to_s %>,
     "sessions": [
       <% @race_sessions.each do |session| %>
       {
