@@ -648,7 +648,7 @@ $(function () {
       laps = [];
       cats = [];
       var lowest_speed = 999;
-      var speed_data = $.map(race.sessions, function(l, i) { if (l.speed[0]) { return { name: l.name, lap: l.speed[0], speed: l.speed[1] } }});
+      var speed_data = $.map(race.sessions, function(l, i) { if (l.speed.length > 0) { return { name: l.name, lap: l.speed[0], speed: l.speed[1] } }});
       $.each(speed_data.sort(sort_speed), function (index, data) {
         lowest_speed = (lowest_speed > data.speed ? data.speed : lowest_speed);
         speed.push(data.speed);
