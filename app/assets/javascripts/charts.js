@@ -91,6 +91,23 @@ function position_tooltip_formatter() {
   return s;
 }
 
+function diff_tooltip_formatter() {
+  var s = '<b>Lap ' + this.x + '</b>';
+
+  $.each(this.points, function (i, point) {
+    var v = Math.abs(point.y).toFixed(3);
+    if (point.y < 0) {
+      v = v + " faster";
+    }
+    else {
+      v = v + " slower";
+    }
+    s += '<br/><span style="color: ' + point.series.color + ';">' + point.series.name + '</span>: ' + v;
+  });
+
+  return s;
+}
+
 // Helper function to get information from the URL
 function getQueryString() {
   var ret = {};
@@ -454,6 +471,8 @@ $(function () {
       });
 
       options.title.text = 'Lap diffs';
+      options.plotOptions.column.pointStart = 2;
+      options.tooltip.formatter = diff_tooltip_formatter;
       $('#container-diffs-child').highcharts(options);
     }
     else {
