@@ -91,6 +91,17 @@ function position_tooltip_formatter() {
   return s;
 }
 
+function fuel_tooltip_formatter() {
+  var s = '<b>Lap ' + this.x + '</b>';
+
+  $.each(this.points, function (i, point) {
+    var v = point.y.toFixed(3);
+    s += '<br/><span style="color: ' + point.series.color + ';">' + point.series.name + '</span>: ' + v;
+  });
+
+  return s;
+}
+
 function diff_tooltip_formatter() {
   var s = '<b>Lap ' + this.x + '</b>';
 
@@ -484,6 +495,8 @@ $(function () {
     if (race.fuel_available) {
       options.title.text = 'Fuel usage';
       options.chart.type = 'spline';
+      options.tooltip.formatter = fuel_tooltip_formatter;
+      options.yAxis.title.text = 'Fuel Remaining';
       options.series = [];
       $.each(race.sessions, function (i, driver) {
         options.series.push({
