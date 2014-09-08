@@ -248,14 +248,14 @@ class Race < ActiveRecord::Base
         next if lap[5].to_i == 0
         driver = lap[2]
         laps[driver] ||= []
-        lap_no = lap[5].to_i
+        lap_no = lap[5].to_i - 1
         next unless laps[driver][lap_no].nil?
-        lap_time = if lap_no > 1
+        lap_time = if lap_no > 0
                      lap[4].to_i - laps[driver][lap_no - 1][:total]
                    else
                      lap[4].to_i
                    end
-        laps[driver][lap_no] = { :time => lap_time, :total => lap[4].to_i, :pos => lap[1].to_i + 1 } if laps[driver][lap_no].nil?
+        laps[driver][lap_no] = { :time => lap_time, :total => lap[4].to_i, :pos => lap[1].to_i } if laps[driver][lap_no].nil?
       end
     end
 
