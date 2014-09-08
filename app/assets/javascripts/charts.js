@@ -461,6 +461,7 @@ $(function () {
 
       // Third charts - lap by lap time differences
       options.chart.type = 'column';
+      options.yAxis.title.text = 'Difference';
       options.series = [];
       $.each(race.sessions, function (i, driver) {
         var prev_lap = 0;
@@ -520,6 +521,7 @@ $(function () {
       options.chart.type = 'spline';
       options.tooltip.formatter = position_tooltip_formatter;
       options.plotOptions.spline.pointStart = 1;
+      options.yAxis.title.text = 'Position';
       options.series = [];
       $.each(race.sessions, function (i, driver) {
         options.series.push({
