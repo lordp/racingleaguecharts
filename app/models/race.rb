@@ -220,12 +220,28 @@ class Race < ActiveRecord::Base
     laps = {}
     drivers = []
     found_race = false
+    last_car_id = nil
+    grid_driver = nil
+    grid_line_found = false
     File.open(self.ac_log.tempfile).each do |line|
       found_race = true if line.match(/NAME=Race/)
       next unless found_race
 
       /CAR ID:([\d]+) : ([^\r\n]+)/.match(line) do |car|
         drivers[car[1].to_i] = car[2]
+        last_car_id = car[1].to_i unless grid_line_found
+      end
+
+      /Setting my grid position at/.match(line) do
+        grid_line_found = true
+        grid_driver = drivers[last_car_id]
+      end
+
+      /goToSpawnPosition START/.match(line) do
+        last_car_id.downto(1).each do |car_id|
+          drivers[car_id] = drivers[car_id - 1]
+        end
+        drivers[0] = grid_driver
       end
 
       /P: ([\d]+) : ([\d]+) \| ([\d]+) LT:([\d]+) LC:([\d]+)/.match(line) do |lap|

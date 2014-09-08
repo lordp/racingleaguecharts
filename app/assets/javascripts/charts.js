@@ -528,7 +528,7 @@ $(function () {
       $.each(race.sessions, function (i, driver) {
         options.series.push({
           name: driver.name,
-          data: driver.position,
+          data: $.map(driver.position, function(pos) { return pos + 1; }),
           visible: !hide_driver(params, driver.name),
           color: driver.color,
           marker: driver.marker
