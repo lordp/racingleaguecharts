@@ -506,6 +506,7 @@ $(function () {
       options.title.text = 'Position Changes';
       options.chart.type = 'spline';
       options.tooltip.formatter = position_tooltip_formatter;
+      options.plotOptions.spline.pointStart = 1;
       options.series = [];
       $.each(race.sessions, function (i, driver) {
         options.series.push({
