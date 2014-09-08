@@ -525,9 +525,8 @@ $(function () {
     }
 
     // 4th charts - various Bar charts
+    set_bar_chart_options(options);
     if (race.sectors_available) {
-      set_bar_chart_options(options);
-
       var sectors = [[], [], []];
       $.each(race.sessions, function (i, driver) {
         if (driver.sector1.length > 0) {
@@ -608,56 +607,54 @@ $(function () {
         tb_total += " (" + tb_diff + " faster)";
       }
       $("#tb-total").html(tb_total);
-
-      // Pace charts - top 15, 50 and 80% lap times, averaged out per driver
-      options.plotOptions.bar.dataLabels.formatter = pace_graph_formatter;
-      var pace = {
-        top15: [],
-        top50: [],
-        top80: []
-      };
-
-      $.each(race.sessions, function(index, driver) {
-        if (driver.laps.length > 0) {
-          var l15 = Math.ceil(driver.laps.length * 0.15);
-          var l50 = Math.ceil(driver.laps.length * 0.50);
-          var l80 = Math.ceil(driver.laps.length * 0.80);
-
-          pace.top15.push({ name: driver.name, avg: array_sum(driver.laps.sort(sort_compare).slice(0, l15)) / l15 });
-          pace.top50.push({ name: driver.name, avg: array_sum(driver.laps.sort(sort_compare).slice(0, l50)) / l50 });
-          pace.top80.push({ name: driver.name, avg: array_sum(driver.laps.sort(sort_compare).slice(0, l80)) / l80 });
-        }
-      });
-
-      for (var p in pace) {
-        var n = p.substring(3);
-
-        var laps = [];
-        var cats = [];
-
-        var lowest_pace = 999;
-
-        $.each(pace[p].sort(sort_pace), function(i, driver) {
-          lowest_pace = (lowest_pace > driver.avg ? driver.avg : lowest_pace);
-          laps.push(driver.avg);
-          cats.push(driver.name);
-        });
-
-        options.title.text = 'Pace - Top ' + n + '% of laps';
-        options.chart.renderTo = 'container-pace-' + n;
-        options.series = [{ data: laps }];
-        options.xAxis.categories = cats;
-        options.yAxis.min = Math.floor(lowest_pace - 5);
-
-        $("#" + options.chart.renderTo).css('height', race.sessions.length * chart_height_multiplier);
-
-        new Highcharts.Chart(options);
-      }
     }
     else {
-      // Hide the sector and pace charts as both rely on the missing sector times
       $('#tab-sectors').hide();
-      $('#tab-pace').hide();
+    }
+
+    // Pace charts - top 15, 50 and 80% lap times, averaged out per driver
+    options.plotOptions.bar.dataLabels.formatter = pace_graph_formatter;
+    var pace = {
+      top15: [],
+      top50: [],
+      top80: []
+    };
+
+    $.each(race.sessions, function(index, driver) {
+      if (driver.laps.length > 0) {
+        var l15 = Math.ceil(driver.laps.length * 0.15);
+        var l50 = Math.ceil(driver.laps.length * 0.50);
+        var l80 = Math.ceil(driver.laps.length * 0.80);
+
+        pace.top15.push({ name: driver.name, avg: array_sum(driver.laps.sort(sort_compare).slice(0, l15)) / l15 });
+        pace.top50.push({ name: driver.name, avg: array_sum(driver.laps.sort(sort_compare).slice(0, l50)) / l50 });
+        pace.top80.push({ name: driver.name, avg: array_sum(driver.laps.sort(sort_compare).slice(0, l80)) / l80 });
+      }
+    });
+
+    for (var p in pace) {
+      var n = p.substring(3);
+
+      var laps = [];
+      var cats = [];
+
+      var lowest_pace = 999;
+
+      $.each(pace[p].sort(sort_pace), function(i, driver) {
+        lowest_pace = (lowest_pace > driver.avg ? driver.avg : lowest_pace);
+        laps.push(driver.avg);
+        cats.push(driver.name);
+      });
+
+      options.title.text = 'Pace - Top ' + n + '% of laps';
+      options.chart.renderTo = 'container-pace-' + n;
+      options.series = [{ data: laps }];
+      options.xAxis.categories = cats;
+      options.yAxis.min = Math.floor(lowest_pace - 5);
+
+      $("#" + options.chart.renderTo).css('height', race.sessions.length * chart_height_multiplier);
+
+      new Highcharts.Chart(options);
     }
 
     // Top speed chart
