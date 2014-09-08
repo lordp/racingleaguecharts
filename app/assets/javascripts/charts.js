@@ -522,6 +522,8 @@ $(function () {
       options.tooltip.formatter = position_tooltip_formatter;
       options.plotOptions.spline.pointStart = 1;
       options.yAxis.title.text = 'Position';
+      options.yAxis.tickInterval = 1;
+      options.yAxis.min = 1;
       options.series = [];
       $.each(race.sessions, function (i, driver) {
         options.series.push({
