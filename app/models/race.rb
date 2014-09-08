@@ -1,6 +1,6 @@
 class Race < ActiveRecord::Base
-  attr_accessible :name, :session_ids, :track_id, :season_id, :time_trial, :is_dry, :thing, :fia, :driver_session_ids, :existing_driver_session_ids
-  attr_accessor :driver_session_ids, :existing_driver_session_ids
+  attr_accessible :name, :session_ids, :track_id, :season_id, :time_trial, :is_dry, :thing, :fia, :driver_session_ids, :existing_driver_session_ids, :ac_log
+  attr_accessor :driver_session_ids, :existing_driver_session_ids, :ac_log
 
   has_many :sessions
   belongs_to :track
@@ -8,6 +8,7 @@ class Race < ActiveRecord::Base
 
   before_save :nullify_thing
   after_save :adjust_sessions
+  after_save :parse_assetto_corsa
 
   POINTS = [ 25, 18, 15, 12, 10, 8, 6, 4, 2, 1 ]
   F1_MAP = {
@@ -211,6 +212,49 @@ class Race < ActiveRecord::Base
 
   def league
     self.try(:season).try(:league)
+  end
+
+  def parse_assetto_corsa
+    return if self.ac_log.nil?
+
+    laps = {}
+    drivers = []
+    found_race = false
+    File.open(self.ac_log.tempfile).each do |line|
+      found_race = true if line.match(/NAME=Race/)
+      next unless found_race
+
+      /CAR ID:([\d]+) : ([^\r\n]+)/.match(line) do |car|
+        drivers[car[1].to_i] = car[2]
+      end
+
+      /P: ([\d]+) : ([\d]+) \| ([\d]+) LT:([\d]+) LC:([\d]+)/.match(line) do |lap|
+        next if lap[5].to_i == 0
+        driver = lap[2]
+        laps[driver] ||= []
+        lap_no = lap[5].to_i
+        next unless laps[driver][lap_no].nil?
+        lap_time = if lap_no > 1
+                     lap[4].to_i - laps[driver][lap_no - 1][:total]
+                   else
+                     lap[4].to_i
+                   end
+        laps[driver][lap_no] = { :time => lap_time, :total => lap[4].to_i, :pos => lap[1].to_i + 1 } if laps[driver][lap_no].nil?
+      end
+    end
+
+    laps.each do |driver_id, laps_info|
+      driver = Driver.find_or_create_by_name(drivers[driver_id.to_i])
+      s = self.sessions.find_or_create_by_driver_id(driver.id)
+      laps_info.each_with_index do |lap, index|
+        next if lap.nil?
+        l = s.laps.find_or_create_by_lap_number(index)
+        l.total = lap[:time] / 1000.0
+        l.position = lap[:pos]
+        l.save
+      end
+    end
+
   end
 
   def has_sectors?

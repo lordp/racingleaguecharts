@@ -57,6 +57,13 @@
   </div>
 </fieldset>
 
+<fieldset>
+  <legend>AC Log</legend>
+  <div class="checkbox">
+    <%= f.file_field(:ac_log) %>
+  </div>
+</fieldset>
+
 <div class="form-group">
   <%= f.submit('Save', :class => 'btn btn-default') %> <%= cancel_link(@race) %>
 </div>
