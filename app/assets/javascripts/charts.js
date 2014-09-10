@@ -524,6 +524,7 @@ $(function () {
       options.yAxis.title.text = 'Position';
       options.yAxis.tickInterval = 1;
       options.yAxis.min = 1;
+      options.yAxis.reversed = true;
       options.series = [];
       $.each(race.sessions, function (i, driver) {
         options.series.push({
