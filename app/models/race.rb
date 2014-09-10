@@ -223,12 +223,14 @@ class Race < ActiveRecord::Base
     last_car_id = nil
     grid_driver = nil
     grid_line_found = false
+    grid_position = []
     File.open(self.ac_log.tempfile).each do |line|
       found_race = true if line.match(/NAME=Race/)
       next unless found_race
 
       /CAR ID:([\d]+) : ([^\r\n]+)/.match(line) do |car|
         drivers[car[1].to_i] = car[2]
+        grid_position << car[1]
         last_car_id = car[1].to_i unless grid_line_found
       end
 
@@ -262,6 +264,8 @@ class Race < ActiveRecord::Base
     laps.each do |driver_id, laps_info|
       driver = Driver.find_or_create_by_name(drivers[driver_id.to_i])
       s = self.sessions.find_or_create_by_driver_id(driver.id)
+      s.update_attribute(:grid_position, grid_position.index(driver_id) + 1) unless grid_position.index(driver_id).nil?
+      s.update_attribute(:track_id, self.track_id)
       laps_info.each_with_index do |lap, index|
         next if lap.nil?
         l = s.laps.find_or_create_by_lap_number(index)

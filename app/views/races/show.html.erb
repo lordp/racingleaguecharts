@@ -17,7 +17,8 @@
         "sector3": <%= session.laps.order(:lap_number).collect(&:sector_3).compact %>,
         "fuel": <%= session.laps.order(:lap_number).where('fuel is not null').collect { |l| l.fuel.round(3).to_f }.compact %>,
         "speed": <%= session.top_speed.try(:nice_top_speed) || [] %>,
-        "position": <%= session.laps.order(:lap_number).collect(&:position).compact %>
+        "position": <%= session.laps.order(:lap_number).collect(&:position).compact %>,
+        "grid_position": <%= session.grid_position %>
       },
       <% end %>
     ]

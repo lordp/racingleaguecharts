@@ -520,16 +520,18 @@ $(function () {
       options.title.text = 'Position Changes';
       options.chart.type = 'spline';
       options.tooltip.formatter = position_tooltip_formatter;
-      options.plotOptions.spline.pointStart = 1;
+      options.plotOptions.spline.pointStart = 0;
       options.yAxis.title.text = 'Position';
       options.yAxis.tickInterval = 1;
       options.yAxis.min = 1;
       options.yAxis.reversed = true;
       options.series = [];
       $.each(race.sessions, function (i, driver) {
+        positions = $.map(driver.position, function(pos) { return pos + 1; });
+        positions.unshift(driver.grid_position);
         options.series.push({
           name: driver.name,
-          data: $.map(driver.position, function(pos) { return pos + 1; }),
+          data: positions,
           visible: !hide_driver(params, driver.name),
           color: driver.color,
           marker: driver.marker
