@@ -251,6 +251,7 @@ function set_bar_chart_options(options) {
   options.legend = { enabled: false };
   options.xAxis.title.text = 'Driver';
   options.yAxis.title.text = 'Time';
+  options.yAxis.reversed = false;
   options.tooltip.enabled = false;
 
   return options;
