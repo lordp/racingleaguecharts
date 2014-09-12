@@ -76,7 +76,8 @@ class Race < ActiveRecord::Base
   end
 
   def scan_time_trial
-    valid_tracks_regex = /Round (\d+): ([a-zA-Z ]+) in (([Dd]ry|[Ww]et) \*\*and\*\* ([Dd]ry|[Ww]et)|[Dd]ry|[Ww]et)/
+    dry_wet_regex = /[Dd]ry|[Ww]et/
+    valid_tracks_regex = /Round (\d+): ([a-zA-Z ]+) in ((#{dry_wet_regex}) and (#{dry_wet_regex})|#{dry_wet_regex})/
     time_regex = /\[[^\d]*([\d:\.]+)\]/
 
     leaderboard = {}
@@ -94,7 +95,7 @@ class Race < ActiveRecord::Base
       post = reddit.get_comments({ :link_id => link_id })
 
       global_dry_wet = nil
-      valid_track = post.parsed_response.first['data']['children'][0]['data']['selftext'].match(valid_tracks_regex)
+      valid_track = post.parsed_response.first['data']['children'][0]['data']['selftext'].gsub(/\*/, '').match(valid_tracks_regex)
 
       leaderboard ||= {}
       if valid_track[4].nil? && valid_track[5].nil?
@@ -110,16 +111,14 @@ class Race < ActiveRecord::Base
         p['data']['body'].split(/\n/).each do |line|
           next if line.empty?
 
-          dry_wet = line.match(/[Dd]ry|[Ww]et/)
+          dry_wet = line.match(dry_wet_regex)
           dry_wet = dry_wet.nil? ? global_dry_wet : dry_wet[0].downcase
-
-          next if dry_wet.nil?
+          dry_wet = 'dry' if dry_wet.nil? # assume dry
 
           time = line.scan(time_regex)
           unless time.empty?
             time = time.map { |t| convert_lap_to_seconds(t.first) }.min
             leaderboard[dry_wet][p['data']['author']] = { :time => time, :thing => p['data']['id'], :flair => p['data']['author_flair_css_class'] }
-            Rails.logger.info("DRY/WET: #{dry_wet}, DRIVER: #{p['data']['author']}, TIME: #{time}")
           end
         end
       end
