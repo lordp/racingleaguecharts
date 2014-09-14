@@ -149,7 +149,8 @@ module ApplicationHelper
 
   def nice_results(results)
     result = []
-    results.each do |pos, cnt|
+    results.each_with_index do |cnt, pos|
+      next if cnt.nil?
       result << "#{(pos + 1).ordinalize} x #{cnt}"
     end
     result.join(', ')

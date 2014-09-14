@@ -13,7 +13,7 @@ class Season < ActiveRecord::Base
     self.races.each do |race|
       race.sessions.includes(:laps).order('laps.total').limit(10).each_with_index do |s, i|
         driver = Driver.find(s.driver_id || Driver::UNKNOWN_DRIVER)
-        lb[driver] ||= { :points => 0, :positions => {} }
+        lb[driver] ||= { :points => 0, :positions => [] }
         lb[driver][:points] += Race::POINTS[i]
 
         lb[driver][:positions][i] ||= 0
