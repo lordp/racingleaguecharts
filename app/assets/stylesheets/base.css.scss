@@ -65,14 +65,13 @@ a {
 }
 
 #sidebar-wrapper {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   bottom: 0;
   z-index: 3;
   width: 240px;
   background: #1f1f1f;
-  overflow-y: hidden;
 }
 
 #page-content-wrapper {
@@ -117,6 +116,11 @@ a {
   }
 }
 
+.nav-list-bottom {
+  padding-bottom: 140px;
+  background-color: rgb(31,31,31);
+}
+
 @font-face {
   font-family: 'ostrich_sansblack';
   src: font-url('ostrich-black-webfont.eot');
@@ -141,8 +145,8 @@ a {
 .bottom {
   z-index: 1;
   border-top: solid 1px #000;
-  width: 100%;
-  position: absolute;
+  width: 240px;
+  position: fixed;
   bottom: 0;
   background: #1f1f1f;
   text-align: center;
