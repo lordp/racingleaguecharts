@@ -41,23 +41,6 @@
       </ul>
     </div>
     <div class="nav-list-bottom"></div>
-    <div class="bottom">
-      <% if current_user %>
-      <p>Logged in as <%= current_user.name %></p>
-      <% end %>
-      <ul class="list-inline">
-      <% if current_user %>
-        <li><%= link_to('Dashboard', user_path(current_user), :class => 'btn btn-success rlc-btn') %></li>
-        <li><%= link_to('Sign out', sign_out_users_path, :class => 'btn btn-danger rlc-btn') %></li>
-      <% else %>
-        <li><%= link_to('Sign in', sign_in_users_path, :class => 'btn btn-success rlc-btn') %></li>
-        <li><%= link_to('Sign up', sign_up_users_path, :class => 'btn btn-primary rlc-btn') %></li>
-      <% end %>
-      </ul>
-      <% if current_user && current_user.admin? %>
-        <p><%= link_to('ADMIN', say_what_welcome_path, :class => 'btn btn-primary rlc-btn-admin') %></p>
-      <% end %>
-    </div>
   </div>
 
   <div id="page-content-wrapper">
@@ -66,6 +49,24 @@
     <% end %>
     <%= yield %>
   </div>
+</div>
+
+<div class="bottom">
+  <% if current_user %>
+    <p>Logged in as <%= current_user.name %></p>
+  <% end %>
+  <ul class="list-inline">
+    <% if current_user %>
+      <li><%= link_to('Dashboard', user_path(current_user), :class => 'btn btn-success rlc-btn') %></li>
+      <li><%= link_to('Sign out', sign_out_users_path, :class => 'btn btn-danger rlc-btn') %></li>
+    <% else %>
+      <li><%= link_to('Sign in', sign_in_users_path, :class => 'btn btn-success rlc-btn') %></li>
+      <li><%= link_to('Sign up', sign_up_users_path, :class => 'btn btn-primary rlc-btn') %></li>
+    <% end %>
+    <% if current_user && current_user.admin? %>
+      <li><%= link_to('ADMIN', say_what_welcome_path, :class => 'btn btn-primary rlc-btn') %></li>
+    <% end %>
+  </ul>
 </div>
 
 </body>

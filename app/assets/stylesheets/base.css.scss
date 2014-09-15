@@ -1,5 +1,5 @@
 body {
-  padding: 15px;
+  background-image: url(background.png);
 }
 
 a {
@@ -65,13 +65,8 @@ a {
 }
 
 #sidebar-wrapper {
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  z-index: 3;
+  float:left;
   width: 240px;
-  background: #1f1f1f;
 }
 
 #page-content-wrapper {
@@ -80,6 +75,7 @@ a {
   margin-left: 240px;
   z-index: 2;
   overflow: hidden;
+  padding: 15px;
 }
 
 .nav-list > li > a {
