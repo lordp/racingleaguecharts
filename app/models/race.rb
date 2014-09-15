@@ -221,6 +221,7 @@ class Race < ActiveRecord::Base
     found_race = false
     last_car_id = nil
     grid_driver = nil
+    grid_driver_pos = 0
     grid_line_found = false
     grid_position = []
     File.open(self.ac_log.tempfile).each do |line|
@@ -228,14 +229,16 @@ class Race < ActiveRecord::Base
       next unless found_race
 
       /CAR ID:([\d]+) : ([^\r\n]+)/.match(line) do |car|
-        drivers[car[1].to_i] = car[2]
-        grid_position << car[1]
-        last_car_id = car[1].to_i unless grid_line_found
+        car_id = car[1].to_i
+        drivers[car_id] = car[2]
+        grid_position << car_id
+        last_car_id = car_id unless grid_line_found
       end
 
-      /Setting my grid position at/.match(line) do
+      /Setting my grid position at:(\d+)/.match(line) do |pos|
         grid_line_found = true
         grid_driver = drivers[last_car_id]
+        grid_driver_pos = pos[1].to_i
       end
 
       /goToSpawnPosition START/.match(line) do
@@ -243,6 +246,9 @@ class Race < ActiveRecord::Base
           drivers[car_id] = drivers[car_id - 1]
         end
         drivers[0] = grid_driver
+
+        grid_position.map! { |gp| gp < last_car_id ? gp + 1 : gp }
+        grid_position[grid_driver_pos] = 0
       end
 
       /P: ([\d]+) : ([\d]+) \| ([\d]+) LT:([\d]+) LC:([\d]+)/.match(line) do |lap|
@@ -263,7 +269,7 @@ class Race < ActiveRecord::Base
     laps.each do |driver_id, laps_info|
       driver = Driver.find_or_create_by_name(drivers[driver_id.to_i])
       s = self.sessions.find_or_create_by_driver_id(driver.id)
-      s.update_attribute(:grid_position, grid_position.index(driver_id) + 1) unless grid_position.index(driver_id).nil?
+      s.update_attribute(:grid_position, grid_position.index(driver_id.to_i) + 1) unless grid_position.index(driver_id.to_i).nil?
       s.update_attribute(:track_id, self.track_id)
       laps_info.each_with_index do |lap, index|
         next if lap.nil?
