@@ -60,6 +60,8 @@
           <th class="col-sm-1">Fastest Lap</th>
           <% if @race.time_trial? %>
           <th class="col-sm-1">Points</th>
+          <% else %>
+          <th class="col-sm-1">Average Lap</th>
           <% end %>
         </tr>
       </thead>
@@ -76,6 +78,8 @@
           <td><%= nice_time(session.fastest_lap.try(:total)) %> <% if !@race.time_trial? %>(lap <%= session.fastest_lap ? session.fastest_lap.lap_number + 1 : 1 %>)<% end %></td>
           <% if @race.time_trial? %>
           <td><%= Race::POINTS[index] || 0 %></td>
+          <% else %>
+            <td><%= nice_time(session.average_lap) %></td>
           <% end %>
         </tr>
       <% end %>
