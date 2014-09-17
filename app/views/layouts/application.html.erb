@@ -63,10 +63,10 @@
       <li><%= link_to('Sign in', sign_in_users_path, :class => 'btn btn-success rlc-btn') %></li>
       <li><%= link_to('Sign up', sign_up_users_path, :class => 'btn btn-primary rlc-btn') %></li>
     <% end %>
-    <% if current_user && current_user.admin? %>
-      <li><%= link_to('ADMIN', say_what_welcome_path, :class => 'btn btn-primary rlc-btn') %></li>
-    <% end %>
   </ul>
+  <% if current_user && current_user.admin? %>
+    <p><%= link_to('ADMIN', say_what_welcome_path, :class => 'btn btn-primary rlc-btn-admin') %></p>
+  <% end %>
 </div>
 
 </body>
