@@ -1,7 +1,5 @@
 <h1><%= @driver.claimed? %></h1>
 
-<p><%= link_to('Edit', edit_driver_path(@driver)) %> | <%= link_to('Back to user', edit_user_path(@driver.user)) %></p>
-
 <h2>Sessions</h2>
 <%= paginate @sessions %>
 <% @sessions.each_with_index do |session, index| %>
