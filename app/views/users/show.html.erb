@@ -44,7 +44,7 @@
         <div class="form-group">
           <strong>Circuit: </strong>
           <% @user.sessions.includes(:track).order('tracks.name').collect(&:track).uniq.each do |track| %>
-            <% name = track.nil? ? 'Unknown' : track.name %>
+            <% name = track.nil? ? 'Track Unknown' : track.name %>
             <%= label_tag(name.parameterize, :class => 'checkbox-inline session-filter') do %>
               <%= check_box_tag(name.parameterize, 1, true, :data => { :filter => 'track' }) %> <%= name %>
             <% end %>
