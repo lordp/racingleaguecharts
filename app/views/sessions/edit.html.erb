@@ -17,6 +17,10 @@
     </div>
   </div>
   <div class="form-group">
+    <%= f.label(:grid_position, 'Grid Position') %>
+    <%= f.text_field(:grid_position) %>
+  </div>
+  <div class="form-group">
     <%= f.submit('Save', :class => 'btn btn-default') %> <%= link_to('Cancel', user_path(current_user)) %>
   </div>
 <% end %>
