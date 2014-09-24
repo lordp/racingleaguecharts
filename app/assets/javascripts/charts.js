@@ -528,11 +528,10 @@ $(function () {
       options.yAxis.reversed = true;
       options.series = [];
       $.each(race.sessions, function (i, driver) {
-        positions = $.map(driver.position, function(pos) { return pos + 1; });
-        positions.unshift(driver.grid_position);
+        driver.position.unshift(driver.grid_position);
         options.series.push({
           name: driver.name,
-          data: positions,
+          data: driver.position,
           visible: !hide_driver(params, driver.name),
           color: driver.color,
           marker: driver.marker
