@@ -199,8 +199,8 @@ class Race < ActiveRecord::Base
 
   def winner_session
     winner_session = self.sessions.where(:winner => true)
-    unless winner_session
-      winner_session = self.sessions.includes(:laps).order('count(laps) desc').order('sum(laps.total)').limit(1)
+    if winner_session.empty?
+      winner_session = self.sessions.sort_by { |s| [-s.laps.size, s.total_time] }
     end
     winner_session
   end
