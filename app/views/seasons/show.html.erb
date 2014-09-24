@@ -15,4 +15,6 @@
 <% end %>
   </tbody>
 </table>
+<% else %>
+  <%= render(:partial => 'races/race_list', :locals => { :races => @season.races.order(:created_at) }) %>
 <% end %>

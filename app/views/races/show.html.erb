@@ -178,34 +178,7 @@
       <% end %>
     </fieldset>
     <% cache(cache_key_for_races) do %>
-    <table class="table">
-      <thead>
-      <tr>
-        <th>Super League</th>
-        <th>League</th>
-        <th>Season</th>
-        <th>Race</th>
-        <th>Track</th>
-        <th>Date</th>
-        <th>Winner</th>
-        <th>Laps</th>
-      </tr>
-      </thead>
-      <tbody>
-      <% Race.order(:created_at).where('id != ?', @race.id).each do |race| %>
-        <tr class="<%= params[:compare].to_i == race.id ? 'bg-success' : ''  %>" data-super-league="<%= race.super_league.try(:name).try(:parameterize) %>" data-league="<%= race.league.filter_name %>" data-season="<%= race.try(:season).try(:filter_name) %>" data-track="<%= race.try(:track).try(:name).try(:parameterize) %>" data-winner="<%= race.winner.try(:parameterize) %>">
-          <td><%= race.super_league.try(:name) %></td>
-          <td><%= race.league.try(:name) %></td>
-          <td><%= race.try(:season).try(:name) %></td>
-          <td><%= link_to(race.try(:name), "?compare=#{race.id}") %></td>
-          <td><%= race.try(:track).try(:name) %></td>
-          <td><%= race.created_at.strftime('%d %b %Y') %></td>
-          <td><%= race.winner %></td>
-          <td><%= race.laps %></td>
-        </tr>
-      <% end %>
-      </tbody>
-    </table>
+      <%= render(:partial => 'race_list', :locals => { :races => Race.order(:created_at).where('id != ?', @race.id) }) %>
     <% end %>
   </div>
 </div>
