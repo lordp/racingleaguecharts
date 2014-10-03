@@ -167,8 +167,24 @@ GEM
     rdoc (3.12.2)
       json (~> 1.4)
     redis (3.0.7)
+    redis-actionpack (3.2.4)
+      actionpack (~> 3.2.0)
+      redis-rack (~> 1.4.4)
+      redis-store (~> 1.1.4)
+    redis-activesupport (3.2.5)
+      activesupport (~> 3.2.0)
+      redis-store (~> 1.1.0)
     redis-namespace (1.4.1)
       redis (~> 3.0.4)
+    redis-rack (1.4.4)
+      rack (~> 1.4.0)
+      redis-store (~> 1.1.4)
+    redis-rails (3.2.4)
+      redis-actionpack (~> 3.2.4)
+      redis-activesupport (~> 3.2.4)
+      redis-store (~> 1.1.4)
+    redis-store (1.1.4)
+      redis (>= 2.2)
     ref (1.0.5)
     refining (0.0.5.5)
     rollbar (0.12.18)
@@ -244,6 +260,7 @@ DEPENDENCIES
   pg
   puma
   rails (= 3.2.18)
+  redis-rails
   rollbar
   sass-rails (~> 3.2.3)
   select2-rails
