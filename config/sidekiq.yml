@@ -4,4 +4,3 @@
 :concurrency:  5
 :queues:
   - [paperclip, 5]
-  - [rollbar, 5]
