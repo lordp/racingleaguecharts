@@ -23,8 +23,6 @@ gem 'select2-rails'
 
 gem 'snoo'
 
-gem 'rollbar'
-
 gem 'faye'
 
 gem 'redis-rails'
