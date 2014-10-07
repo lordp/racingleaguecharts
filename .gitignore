@@ -17,5 +17,4 @@ pickle-email-*.html
 /.idea
 /config/database.yml
 /config/reddit.yml
-/config/rollbar.yml
 /public/version.xml
