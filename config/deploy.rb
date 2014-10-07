@@ -10,7 +10,7 @@ set :format, :pretty
 set :log_level, :info
 # set :pty, true
 
-set :linked_files, %w{config/database.yml config/reddit.yml config/rollbar.yml public/racingleaguecharts.exe public/racingleaguecharts-no-upx.exe public/version.xml}
+set :linked_files, %w{config/database.yml config/reddit.yml public/racingleaguecharts.exe public/racingleaguecharts-no-upx.exe public/version.xml}
 set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
 
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
@@ -41,17 +41,4 @@ namespace :deploy do
   after :finishing, 'deploy:cleanup'
 
 end
-
-desc 'Notify Rollbar of a deployment'
-task :notify_rollbar do
-  on roles(:app) do |h|
-    revision = `git log -n 1 --pretty=format:"%H"`
-    local_user = `whoami`
-    rollbar_token = YAML.load(File.open("config/rollbar.yml").read)
-    rails_env = fetch(:rails_env, 'production')
-    execute "curl https://api.rollbar.com/api/1/deploy/ -F access_token=#{rollbar_token} -F environment=#{rails_env} -F revision=#{revision} -F local_username=#{local_user} >/dev/null 2>&1", :once => true
-  end
-end
-
-after :deploy, 'notify_rollbar'
 
