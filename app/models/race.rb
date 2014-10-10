@@ -77,7 +77,7 @@ class Race < ActiveRecord::Base
 
   def scan_time_trial
     dry_wet_regex = /[Dd]ry|[Ww]et/
-    valid_tracks_regex = /Round (\d+):? ([a-zA-Z ]+) in ((#{dry_wet_regex}) and (#{dry_wet_regex})|#{dry_wet_regex})/
+    valid_tracks_regex = /Round (\d+)[ :-]* ([a-zA-Z ]+) in ((#{dry_wet_regex}) and (#{dry_wet_regex})|#{dry_wet_regex})/
     time_regex = /\[[^\d]*([\d:\.]+)\]/
 
     leaderboard = {}
