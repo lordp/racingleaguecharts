@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.18'
+gem 'rails', '3.2.21'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -23,7 +23,7 @@ gem 'select2-rails'
 
 gem 'snoo'
 
-gem 'faye'
+#gem 'faye'
 
 gem 'redis-rails'
 
@@ -31,7 +31,7 @@ gem 'redis-rails'
 # in production environments by default.
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
-  gem 'bootstrap-sass', '~> 3.1.1.0'
+  gem 'bootstrap-sass', '~> 3.3'
   gem 'coffee-rails', '~> 3.2.1'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
