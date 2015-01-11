@@ -54,7 +54,7 @@ end
 #gem 'rack-mini-profiler'
 
 # To use ActiveModel has_secure_password
-gem 'bcrypt-ruby', '~> 3.1'
+gem 'bcrypt-ruby', '~> 3.0.1'
 
 # To use Jbuilder templates for JSON
 # gem 'jbuilder'
