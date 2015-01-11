@@ -72,6 +72,9 @@ class Race < ActiveRecord::Base
       Session.find((existing_driver_session_ids - current)).each do |session|
         session.update_attribute(:race_id, self.id)
       end
+      Session.find((current - existing_driver_session_ids)).each do |session|
+        session.update_attribute(:race_id, nil)
+      end
     end
   end
 
