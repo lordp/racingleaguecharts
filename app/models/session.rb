@@ -10,6 +10,7 @@ class Session < ActiveRecord::Base
 
   SESSION_TYPE_TIME_TRIAL = 10.0
   SESSION_TYPE_QUALIFYING = 170.0
+  SESSION_TYPE_ONE_SHOT   = 114.999992371
 
   LINE_REGEX = /([\d]+) ([\d:\.]+) ([\d:\.]+) ([\d:\.]+) ([\d:\.]+)( ([\d\.]+) ([\d\.]+))?$/
 
@@ -48,6 +49,8 @@ class Session < ActiveRecord::Base
         'Time Trial'
       when SESSION_TYPE_QUALIFYING
         'Qualifying'
+      when SESSION_TYPE_ONE_SHOT
+        'One Shot Qualifying'
       when nil
         'Unknown'
       else
@@ -57,7 +60,7 @@ class Session < ActiveRecord::Base
 
   def session_time
     case session_type
-      when SESSION_TYPE_QUALIFYING, SESSION_TYPE_TIME_TRIAL
+      when SESSION_TYPE_QUALIFYING, SESSION_TYPE_TIME_TRIAL, SESSION_TYPE_ONE_SHOT
         fastest_lap.try(:total)
       else
         total_time
@@ -133,7 +136,7 @@ class Session < ActiveRecord::Base
   def self.register(params)
     driver = Driver.name_and_token(params[:driver], params[:token])
     track = Track.find_or_create_by_length(params[:track].to_f)
-    race = Race.find(params[:race].to_i) if params[:type].to_i != SESSION_TYPE_QUALIFYING && params[:race]
+    race = Race.find(params[:race].to_i) if params[:race] && ![SESSION_TYPE_ONE_SHOT, SESSION_TYPE_QUALIFYING].include?(params[:type].to_f)
     race ||= nil
     Session.new(:driver_id => driver.try(:id), :track_id => track.try(:id), :race_id => race.try(:id), :session_type => params[:type])
   end
