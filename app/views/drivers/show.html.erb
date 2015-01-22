@@ -2,7 +2,5 @@
 
 <h2>Sessions</h2>
 <%= paginate @sessions %>
-<% @sessions.each_with_index do |session, index| %>
-  <%= render(:partial => 'sessions/session', :object => session, :locals => { :index => index }) %>
-<% end %>
+<%= render(:partial => 'sessions/session_list', :locals => { :sessions => @sessions } ) %>
 <%= paginate @sessions %>
