@@ -55,32 +55,7 @@
         </div>
       </fieldset>
     </div>
-    <table class="table" id="session_list">
-      <thead>
-      <tr>
-        <th>Driver</th>
-        <th>Date</th>
-        <th>Time</th>
-        <th>Type</th>
-        <th>Circuit</th>
-      </tr>
-      </thead>
-      <tbody>
-      <% @user.sessions.order('created_at desc').each do |session| %>
-        <tr data-type="<%= session.nice_session_type.parameterize %>" data-driver="<%= session.driver.try(:name).try(:parameterize) %>" data-track="<%= session.track.try(:name).try(:parameterize) %>">
-          <td><%= session.driver.try(:name) %></td>
-          <td><%= session.created_at.strftime('%d %b %Y') %></td>
-          <td><%= nice_time(session.session_time) %></td>
-          <td><%= session.nice_session_type %></td>
-          <td><%= session.track.try(:name) %></td>
-          <% if current_user && current_user == @user %>
-            <td><%= link_to('Edit', edit_session_path(session)) %></td>
-            <td><%= link_to('Delete', session_path(session), :method => :delete, :confirm => "This action cannot be undone - are you sure?") %></td>
-          <% end %>
-        </tr>
-      <% end %>
-      </tbody>
-    </table>
+    <%= render(:partial => 'sessions/session_list', :locals => { :sessions => @user.sessions.order(:created_at) }) %>
   </div>
   <% if current_user && current_user == @user %>
   <div class="tab-pane" id="auth">
