@@ -25,11 +25,13 @@
   <%= display_help('Multiple screenshots can be selected and are uploaded in the background. Once the progress bar has turned green for all screenshots, it is safe to save the session.') %>
   <%= hidden_field_tag('session[screenshot_ids]', @session.screenshot_ids.join(',')) %>
   <%= f.file_field(:image, :multiple => true, :name => "screenshot[image]") %>
+  <% unless @session.new_record? %>
   <ul id="screenshots">
     <% @session.screenshots.order(:image_file_name).each do |s| %>
       <li class="screenshot_<%= screenshot_class(s) %>"><%= link_to(s.image_file_name, edit_screenshot_path(s)) %></li>
     <% end %>
   </ul>
+  <% end %>
   <div id="screenshot_upload"></div>
   <script id="template-upload" type="text/x-tmpl">
   <div class="upload" data-filename="{%= o.name %}">
