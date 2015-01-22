@@ -671,6 +671,10 @@ $(function () {
       options.series = [{ data: laps }];
       options.xAxis.categories = cats;
       options.yAxis.min = Math.floor(lowest_pace - 5);
+      options.yAxis.tickInterval = 5;
+      options.yAxis.labels.formatter = function() {
+        return convert_seconds_to_lap(this.value);
+      };
 
       $("#" + options.chart.renderTo).css('height', race.sessions.length * chart_height_multiplier);
 
