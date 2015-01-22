@@ -74,4 +74,8 @@ $(function() {
     $(this).children().hide();
   });
 
+  $('#select_all, #select_none').on('click', function() {
+    $('.session-filter').children().prop('checked', $(this).attr('id') == 'select_all');
+    return false;
+  });
 });

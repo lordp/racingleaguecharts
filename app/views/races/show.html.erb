@@ -146,6 +146,9 @@
   <div class="tab-pane" id="container-options">
     <fieldset>
       <legend>Filters</legend>
+      <div class="form-group">
+        <strong>Select: </strong><%= link_to('All', '', :id => 'select_all') %>, <%= link_to('None', '', :id => 'select_none') %>
+      </div>
       <% cache(cache_key_for_super_leagues) do %>
       <div class="form-group">
         <strong>Super League: </strong>
