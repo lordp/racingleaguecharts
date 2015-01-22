@@ -79,6 +79,8 @@ GEM
       ffi
     ffi-inline (0.0.4.3)
       ffi (>= 0.4.0)
+    font-awesome-sass (4.2.2)
+      sass (~> 3.2)
     hike (1.2.3)
     httparty (0.13.3)
       json (~> 1.8)
@@ -225,6 +227,7 @@ DEPENDENCIES
   codemirror-rails (~> 4.1)
   coffee-rails (~> 3.2.1)
   delayed_paperclip
+  font-awesome-sass
   jquery-fileupload-rails
   jquery-rails
   kaminari
