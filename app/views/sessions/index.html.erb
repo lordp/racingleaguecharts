@@ -1,6 +1,4 @@
 <h1>Sessions</h1>
-<p><%= link_to('Add session', new_session_path) %></p>
-<p><%= link_to('Add race', new_race_path) %></p>
 
 <%= paginate @sessions %>
 <% @sessions.each_with_index do |session, index| %>
