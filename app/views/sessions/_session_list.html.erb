@@ -1,0 +1,32 @@
+<table class="table" id="session_list">
+  <thead>
+  <tr>
+    <% if self.lookup_context.prefixes.first != 'drivers' %>
+    <th>Driver</th>
+    <% end %>
+    <th>Date</th>
+    <th>Time</th>
+    <th>Type</th>
+    <th>Circuit</th>
+    <th>Chart</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% sessions.each do |session| %>
+    <tr data-type="<%= session.nice_session_type.parameterize %>" data-driver="<%= session.driver.try(:name).try(:parameterize) %>" data-track="<%= session.track.try(:name).try(:parameterize) %>">
+      <% if self.lookup_context.prefixes.first != 'drivers' %>
+      <td><%= session.driver.try(:name) %></td>
+      <% end %>
+      <td><%= session.created_at.strftime('%d %b %Y') %></td>
+      <td><%= nice_time(session.session_time) %></td>
+      <td><%= session.nice_session_type %></td>
+      <td><%= session.track.try(:name) %></td>
+      <td><%= link_to('View', chart_session_path(session)) %></td>
+      <% if self.lookup_context.prefixes.first == 'users' && current_user && current_user == @user %>
+        <td><%= link_to('Edit', edit_session_path(session)) %></td>
+        <td><%= link_to('Delete', session_path(session), :method => :delete, :confirm => "This action cannot be undone - are you sure?") %></td>
+      <% end %>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
