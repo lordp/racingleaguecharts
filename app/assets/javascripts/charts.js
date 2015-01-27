@@ -587,7 +587,11 @@ $(function () {
         cats.unshift(fl);
         laps.unshift(fastest_overall_lap.lap + 1);
 
-        $("#" + options.chart.renderTo).css('height', (race.sessions.length + 1) * chart_height_multiplier);
+        chart_height = (race.sessions.length + 1) * chart_height_multiplier;
+        if (chart_height < 300) {
+          chart_height = 300;
+        }
+        $("#" + options.chart.renderTo).css('height', chart_height);
 
         new Highcharts.Chart(options);
 
@@ -604,7 +608,7 @@ $(function () {
         options.xAxis.categories = average_cats;
         options.yAxis.min = Math.floor(avgs[0][1] - 2);
 
-        $("#" + options.chart.renderTo).css('height', race.sessions.length * chart_height_multiplier);
+        $("#" + options.chart.renderTo).css('height', chart_height);
 
         new Highcharts.Chart(options);
       });
@@ -672,7 +676,7 @@ $(function () {
         return convert_seconds_to_lap(this.value);
       };
 
-      $("#" + options.chart.renderTo).css('height', race.sessions.length * chart_height_multiplier);
+      $("#" + options.chart.renderTo).css('height', chart_height);
 
       new Highcharts.Chart(options);
     }
