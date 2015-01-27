@@ -354,6 +354,11 @@ $(function () {
     // Initialise the show/hide links
     update_show_hide_links();
 
+    // Apply show/hide param values to the session list
+    $.map(race.sessions, function(session) {
+      session.visible = !hide_driver(params, session.name);
+    }, params);
+
     // Loop through each driver
     $.each(race.sessions, function (j, driver) {
       driver.data = [];
@@ -376,11 +381,6 @@ $(function () {
           };
         }
       });
-
-      // Hide or show drivers if applicable.
-      if (hide_driver(params, driver.name)) {
-        driver.visible = false;
-      }
 
       options.series.push(driver);
     });
@@ -442,11 +442,6 @@ $(function () {
           driver.data.push(((winner_average * (i + 1)) - driver.average[i]));
         });
 
-        // Hide or show drivers if applicable.
-        if (hide_driver(params, driver.name)) {
-          driver.visible = false;
-        }
-
         driver.data.unshift(0);
         options.series.push(driver);
       });
@@ -474,11 +469,6 @@ $(function () {
 
           prev_lap = lap;
         });
-
-        // Hide or show drivers if applicable.
-        if (hide_driver(params, driver.name)) {
-          driver.visible = false;
-        }
 
         options.series.push(driver);
       });
@@ -549,6 +539,9 @@ $(function () {
     if (race.sectors_available) {
       var sectors = [[], [], []];
       $.each(race.sessions, function (i, driver) {
+        if (!driver.visible) {
+          return;
+        }
         if (driver.sector1.length > 0) {
           sectors[0].push(fastest_sector_time(driver, 1));
         }
@@ -641,6 +634,9 @@ $(function () {
     };
 
     $.each(race.sessions, function(index, driver) {
+      if (!driver.visible) {
+        return;
+      }
       if (driver.laps.length > 0) {
         var l15 = Math.ceil(driver.laps.length * 0.15);
         var l50 = Math.ceil(driver.laps.length * 0.50);
@@ -689,7 +685,14 @@ $(function () {
       laps = [];
       cats = [];
       var lowest_speed = 999;
-      var speed_data = $.map(race.sessions, function(l, i) { if (l.speed.length > 0) { return { name: l.name, lap: l.speed[0], speed: l.speed[1] } }});
+      var speed_data = $.map(race.sessions, function(l, i) {
+        if (!l.visible) {
+          return;
+        }
+        if (l.speed.length > 0) {
+          return { name: l.name, lap: l.speed[0], speed: l.speed[1] }
+        }
+      });
       $.each(speed_data.sort(sort_speed), function (index, data) {
         lowest_speed = (lowest_speed > data.speed ? data.speed : lowest_speed);
         speed.push(data.speed);
