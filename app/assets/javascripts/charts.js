@@ -44,7 +44,7 @@ function speed_graph_formatter() {
 function graph_one_formatter() {
   var s = '<b>Lap ' + this.x + '</b>';
 
-  $.each(this.points, function (i, point) {
+  $.each(this.points.sort(sort_tooltip), function (i, point) {
     // Converts seconds to mm:ss.ddd format - ie 106.322 = 1:46.322
     s += '<br/><span style="color: ' + point.series.color + ';">' + point.series.name + '</span>: ' + convert_seconds_to_lap(point.y, true);
   });
@@ -56,7 +56,7 @@ function graph_one_formatter() {
 function graph_two_formatter() {
   var s = '<b>Lap ' + this.x + '</b>';
 
-  $.each(this.points, function (i, point) {
+  $.each(this.points.sort(sort_tooltip).reverse(), function (i, point) {
     var v = Math.abs(point.y).toFixed(3);
     if (point.y > 0) {
       v = '<span style="font-weight: bold">' + v + '</span>';
@@ -83,7 +83,7 @@ function time_trial_formatter() {
 function position_tooltip_formatter() {
   var s = '<b>Lap ' + this.x + '</b>';
 
-  $.each(this.points, function (i, point) {
+  $.each(this.points.sort(sort_tooltip), function (i, point) {
     var v = Math.floor(point.y);
     s += '<br/><span style="color: ' + point.series.color + ';">' + point.series.name + '</span>: ' + v;
   });
@@ -161,6 +161,10 @@ function sort_sector(a, b) {
 
 function sort_lap(a, b) {
   return a.laps[0] == b.laps[0] ? 0 : a.laps[0] < b.laps[0] ? -1 : 1;
+}
+
+function sort_tooltip(a, b) {
+  return a.y == b.y ? 0 : a.y < b.y ? -1 : 1;
 }
 
 function fastest_sector_time(driver, sector) {
