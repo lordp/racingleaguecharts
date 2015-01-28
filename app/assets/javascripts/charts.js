@@ -713,6 +713,8 @@ $(function () {
       options.chart.renderTo = 'container-speed-child';
       options.yAxis.min = Math.floor(lowest_speed - 1);
       options.yAxis.title.text = 'Speed (m/s)';
+      options.yAxis.tickInterval = 1;
+      delete options.yAxis.labels.formatter;
       new Highcharts.Chart(options);
     }
     else {
