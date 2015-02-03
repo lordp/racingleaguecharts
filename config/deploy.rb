@@ -1,9 +1,9 @@
-set :application, 'virtualwdc'
+set :application, 'rlc'
 set :repo_url, 'git@github.com:lordp/racingleaguecharts.git'
 
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }
 
-set :deploy_to, '/var/www/virtualwdc'
+set :deploy_to, '/var/www/rlc'
 set :scm, :git
 
 set :format, :pretty
