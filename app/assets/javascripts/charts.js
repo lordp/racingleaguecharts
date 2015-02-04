@@ -363,6 +363,12 @@ $(function () {
       session.visible = !hide_driver(params, session.name);
     }, params);
 
+    // Set the minimum chart height
+    chart_height = (race.sessions.length + 1) * chart_height_multiplier;
+    if (chart_height < 300) {
+      chart_height = 300;
+    }
+
     // Loop through each driver
     $.each(race.sessions, function (j, driver) {
       driver.data = [];
@@ -591,10 +597,6 @@ $(function () {
         cats.unshift(fl);
         laps.unshift(fastest_overall_lap.lap + 1);
 
-        chart_height = (race.sessions.length + 1) * chart_height_multiplier;
-        if (chart_height < 300) {
-          chart_height = 300;
-        }
         $("#" + options.chart.renderTo).css('height', chart_height);
 
         new Highcharts.Chart(options);
