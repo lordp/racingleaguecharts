@@ -17,4 +17,4 @@
 /config/secrets.yml
 /config/reddit.yml
 /public/version.xml
-
+/public/system
