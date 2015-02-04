@@ -25,11 +25,10 @@ class UsersController < ApplicationController
 
   def update
     @user = current_user
-    if @user.update_attributes(params[:user])
-      redirect_to(edit_user_path(@user), :notice => 'User details updated')
-    else
-      render('edit')
-    end
+    @user.update!(user_params)
+    redirect_to(edit_user_path(@user), :notice => 'User details updated')
+  rescue
+    render('edit')
   end
 
   def sign_in
@@ -50,5 +49,11 @@ class UsersController < ApplicationController
       render('sign_in')
     end
   end
+
+  private
+
+    def user_params
+      params.require(:user).permit(:name, :email, :password, :password_confirmation, :driver_ids => [])
+    end
 
 end
