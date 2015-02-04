@@ -1,4 +1,4 @@
-Virtualwdc::Application.routes.draw do
+Rails.application.routes.draw do
 
   resources :drivers do
     member do
