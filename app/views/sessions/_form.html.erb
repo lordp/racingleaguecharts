@@ -20,6 +20,11 @@
   </div>
 </div>
 
+ <div class="form-group">
+   <%= f.label(:grid_position, 'Grid Position') %>
+   <%= f.text_field(:grid_position) %>
+ </div>
+
 <div class="form-group">
   <%= f.label(:image, "Screenshots") %>
   <%= display_help('Multiple screenshots can be selected and are uploaded in the background. Once the progress bar has turned green for all screenshots, it is safe to save the session.') %>
