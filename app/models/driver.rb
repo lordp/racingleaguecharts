@@ -22,7 +22,7 @@ class Driver < ActiveRecord::Base
   end
 
   def self.unclaimed?
-    Driver.includes(:driver_user).where('driver_users.user_id is null')
+    Driver.eager_load(:driver_user).where('driver_users.user_id is null').order(:name)
   end
 
   def adjust_sessions
