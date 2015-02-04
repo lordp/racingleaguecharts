@@ -4,4 +4,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-Virtualwdc::Application.load_tasks
+RacingLeagueCharts::Application.load_tasks
