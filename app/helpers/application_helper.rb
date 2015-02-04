@@ -14,9 +14,9 @@ module ApplicationHelper
 
   def bootstrap_alert(name)
     case name
-      when :notice
+      when 'notice'
         "alert-success"
-      when :alert
+      when 'alert'
         "alert-danger"
       else
         nil
