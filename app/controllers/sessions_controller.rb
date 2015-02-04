@@ -34,23 +34,20 @@ class SessionsController < ApplicationController
   end
 
   def create
-    @session = Session.new(params[:session])
-    if @session.save
-      redirect_to(user_path(current_user), :notice => 'Session was successfully created.')
-    else
-      render "new"
-    end
+    @session = Session.create!(session_params)
+    redirect_to(user_path(current_user), :notice => 'Session was successfully created.')
+  rescue
+    render "new"
   end
 
   def edit
   end
 
   def update
-    if @session.update_attributes(params[:session])
-      redirect_to(user_path(current_user), :notice => 'Session details were successfully updated.')
-    else
-      render "edit"
-    end
+    @session.update!(session_params)
+    redirect_to(user_path(current_user), :notice => 'Session details were successfully updated.')
+  rescue
+    render "edit"
   end
 
   def destroy
@@ -70,6 +67,10 @@ class SessionsController < ApplicationController
       else
         redirect_to(sign_in_users_path, :alert => 'Not authorized!')
       end
+    end
+
+    def session_params
+      params.require(:session).permit(:token, :session_type, :driver_id, :track_id, :race_id, :winner, :screenshot_ids, :lap_text, :grid_position)
     end
 
 end
