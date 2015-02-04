@@ -63,7 +63,7 @@ module ApplicationHelper
         when Screenshot
           admin ? edit_say_what_session_path(obj.session) : session_path(obj.session)
         when Session
-          admin ? say_what_sessions_path : user_sessions_path
+          admin ? say_what_sessions_path : user_path(current_user)
         when Race
           say_what_races_path
         when Season
