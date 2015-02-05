@@ -1,6 +1,6 @@
 <h1>New User</h1>
 
-<%= form_for @user do |f| %>
+<%= form_for(@user, :url => say_what_users_path) do |f| %>
   <%= render(:partial => 'shared/errors', :object => @user) %>
   <%= render(:partial => 'form', :locals => { :f => f }) %>
 <% end %>

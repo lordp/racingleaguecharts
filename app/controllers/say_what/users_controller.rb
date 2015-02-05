@@ -1,11 +1,12 @@
 class SayWhat::UsersController < ApplicationController
 
+  before_filter :find_user, :only => [ :show, :edit, :update, :destroy ]
+
   def index
     @users = User.order(:email)
   end
 
   def show
-    @user = User.find(params[:id].to_i)
   end
 
   def new
@@ -13,25 +14,31 @@ class SayWhat::UsersController < ApplicationController
   end
 
   def create
-    @user = User.new(params[:user])
-    if @user.save
-      redirect_to(say_what_user_path(@user), :notice => 'User created!')
-    else
-      render('new')
-    end
+    @user = User.new(user_params)
+    @user.save!
+    redirect_to(say_what_user_path(@user), :notice => 'User created!')
+  rescue
+    render('new')
   end
 
   def edit
-    @user = User.find(params[:id].to_i)
   end
 
   def update
-    @user = User.find(params[:id].to_i)
-    if @user.update_attributes(params[:user])
-      redirect_to(edit_say_what_user_path(@user), :notice => 'User updated')
-    else
-      render('edit')
-    end
+    @user.update!(user_params)
+    redirect_to(edit_say_what_user_path(@user), :notice => 'User updated')
+  rescue
+    render('edit')
   end
+
+  private
+
+    def find_user
+      @user = User.find(params[:id].to_i)
+    end
+
+    def user_params
+      params.require(:user).permit(:name, :email, :password, :password_confirmation, :token, :driver_ids => [])
+    end
 
 end
