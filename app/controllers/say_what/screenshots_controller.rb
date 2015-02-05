@@ -16,19 +16,21 @@ class SayWhat::ScreenshotsController < ApplicationController
   end
 
   def create
-    @screenshot = Screenshot.create(params[:screenshot])
+    @screenshot = Screenshot.new(screenshot_params)
+    @screenshot.save!
     respond_to do |format|
       format.js
       format.html { redirect_to(say_what_screenshots_path) }
     end
+  rescue
+    render('new')
   end
 
   def update
-    if @screenshot.update_attributes(params[:screenshot])
-      redirect_to(say_what_screenshot_path(@screenshot), :notice => 'Screenshot was successfully updated.')
-    else
-      render "edit"
-    end
+    @screenshot.update!(screenshot_params)
+    redirect_to(say_what_screenshot_path(@screenshot), :notice => 'Screenshot was successfully updated.')
+  rescue
+    render "edit"
   end
 
   def destroy
@@ -40,6 +42,10 @@ class SayWhat::ScreenshotsController < ApplicationController
 
     def find_screenshot
       @screenshot = Screenshot.find(params[:id].to_i)
+    end
+
+    def screenshot_params
+      params.require(:screenshot).permit(:image, :parsed, :session_id, :confirmed)
     end
 
 end
