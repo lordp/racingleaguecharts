@@ -1,13 +1,10 @@
 Rails.application.routes.draw do
 
-  resources :drivers do
-    member do
-      put 'claim'
-    end
-  end
-
-  resources :laps, :tracks, :screenshots
-  resources :users do
+  resources :drivers, :only => [ :index, :show, :edit, :update ]
+  resources :laps, :only => [ :create ]
+  resources :tracks, :only => [ :index, :show ]
+  resources :screenshots, :only => [ :index, :show, :edit, :update ]
+  resources :users, :except => [ :destroy ] do
     collection do
       get 'sign_in'
       get 'sign_out'
@@ -17,16 +14,10 @@ Rails.application.routes.draw do
     resources :sessions
   end
 
-  resources :leagues do
-    resources :seasons
-  end
+  resources :leagues, :only => [ :index, :show ]
+  resources :seasons, :only => [ :show ]
 
-  resources :seasons do
-    resources :races
-  end
-
-  resources :races do
-    resources :sessions
+  resources :races, :only => [ :index, :show ] do
     member do
       get 'livetiming'
     end
