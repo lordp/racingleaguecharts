@@ -22,11 +22,10 @@ class DriversController < ApplicationController
   end
 
   def update
-    if @driver.update_attributes(params[:driver])
-      redirect_to(edit_user_path(@driver.user), :notice => 'Driver updated')
-    else
-      render('edit')
-    end
+    @driver.update!(driver_params)
+    redirect_to(edit_user_path(@driver.user), :notice => 'Driver updated')
+  rescue
+    render('edit')
   end
 
   private
@@ -37,6 +36,10 @@ class DriversController < ApplicationController
 
     def authorize_claimed
       redirect_to(edit_user_path(current_user), :alert => 'Not authorized!') if current_user.nil? || !current_user.has_claimed?(@driver)
+    end
+
+    def driver_params
+      params.require(:driver).permit(:name, :colour, :marker, :merge_session_ids, :aliases)
     end
 
 end
