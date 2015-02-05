@@ -135,6 +135,7 @@ module ApplicationHelper
   end
 
   def nice_gap(sessions, session, index)
+    gap = '?'
     if index > 0
       if sessions[0].laps.count > session.laps.count
         gap = "+#{pluralize((sessions[0].laps.count - session.laps.count).abs, 'lap')}"
