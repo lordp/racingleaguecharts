@@ -6,7 +6,8 @@ class Lap < ActiveRecord::Base
   belongs_to :race
   belongs_to :driver
 
-  validates_presence_of :session_id, :lap_number
+  validates :session_id, :numericality => true
+  validates :lap_number, :numericality => true
 
   def full_name
     "##{lap_number}, #{converted_total}"

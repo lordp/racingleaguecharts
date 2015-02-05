@@ -16,21 +16,18 @@ class SayWhat::LapsController < ApplicationController
   end
 
   def create
-    @lap = Lap.new(params[:lap])
-
-    if @lap.save
-      redirect_to(say_what_lap_path(@lap), :notice => 'Lap was successfully created.')
-    else
-      render "new"
-    end
+    @lap = Lap.new(lap_params)
+    @lap.save!
+    redirect_to(say_what_lap_path(@lap), :notice => 'Lap was successfully created.')
+  rescue
+    render "new"
   end
 
   def update
-    if @lap.update_attributes(params[:lap])
-      redirect_to(say_what_lap_path(@lap), :notice => 'Lap was successfully updated.')
-    else
-      render "edit"
-    end
+    @lap.update!(lap_params)
+    redirect_to(say_what_lap_path(@lap), :notice => 'Lap was successfully updated.')
+  rescue
+    render "edit"
   end
 
   def destroy
@@ -42,6 +39,10 @@ class SayWhat::LapsController < ApplicationController
 
     def find_lap
       @lap = Lap.find(params[:id].to_i)
+    end
+
+    def lap_params
+      params.require(:lap).permit(:lap_number, :sector_1, :sector_2, :sector_3, :total)
     end
 
 end
