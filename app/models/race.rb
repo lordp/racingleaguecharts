@@ -1,5 +1,4 @@
 class Race < ActiveRecord::Base
-  attr_accessible :name, :session_ids, :track_id, :season_id, :time_trial, :is_dry, :thing, :fia, :driver_session_ids, :existing_driver_session_ids, :ac_log
   attr_accessor :driver_session_ids, :existing_driver_session_ids, :ac_log
 
   has_many :sessions
