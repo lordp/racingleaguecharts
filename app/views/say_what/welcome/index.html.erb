@@ -2,19 +2,19 @@
   <h1>Admin menu</h1>
   <ul>
     <li class="list-group-item">
-      <span class="badge" title="<%= pluralize(Race.count, 'league') %>"><%= Race.count %></span>
+      <span class="badge" title="<%= pluralize(Race.count, 'race') %>"><%= Race.count %></span>
       <%= link_to('Races', say_what_races_path) %>
     </li>
     <li class="list-group-item">
-      <span class="badge" title="<%= pluralize(User.count, 'league') %>"><%= User.count %></span>
+      <span class="badge" title="<%= pluralize(User.count, 'user') %>"><%= User.count %></span>
       <%= link_to('Users', say_what_users_path) %>
     </li>
     <li class="list-group-item">
-      <span class="badge" title="<%= pluralize(Driver.count, 'league') %>"><%= Driver.count %></span>
+      <span class="badge" title="<%= pluralize(Driver.count, 'driver') %>"><%= Driver.count %></span>
       <%= link_to('Drivers', say_what_drivers_path) %>
     </li>
     <li class="list-group-item">
-      <span class="badge" title="<%= pluralize(SuperLeague.count, 'league') %>"><%= SuperLeague.count %></span>
+      <span class="badge" title="<%= pluralize(SuperLeague.count, 'super league') %>"><%= SuperLeague.count %></span>
       <%= link_to('Super Leagues', say_what_super_leagues_path) %>
     </li>
     <li class="list-group-item">
@@ -22,23 +22,23 @@
       <%= link_to('Leagues', say_what_leagues_path) %>
     </li>
     <li class="list-group-item">
-      <span class="badge" title="<%= pluralize(Season.count, 'league') %>"><%= Season.count %></span>
+      <span class="badge" title="<%= pluralize(Season.count, 'season') %>"><%= Season.count %></span>
       <%= link_to('Seasons', say_what_seasons_path) %>
     </li>
     <li class="list-group-item">
-      <span class="badge" title="<%= pluralize(Track.count, 'league') %>"><%= Track.count %></span>
+      <span class="badge" title="<%= pluralize(Track.count, 'track') %>"><%= Track.count %></span>
       <%= link_to('Tracks', say_what_tracks_path) %>
     </li>
     <li class="list-group-item">
-      <span class="badge" title="<%= pluralize(Session.count, 'league') %>"><%= Session.count %></span>
+      <span class="badge" title="<%= pluralize(Session.count, 'session') %>"><%= Session.count %></span>
       <%= link_to('Sessions', say_what_sessions_path) %>
     </li>
     <li class="list-group-item">
-      <span class="badge" title="<%= pluralize(Screenshot.count, 'league') %>"><%= Screenshot.count %></span>
+      <span class="badge" title="<%= pluralize(Screenshot.count, 'screenshot') %>"><%= Screenshot.count %></span>
       <%= link_to('Screenshots', say_what_screenshots_path) %>
     </li>
     <li class="list-group-item">
-      <span class="badge" title="<%= pluralize(Lap.count, 'league') %>"><%= Lap.count %></span>
+      <span class="badge" title="<%= pluralize(Lap.count, 'lap') %>"><%= Lap.count %></span>
       <%= link_to('Laps', say_what_laps_path) %>
     </li>
   </ul>
