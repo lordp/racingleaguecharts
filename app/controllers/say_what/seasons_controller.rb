@@ -16,21 +16,18 @@ class SayWhat::SeasonsController < ApplicationController
   end
 
   def create
-    @season = Season.new(params[:season])
-
-    if @season.save
-      redirect_to(say_what_season_path(@season), :notice => 'Season was successfully created.')
-    else
-      render "new"
-    end
+    @season = Season.new(season_params)
+    @season.save!
+    redirect_to(say_what_season_path(@season), :notice => 'Season was successfully created.')
+  rescue
+    render "new"
   end
 
   def update
-    if @season.update_attributes(params[:season])
-      redirect_to(say_what_season_path(@season), :notice => 'Season was successfully updated.')
-    else
-      render "edit"
-    end
+    @season.update!(season_params)
+    redirect_to(say_what_season_path(@season), :notice => 'Season was successfully updated.')
+  rescue
+    render "edit"
   end
 
   def destroy
@@ -42,6 +39,10 @@ class SayWhat::SeasonsController < ApplicationController
 
     def find_season
       @season = Season.find(params[:id].to_i)
+    end
+
+    def season_params
+      params.require(:season).permit(:name, :league_id, :time_trial)
     end
 
 end

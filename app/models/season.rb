@@ -4,6 +4,10 @@ class Season < ActiveRecord::Base
   belongs_to :league
   has_many :races
 
+  validates :name, :presence => true
+  validates :league_id, :numericality => true
+  validates :time_trial, :numericality => true, :allow_nil => false
+
   def full_name
     "#{league.name} - #{name}"
   end
