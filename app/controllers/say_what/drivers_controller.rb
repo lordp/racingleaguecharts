@@ -17,21 +17,18 @@ class SayWhat::DriversController < ApplicationController
   end
 
   def create
-    @driver = Driver.new(params[:driver])
-
-    if @driver.save
-      redirect_to(say_what_driver_path(@driver), :notice => 'Driver was successfully created.')
-    else
-      render "new"
-    end
+    @driver = Driver.new(driver_params)
+    @driver.save!
+    redirect_to(say_what_driver_path(@driver), :notice => 'Driver was successfully created.')
+  rescue
+    render "new"
   end
 
   def update
-    if @driver.update_attributes(params[:driver])
-      redirect_to(say_what_driver_path(@driver), :notice => 'Driver was successfully updated.')
-    else
-      render "edit"
-    end
+    @driver.update!(driver_params)
+    redirect_to(say_what_driver_path(@driver), :notice => 'Driver was successfully updated.')
+  rescue
+    render "edit"
   end
 
   def destroy
@@ -43,5 +40,9 @@ class SayWhat::DriversController < ApplicationController
 
     def find_driver
       @driver = Driver.find(params[:id].to_i)
+    end
+
+    def driver_params
+      params.require(:driver).permit(:name, :flair, :colour, :marker)
     end
 end
