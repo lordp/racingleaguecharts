@@ -234,6 +234,18 @@ class Race < ActiveRecord::Base
       found_race = true if line.match(/NAME=Race/)
       next unless found_race
 
+      # Reset variables if another race start line is found
+      if line.match(/NAME=Race/)
+        laps = {}
+        drivers = []
+        found_race = false
+        last_car_id = nil
+        grid_driver = nil
+        grid_driver_pos = 0
+        grid_line_found = false
+        grid_position = []
+      end
+
       /CAR ID:([\d]+) : ([^\r\n]+)/.match(line) do |car|
         car_id = car[1].to_i
         drivers[car_id] = car[2]
