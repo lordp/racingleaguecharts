@@ -3,7 +3,7 @@ class LapsController < ApplicationController
   skip_before_filter :build_menu
 
   def create
-    lap = Lap.find_or_initialize_by_session_id_and_lap_number(params[:session_id], params[:lap_number])
+    lap = Lap.find_or_initialize_by(:session_id => params[:session_id], :lap_number => params[:lap_number])
     lap.sector_1 = params[:sector_1].to_f if params[:sector_1]
     lap.sector_2 = params[:sector_2].to_f if params[:sector_2]
     lap.total    = params[:total].to_f if params[:total]

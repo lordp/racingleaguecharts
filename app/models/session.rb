@@ -135,7 +135,7 @@ class Session < ActiveRecord::Base
 
   def self.register(params)
     driver = Driver.name_and_token(params[:driver], params[:token])
-    track = Track.find_or_create_by_length(params[:track].to_f)
+    track = Track.find_or_create_by(:length => params[:track].to_f)
     race = Race.find(params[:race].to_i) if params[:race] && ![SESSION_TYPE_ONE_SHOT, SESSION_TYPE_QUALIFYING].include?(params[:type].to_f)
     race ||= nil
     Session.new(:driver_id => driver.try(:id), :track_id => track.try(:id), :race_id => race.try(:id), :session_type => params[:type])
