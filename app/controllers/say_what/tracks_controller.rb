@@ -16,21 +16,18 @@ class SayWhat::TracksController < ApplicationController
   end
 
   def create
-    @track = Track.new(params[:track])
-
-    if @track.save
-      redirect_to(say_what_track_path(@track), :notice => 'Track was successfully created.')
-    else
-      render "new"
-    end
+    @track = Track.new(track_params)
+    @track.save!
+    redirect_to(say_what_track_path(@track), :notice => 'Track was successfully created.')
+  rescue
+    render "new"
   end
 
   def update
-    if @track.update_attributes(params[:track])
-      redirect_to(say_what_track_path(@track), :notice => 'Track was successfully updated.')
-    else
-      render "edit"
-    end
+    @track.update!(track_params)
+    redirect_to(say_what_track_path(@track), :notice => 'Track was successfully updated.')
+  rescue
+    render "edit"
   end
 
   def destroy
@@ -42,6 +39,10 @@ class SayWhat::TracksController < ApplicationController
 
     def find_track
       @track = Track.find(params[:id].to_i)
+    end
+
+    def track_params
+      params.require(:track).permit(:name, :length)
     end
 
 end
