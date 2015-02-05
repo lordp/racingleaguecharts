@@ -16,21 +16,18 @@ class SayWhat::LeaguesController < ApplicationController
   end
 
   def create
-    @league = League.new(params[:league])
-
-    if @league.save
-      redirect_to(say_what_league_path(@league), :notice => 'League was successfully created.')
-    else
-      render "new"
-    end
+    @league = League.new(league_params)
+    @league.save!
+    redirect_to(say_what_league_path(@league), :notice => 'League was successfully created.')
+  rescue
+    render "new"
   end
 
   def update
-    if @league.update_attributes(params[:league])
-      redirect_to(say_what_league_path(@league), :notice => 'League was successfully updated.')
-    else
-      render "edit"
-    end
+    @league.update!(league_params)
+    redirect_to(say_what_league_path(@league), :notice => 'League was successfully updated.')
+  rescue
+    render "edit"
   end
 
   def destroy
@@ -44,4 +41,7 @@ class SayWhat::LeaguesController < ApplicationController
       @league = League.find(params[:id].to_i)
     end
 
+    def league_params
+      params.require(:league).permit(:name, :super_league_id)
+    end
 end
