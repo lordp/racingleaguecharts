@@ -36,21 +36,19 @@ class SayWhat::RacesController < ApplicationController
   end
 
   def create
-    @race = Race.new(params[:race])
-
-    if @race.save
-      redirect_to(say_what_race_path(@race), :notice => 'Race was successfully created.')
-    else
-      render "new"
-    end
+    @race = Race.new(race_params)
+    @race.save!
+    redirect_to(say_what_race_path(@race), :notice => 'Race was successfully created.')
+  rescue
+    render "new"
   end
 
   def update
-    if @race.update_attributes(params[:race])
-      redirect_to(say_what_race_path(@race), :notice => 'Race was successfully updated.')
-    else
-      render "edit"
-    end
+    @race.update!(race_params)
+    redirect_to(say_what_race_path(@race), :notice => 'Race was successfully updated.')
+  rescue Exception => e
+    Rails.logger.debug(e.inspect)
+    render "edit"
   end
 
   def destroy
@@ -71,6 +69,10 @@ class SayWhat::RacesController < ApplicationController
 
     def get_sessions
       @sessions = @race.sessions.collect(&:driver_id)
+    end
+
+    def race_params
+      params.require(:race).permit(:name, :season_id, :track_id, :ac_log, :time_trial, :is_dry, :thing, :fia, :session_ids => [], :driver_session_ids => [], :existing_driver_session_ids => [])
     end
 
 end

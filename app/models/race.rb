@@ -10,6 +10,10 @@ class Race < ActiveRecord::Base
   after_save :adjust_sessions
   after_save :parse_assetto_corsa
 
+  validates :name, :presence => true
+  validates :season_id, :numericality => true
+  validates :track_id, :numericality => true
+
   POINTS = [ 25, 18, 15, 12, 10, 8, 6, 4, 2, 1 ]
   F1_MAP = {
     'vettel'          => 393,
@@ -55,7 +59,7 @@ class Race < ActiveRecord::Base
       removed = current - driver_session_ids
 
       added.each do |driver|
-        session = self.sessions.find_or_initialize_by_driver_id(:driver_id => driver)
+        session = self.sessions.find_or_initialize_by(:driver_id => driver)
         session.track_id = self.track_id
         session.save
       end
@@ -128,13 +132,13 @@ class Race < ActiveRecord::Base
 
       race_dry_wet = is_dry ? 'dry' : 'wet'
       leaderboard[race_dry_wet].each do |driver, lap_info|
-        driver = Driver.find_or_create_by_name(driver)
+        driver = Driver.find_or_create_by(:name =>driver)
         driver.update_attribute(:flair, lap_info[:flair].split(/ /).first) unless lap_info[:flair].nil?
-        session = self.sessions.find_or_initialize_by_driver_id_and_is_dry(driver.id, is_dry)
+        session = self.sessions.find_or_initialize_by(:driver_id => driver.id, :is_dry => is_dry)
         session.track_id = track_id
         session.session_type = 10.0
         session.save
-        lap = session.laps.find_or_create_by_lap_number(:lap_number => 0)
+        lap = session.laps.find_or_create_by(:lap_number => 0)
         lap.total = lap_info[:time]
         lap.thing = lap_info[:thing]
         lap.save
@@ -157,8 +161,8 @@ class Race < ActiveRecord::Base
       data = response.parsed_response['MRData']
       data['RaceTable']['Races'].first['Laps'].collect { |l| [ l['number'], l['Timings'] ] }.each do |index, lap|
         lap.each do |lap_info|
-          session = self.sessions.find_or_create_by_driver_id(F1_MAP[lap_info['driverId']])
-          this_lap = session.laps.find_or_initialize_by_lap_number(:lap_number => (index.to_i - 1))
+          session = self.sessions.find_or_create_by(:driver_id => F1_MAP[lap_info['driverId']])
+          this_lap = session.laps.find_or_initialize_by(:lap_number => (index.to_i - 1))
           this_lap.total = convert_lap_to_seconds(lap_info['time'])
           this_lap.save
         end
@@ -270,13 +274,13 @@ class Race < ActiveRecord::Base
     end
 
     laps.each do |driver_id, laps_info|
-      driver = Driver.find_or_create_by_name(drivers[driver_id.to_i])
-      s = self.sessions.find_or_create_by_driver_id(driver.id)
+      driver = Driver.find_or_create_by(:name => drivers[driver_id.to_i])
+      s = self.sessions.find_or_create_by(:driver_id => driver.id)
       s.update_attribute(:grid_position, grid_position.index(driver_id.to_i) + 1) unless grid_position.index(driver_id.to_i).nil?
       s.update_attribute(:track_id, self.track_id)
       laps_info.each_with_index do |lap, index|
         next if lap.nil?
-        l = s.laps.find_or_create_by_lap_number(index)
+        l = s.laps.find_or_create_by(:lap_number => index)
         l.total = lap[:time] / 1000.0
         l.position = lap[:pos]
         l.save
