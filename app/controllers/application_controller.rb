@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-  protect_from_forgery
+  protect_from_forgery(:with => :exception)
 
   before_filter :authorize_admin, :if => lambda { params[:controller] =~ /say_what/ }
   before_filter :build_menu
