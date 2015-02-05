@@ -2,7 +2,7 @@ class Track < ActiveRecord::Base
   has_many :sessions
   has_many :races
 
-  validates :name, :presence => true, :allow_blank => true
+  validates :name, :presence => true, :allow_blank => true, :uniqueness => true
   validates :length, :numericality => true
 
   def name
