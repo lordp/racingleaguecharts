@@ -14,7 +14,7 @@ class Screenshot < ActiveRecord::Base
     self.parsed.split(/\r\n/).each do |line|
       match = line.match(/^([\d]{2}) (([\d]+:)?[\d]{2}\.[\d]{3}) (([\d]+:)?[\d]{2}\.[\d]{3}) (([\d]+:)?[\d]{2}\.[\d]{3}) (([\d]+:)?[\d]{2}\.[\d]{3})/)
 
-      lap = Lap.find_or_initialize_by_session_id_and_lap_number(session_id, match[1].to_i - 1)
+      lap = Lap.find_or_initialize_by(:session_id => session_id, :lap_number => match[1].to_i - 1)
       lap.total = Lap.convert_lap(match[2])
       lap.sector_1 = Lap.convert_lap(match[4])
       lap.sector_2 = Lap.convert_lap(match[6])

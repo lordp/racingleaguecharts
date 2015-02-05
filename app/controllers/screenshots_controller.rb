@@ -11,17 +11,20 @@ class ScreenshotsController < ApplicationController
   end
 
   def update
-    if @screenshot.update_attributes(params[:screenshot])
-      redirect_to(session_path(@screenshot.session), :notice => 'Screenshot was successfully updated.')
-    else
-      render "edit"
-    end
+    @screenshot.update!(screenshot_params)
+    redirect_to(session_path(@screenshot.session), :notice => 'Screenshot was successfully updated.')
+  rescue
+    render "edit"
   end
 
   private
 
     def find_screenshot
       @screenshot = Screenshot.find(params[:id].to_i)
+    end
+
+    def screenshot_params
+      params.require(:screenshot).permit(:confirmed, :parsed)
     end
 
 end
