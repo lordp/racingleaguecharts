@@ -238,7 +238,6 @@ class Race < ActiveRecord::Base
       if line.match(/NAME=Race/)
         laps = {}
         drivers = []
-        found_race = false
         last_car_id = nil
         grid_driver = nil
         grid_driver_pos = 0
