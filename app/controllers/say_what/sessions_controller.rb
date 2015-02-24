@@ -17,21 +17,18 @@ class SayWhat::SessionsController < ApplicationController
   end
 
   def create
-    @session = Session.new(params[:session])
-
-    if @session.save
-      redirect_to(say_what_session_path(@session), :notice => 'Session was successfully created.')
-    else
-      render "new"
-    end
+    @session = Session.new(session_params)
+    @session.save!
+    redirect_to(say_what_session_path(@session), :notice => 'Session was successfully created.')
+  rescue
+    render "new"
   end
 
   def update
-    if @session.update_attributes(params[:session])
-      redirect_to(say_what_session_path(@session), :notice => 'Session was successfully updated.')
-    else
-      render "edit"
-    end
+    @session.update!(session_params)
+    redirect_to(say_what_session_path(@session), :notice => 'Session was successfully updated.')
+  rescue
+    render "edit"
   end
 
   def destroy
@@ -47,6 +44,10 @@ class SayWhat::SessionsController < ApplicationController
 
     def fix_screenshots
       params[:session][:screenshot_ids] = params[:session][:screenshot_ids].split(/,/).reject(&:blank?).collect(&:to_i)
+    end
+
+    def session_params
+      params.require(:session).permit(:driver_id, :race_id, :track_id, :winner, :grid_position, :screenshot_ids => [])
     end
 
 end
