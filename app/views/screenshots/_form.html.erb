@@ -20,7 +20,7 @@
     </div>
   </div>
 
-  <div class="pull-left">
+  <div class="pull-left" style="width:70%">
   <% unless @screenshot.fia? %>
     <p><strong>Image</strong></p>
     <%= image_tag(@screenshot.image.url(:three_quarters)) if @screenshot.image.exists? %>
