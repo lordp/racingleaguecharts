@@ -18,7 +18,7 @@ class Session < ActiveRecord::Base
   def create_laps
     self.lap_text.split(/\r\n/).each do |line|
       match = line.match(LINE_REGEX)
-      self.laps.find_or_create_by_lap_number(match[1].to_i - 1) do |lap|
+      self.laps.find_or_create_by(:lap_number => (match[1].to_i - 1)) do |lap|
         lap.total = Lap.convert_lap(match[2])
         lap.sector_1 = Lap.convert_lap(match[3])
         lap.sector_2 = Lap.convert_lap(match[4])
