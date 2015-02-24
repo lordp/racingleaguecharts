@@ -34,7 +34,8 @@ class SessionsController < ApplicationController
   end
 
   def create
-    @session = Session.create!(session_params)
+    @session = Session.new(session_params)
+    @session.save!
     redirect_to(user_path(current_user), :notice => 'Session was successfully created.')
   rescue
     render "new"
