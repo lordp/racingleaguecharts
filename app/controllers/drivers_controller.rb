@@ -5,7 +5,7 @@ class DriversController < ApplicationController
 
   def index
     @drivers = Driver.order('drivers.name')
-    @drivers_api = { :drivers => @drivers.includes(:user).where('users.token = ?', params[:token]).collect(&:name).compact }
+    @drivers_api = { :drivers => @drivers.includes(:user).where(:users => { :token => params[:token] }).collect(&:name).compact }
     respond_to do |format|
       format.html
       format.json { render :json => @drivers_api }
