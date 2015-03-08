@@ -2,6 +2,8 @@ class Session < ActiveRecord::Base
   has_many :laps
   has_many :screenshots
 
+  has_one :fastest_lap, :class => Lap
+
   belongs_to :track
   belongs_to :driver
   belongs_to :race
@@ -14,6 +16,7 @@ class Session < ActiveRecord::Base
 
   validate :laps_are_in_order, :on => :update, :unless => lambda { |s| s.lap_text.blank? }
   after_save :create_laps, :unless => lambda { |s| s.lap_text.blank? }
+  before_save :set_fastest_lap
 
   def create_laps
     self.lap_text.split(/\r\n/).each do |line|
@@ -67,10 +70,6 @@ class Session < ActiveRecord::Base
 
   def average_lap
     laps.size > 0 ? laps.average(:total).round(3) : 0
-  end
-
-  def fastest_lap
-    laps.order(:total).first
   end
 
   def fuel_remaining
@@ -137,6 +136,12 @@ class Session < ActiveRecord::Base
     race = Race.find(params[:race].to_i) if params[:race] && ![SESSION_TYPE_ONE_SHOT, SESSION_TYPE_QUALIFYING].include?(params[:type].to_f)
     race ||= nil
     Session.new(:driver_id => driver.try(:id), :track_id => track.try(:id), :race_id => race.try(:id), :session_type => params[:type])
+  end
+
+  def set_fastest_lap
+    if fastest_lap_id.nil? && !laps.empty?
+      self.fastest_lap_id = laps.order(:total).first.id
+    end
   end
 
 end
