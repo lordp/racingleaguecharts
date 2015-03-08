@@ -5,7 +5,7 @@ class Session < ActiveRecord::Base
   has_one :fastest_lap, :class => Lap
 
   belongs_to :track
-  belongs_to :driver
+  belongs_to :driver, :counter_cache => true
   belongs_to :race
 
   SESSION_TYPE_TIME_TRIAL = 10.0
