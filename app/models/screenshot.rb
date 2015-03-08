@@ -2,7 +2,7 @@ class Screenshot < ActiveRecord::Base
   has_attached_file :image, :styles => { :three_quarters => "75%x75%>" }, :processors => [ :parse_image, :thumbnail ]
   process_in_background :image
 
-  belongs_to :session
+  belongs_to :session, :counter_cache => true
 
   validate :laps_are_in_order, :on => :update, :if => lambda { |s| s.confirmed? }
 

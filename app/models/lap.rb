@@ -1,5 +1,5 @@
 class Lap < ActiveRecord::Base
-  belongs_to :session
+  belongs_to :session, :counter_cache => true
   belongs_to :race
   belongs_to :driver
 
