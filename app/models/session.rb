@@ -2,7 +2,7 @@ class Session < ActiveRecord::Base
   has_many :laps
   has_many :screenshots
 
-  has_one :fastest_lap, :class => Lap
+  belongs_to :fastest_lap, :class_name => Lap
 
   belongs_to :track
   belongs_to :driver, :counter_cache => true
