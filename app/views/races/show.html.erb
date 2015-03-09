@@ -1,3 +1,4 @@
+<% cache(@race.cache_key) do %>
 <script type="text/javascript">
   var race = {
     "time_trial": <%= @race.time_trial?.to_s %>,
@@ -24,6 +25,7 @@
     ]
   };
 </script>
+<% end %>
 
 <ol class="breadcrumb">
   <%= breadcrumb(@race, true) %>
