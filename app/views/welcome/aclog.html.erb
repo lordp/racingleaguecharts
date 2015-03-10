@@ -1,0 +1,19 @@
+<h1>Assetto Corsa log editing</h1>
+
+<p>The log file you need is C:\Users\&lt;username&gt;\Documents\Assetto Corsa\logs\log.txt (or wherever your My Documents folder lives). You have to be quick to grab this file as the game overwrites it.</p>
+<p>The log includes a lot of irrelevant information that can be removed before you upload. The first thing to find is the line that signifies the start of the race. This line is simply this - "NAME=Race". Everything before that line can be safely deleted.</p>
+<p>The following is a list of relevant lines, everything else can be deleted.</p>
+<ol>
+  <li>NAME=Race<br/><span class="text-muted"><em>Signifies the start of the race session</em></span></li>
+  <li>CAR ID:&lt;number&gt; : &lt;name&gt;<br/><span class="text-muted"><em>Car identifier and driver name</em></span></li>
+  <li>Setting my grid position at:&lt;number&gt;<br/><span class="text-muted"><em>Your grid position</em></span></li>
+  <li>goToSpawnPosition START<br/><span class="text-muted"><em>You are now on the grid waiting for the race to begin</em></span></li>
+  <li>P: &lt;number&gt; : &lt;number&gt; | &lt;number&gt; LT:&lt;number&gt; LC:&lt;number&gt;<br/><span class="text-muted"><em>Race position, car id (x2), total lap time, lap count</em></span></li>
+</ol>
+<p>If your editor program can do search and replace using regular expressions, the following should help.</p>
+<ol>
+<li>Delete irrelevant lines (replace with nothing) - <code>^(?!(P:|NAME|CAR ID|Setting|goTo)).*\n</code></li>
+<li>Find badly formatted lap lines (requires manual editing, max 99 laps) - <code>^(?!(P: \d+ : \d+ \| \d+ LT:\d+ LC:\d{1,2}$))</code></li>
+</ol>
+
+<p>Send this file to your friendly administrator to upload.</p>
