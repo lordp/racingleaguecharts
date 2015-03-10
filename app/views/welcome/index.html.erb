@@ -1,28 +1,19 @@
 <h1>Welcome!</h1>
-<p><%= link_to('Racing League Charts', root_path) %> is a website for generating and displaying various charts for the F1 2013 game by Codemasters.</p>
+<p><%= link_to('Racing League Charts', root_path) %> is a website for generating and displaying various charts for the F1 series of games by Codemasters, and Assetto Corsa by Kunos Simulazioni.</p>
 
-<h3>Structure</h3>
-<p>How the information is structured is as follows -</p>
-<ul>
-  <li><strong>Super League</strong> - this is the top level, and is usually the concept of the league. Examples are <%= link_to('Apex Online Racing (AOR)', "http://apexonlineracing.com") %>, <%= link_to('VirtualWDCPC', "http://reddit.com/r/VirtualWDCPC") %> or <%= link_to('Precision Racing League (PRL)', "http://precisionracingleague.com") %>.</li>
-  <li><strong>League</strong> - this is specific leagues within the Super League. Examples are AOR PC Split 1 (2, 3, etc), AOR XBOX F1, VirtualWDCPC 2100, PRL Pacific PC, PRL American PS3 Championship.</li>
-  <li><strong>Season</strong> - a Season is a set of races, usually based around a year of Formula 1</li>
-  <li><strong>Race</strong> - each individual race within a season, and what is used for charting purposes</li>
-  <li><strong>Session</strong> - a set of laps for a race attributed to a specific driver, as well as a number of screenshots that provide the lap information</li>
-  <li><strong>Lap</strong> - one lap within a session with lap and sector times</li>
-</ul>
-
-<h3>Navigation</h3>
-<p>The menu above is the main interface to the site. The 'Leagues' menu contains the Super Leagues and Leagues in one as option groups and options respectively.</p>
-<p>Once you choose a league, a second menu should appear with seasons within the chosen league. Choosing a season will give you a menu of races and so on. A breadcrumb style navigation aid will also be shown.</p>
+<h3>Sign in or sign up</h3>
+<p>If you wish to use the companion app, the first thing you need to do is <%= link_to('Sign up', sign_up_users_path) %> (or <%= link_to('sign in', sign_in_users_path)%> if you already have an account), and claim a driver from your profile page.</p>
+<p>If you can't find your driver, please contact <%= link_to('lordp', 'mailto:darryl@addict.net.nz') %> for help.</p>
 
 <h3>Generation</h3>
-<p>To generate the charts for a race, a set of sessions need to be created for each driver you wish to include. For each session, you will need to upload screenshots of the Race Director option that the game provides. This system shows 8 laps at a time, meaning multiple screenshots will be required to cover the entire race.</p>
+<p>To generate the charts for a race, what game you are playing determines the method.</p>
+
+<h4>F1 series</h4>
+<p>For the F1 series of games, the primary method is via the companion app, which can be downloaded <%= link_to('here', '/racingleaguecharts.exe') %>. This is a Windows only app. More information on how to use the app can be found <%= link_to('here', '/app.html') %>.</p>
+<p>The second method is to take screenshots of the Race Director screens after each race and upload them.</p>
+
+<h4>Assetto Corsa</h4>
+<p>The only way to do this currently is to upload the race log. It is preferred that some editing of the log is done beforehand to reduce processing time.</p>
+
 <p>If you have any questions, suggestions or concerns, please <%= link_to('let me know', 'mailto:darryl@addict.net.nz') %>.</p>
 
-<h3>Logging Application</h3>
-<p>An alternate option for generating charts is having drivers use the logging application. This collects data output by the game via its telemetry system, parses it for lap and sector times, and creates sessions and laps automatically. These sessions are then attached to a race by an administrator.</p>
-<p>You can download a copy of the application <%= link_to('here', '/racingleaguecharts.exe') %>.</p>
-
-<h3>Technical Details</h3>
-<p>Uploaded screenshots are processed in the background. Each screenshot is cropped to only include the lap number and lap and sector times. An edge detection routine is run over this cropped version, and the <%= link_to('Tesseract OCR', "https://code.google.com/p/tesseract-ocr/") %> system is invoked to pull out the text.</p>
