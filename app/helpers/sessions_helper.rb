@@ -57,4 +57,11 @@ module SessionsHelper
       "class=\"bg-success\" style=\"font-weight: bold\"".html_safe
     end
   end
+
+  def cache_key_for_sessions
+    count          = Session.count
+    max_updated_at = Session.maximum(:updated_at).try(:utc).try(:to_s, :number)
+    "sessions/all-#{count}-#{max_updated_at}"
+  end
+
 end

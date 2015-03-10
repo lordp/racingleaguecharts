@@ -1,10 +1,12 @@
 <h1>Session Chart (<%= link_to('Back to main view', session_path(@session)) %>)</h1>
 <h3><%= @session.name %></h3>
 
+<% cache(cache_key_for_sessions) do %>
 <div class="form-group">
   <%= label_tag(:compare, 'Compare with another session') %><br/>
   <%= select_tag(:compare, options_from_collection_for_select(Session.all, "id", "name", @compare ? @compare.id : nil), { :class => 'form-control select2', :id => 'session_compare' }) %>
 </div>
+<% end %>
 
 <ul class="nav nav-tabs">
   <li class="active"><a id="tab-laps" href="#container-laps" data-toggle="tab">Laps</a></li>
