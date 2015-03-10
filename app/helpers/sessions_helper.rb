@@ -52,8 +52,8 @@ module SessionsHelper
     table
   end
 
-  def fastest_lap(lap, fastest_lap)
-    if lap == fastest_lap
+  def fastest_lap(lap)
+    if lap.id == lap.session.fastest_lap_id
       "class=\"bg-success\" style=\"font-weight: bold\"".html_safe
     end
   end

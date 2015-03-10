@@ -5,6 +5,6 @@
   </div>
   <div class="panel-body collapse session-collapsible" id="session-<%= index + 1 %>">
     <%= render(:partial => 'sessions/session_details', :locals => { :sess => session, :tt => @race && @race.time_trial }) %>
-    <%= render(:partial => 'sessions/session_laps', :locals => { :laps => session.laps, :session => session, :fastest => session.fastest_lap }) unless @race && @race.time_trial %>
+    <%= render(:partial => 'sessions/session_laps', :locals => { :laps => session.laps, :session => session }) unless @race && @race.time_trial %>
   </div>
 </div>
