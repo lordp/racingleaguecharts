@@ -43,6 +43,7 @@ Rails.application.routes.draw do
         get 'rescan'
       end
     end
+    get 'welcome', :to => 'welcome#index'
   end
 
   get 'help/aclog', :to => 'welcome#aclog'
