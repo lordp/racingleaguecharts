@@ -11,12 +11,11 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.new(params[:user])
-    if @user.save
-      redirect_to(root_url, :notice => 'Signed up!')
-    else
-      render('new')
-    end
+    @user = User.new(user_params)
+    @user.save!
+    redirect_to(root_url, :notice => 'Signed up!')
+  rescue
+    render('new')
   end
 
   def edit
