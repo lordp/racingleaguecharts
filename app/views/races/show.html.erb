@@ -146,44 +146,8 @@
     <div class="chart" id="container-position-child"></div>
   </div>
   <div class="tab-pane" id="container-options">
-    <fieldset>
-      <legend>Filters</legend>
-      <div class="form-group">
-        <strong>Select: </strong><%= link_to('All', '', :id => 'select_all') %>, <%= link_to('None', '', :id => 'select_none') %>
-      </div>
-      <% cache(cache_key_for_super_leagues) do %>
-      <div class="form-group">
-        <strong>Super League: </strong>
-        <% SuperLeague.all.each do |super_league| %>
-          <%= label_tag(super_league.name.parameterize, :class => 'checkbox-inline session-filter') do %>
-            <%= check_box_tag(super_league.name.parameterize, 1, true, :data => { :filter => 'super-league' }, :name => "super-league-#{super_league.id}") %> <%= super_league.name %>
-          <% end %>
-        <% end %>
-      </div>
-      <% end %>
-      <% cache(cache_key_for_leagues) do %>
-      <div class="form-group">
-        <strong>League: </strong>
-        <% League.all.each do |league| %>
-          <%= label_tag(league.filter_name, :class => 'checkbox-inline session-filter') do %>
-            <%= check_box_tag(league.filter_name, 1, true, :data => { :filter => 'league', :parent => "super-league-#{league.super_league_id}" }, :name => "league-#{league.id}") %> <%= league.name %>
-          <% end %>
-        <% end %>
-      </div>
-      <% end %>
-      <% cache(cache_key_for_seasons) do %>
-      <div class="form-group">
-        <strong>Season: </strong>
-        <% Season.all.each do |season| %>
-          <%= label_tag(season.filter_name, :class => 'checkbox-inline session-filter', :title => season.formatted_ancestors) do %>
-            <%= check_box_tag(season.filter_name, 1, true, :data => { :filter => 'season', :parent => "league-#{season.league_id}" }) %> <%= season.name %>
-          <% end %>
-        <% end %>
-      </div>
-      <% end %>
-    </fieldset>
-    <% cache(cache_key_for_races) do %>
-      <%= render(:partial => 'race_list', :locals => { :races => Race.order(:created_at).where('id != ?', @race.id) }) %>
-    <% end %>
+    <div class="form-group">
+      <p>The comparison tab is temporarily disabled while I work on a better method for finding another race. For now, you can compare races by manually adding <code>?compare=&lt;race number&gt;</code> to the URL - eg <code><%= race_url(@race, :compare => 1) %></code></p>
+    </div>
   </div>
 </div>
