@@ -14,15 +14,15 @@
     <div class="brand">RACING<br/>LEAGUE<br/>CHARTS</div>
     <div class="middle">
       <ul class="nav nav-pills nav-stacked nav-list nav-list-1">
-        <% @super_leagues.each do |super_league| %>
+        <% @super_leagues.order(:created_at).each do |super_league| %>
         <li>
           <%= link_to(super_league.name, '', :class => 'toggle') %>
           <ul class="nav nav-pills nav-stacked nav-list nav-list-2" style="display: <%= expand_menu?(@race, super_league) %>;">
-          <% super_league.leagues.each do |league| %>
+          <% super_league.leagues.includes(:seasons).order(:created_at).each do |league| %>
             <li>
               <%= link_to(league.name, '', :class => 'toggle') %>
               <ul class="nav nav-pills nav-stacked nav-list nav-list-3" style="display: <%= expand_menu?(@race, league) %>;">
-              <% league.seasons.each do |season| %>
+              <% league.seasons.order(:created_at).each do |season| %>
                 <li>
                   <%= link_to(season.name, '', :class => 'toggle') %>
                   <ul class="nav nav-pills nav-stacked nav-list nav-list-4" style="display: <%= expand_menu?(@race, season) %>;">
