@@ -45,6 +45,7 @@ class SayWhat::RacesController < ApplicationController
 
   def update
     @race.update!(race_params)
+    expire_fragment(@race.cache_key) if params[:clear_cache] && params[:clear_cache] == "yes"
     redirect_to(say_what_race_path(@race), :notice => 'Race was successfully updated.')
   rescue Exception => e
     Rails.logger.debug(e.inspect)
