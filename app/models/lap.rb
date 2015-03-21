@@ -6,8 +6,6 @@ class Lap < ActiveRecord::Base
   validates :session_id, :numericality => true
   validates :lap_number, :numericality => true
 
-  after_save :update_fastest_lap
-
   def full_name
     "##{lap_number}, #{converted_total}"
   end
@@ -51,9 +49,4 @@ class Lap < ActiveRecord::Base
       []
     end
   end
-
-  def update_fastest_lap
-    session.update(:fastest_lap => self) if self.total < session.fastest_lap.total
-  end
-
 end
