@@ -8,6 +8,7 @@ class Race < ActiveRecord::Base
   before_save :nullify_thing
   after_save :adjust_sessions
   after_save :parse_assetto_corsa
+  after_save :find_fastest_laps
 
   validates :name, :presence => true
   validates :season_id, :numericality => true
@@ -313,6 +314,10 @@ class Race < ActiveRecord::Base
 
   def has_position?
     sessions.collect(&:has_position?).include?(true)
+  end
+
+  def find_fastest_laps
+    sessions.each(&:save)
   end
 
 end
