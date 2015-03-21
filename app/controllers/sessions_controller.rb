@@ -37,7 +37,8 @@ class SessionsController < ApplicationController
     @session = Session.new(session_params)
     @session.save!
     redirect_to(user_path(current_user), :notice => 'Session was successfully created.')
-  rescue
+  rescue Exception => e
+    Rails.logger.debug("EXCEPTION: #{e.inspect} - #{e.backtrace.first}")
     render "new"
   end
 
