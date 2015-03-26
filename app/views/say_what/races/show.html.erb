@@ -1,5 +1,5 @@
 <h1><%= @race.name %></h1>
-<%= link_to('Edit', edit_say_what_race_path(@race)) %> | <%= link_to('Destroy', say_what_race_path(@race), :method => :delete, :data => { :confirm => 'Are you sure?' }) %>
+<%= link_to('Edit', edit_say_what_race_path(@race)) %> | <%= link_to('Destroy', say_what_race_path(@race), :method => :delete, :data => { :confirm => 'Are you sure?' }) %> | <%= link_to("Back to index", say_what_races_path) %>
 <h2>Sessions</h2>
 <% if @race.time_trial %>
   <p><button id="rescan" class="btn btn-danger" value="rescan">Rescan Thread</button></p>

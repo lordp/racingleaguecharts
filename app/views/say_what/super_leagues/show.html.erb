@@ -1,2 +1,2 @@
 <h1><%= @super_league.name %></h1>
-<%= link_to('Edit', edit_say_what_super_league_path(@super_league)) %> | <%= link_to('Destroy', say_what_super_league_path(@super_league), :method => :delete, :data => { :confirm => 'Are you sure?' }) %>
+<%= link_to('Edit', edit_say_what_super_league_path(@super_league)) %> | <%= link_to('Destroy', say_what_super_league_path(@super_league), :method => :delete, :data => { :confirm => 'Are you sure?' }) %> | <%= link_to('Back to index', say_what_super_leagues_path) %>

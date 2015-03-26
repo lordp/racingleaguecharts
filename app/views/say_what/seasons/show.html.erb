@@ -1,5 +1,5 @@
 <h1><%= @season.name %></h1>
-<%= link_to('Edit', edit_say_what_season_path(@season)) %> | <%= link_to('Destroy', say_what_season_path(@season), :method => :delete, :data => { :confirm => 'Are you sure?' }) %>
+<%= link_to('Edit', edit_say_what_season_path(@season)) %> | <%= link_to('Destroy', say_what_season_path(@season), :method => :delete, :data => { :confirm => 'Are you sure?' }) %> | <%= link_to("Back to index", say_what_seasons_path) %>
 <% if @season.time_trial %>
 <p>
   <%= text_area_tag("reddit_table", top_ten_to_reddit_table(@season), :rows => 20, :cols => 50) %>
