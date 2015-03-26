@@ -144,4 +144,33 @@ class Session < ActiveRecord::Base
     end
   end
 
+  def self.search(params)
+    query = Session.order(:created_at)
+
+    if params[:session_type]
+      session_types = {
+        'qualifying'          => SESSION_TYPE_QUALIFYING,
+        'one-shot-qualifying' => SESSION_TYPE_ONE_SHOT,
+        'time-trial'          => SESSION_TYPE_TIME_TRIAL
+      }
+      session_type = params[:session_type].map { |ss| session_types[ss] }.compact
+
+      query = query.where(:session_type => session_type.map(&:to_f)) unless session_type.empty?
+      query = query.where('session_type not in (?)', session_types.values.map(&:to_f) - session_type) if params[:session_type].include?('race')
+    end
+
+    if params[:drivers] && !params[:drivers].empty?
+      query = query.where(:driver_id => params[:drivers].map(&:to_i))
+    end
+
+    if params[:tracks] && !params[:tracks].empty?
+      query = query.where(:track_id => params[:tracks].map(&:to_i))
+    end
+
+    query.includes(:race, :driver, :track).collect do |s|
+      { :id => s.id, :session_type => s.nice_session_type, :track => s.track.try(:name) || 'Unknown', :driver => s.driver.try(:name) || 'Unknown',
+        :race => s.race.try(:name) || 'Unknown', :laps => s.laps_count, :created_at => s.created_at.strftime('%d %b %Y') }
+    end
+  end
+
 end

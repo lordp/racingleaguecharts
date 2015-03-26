@@ -57,6 +57,14 @@ class SessionsController < ApplicationController
     redirect_to(:back, :notice => 'Session deleted')
   end
 
+  def search
+    results = Session.search(params)
+
+    respond_to do |format|
+      format.json { render json: results }
+    end
+  end
+
   private
 
     def find_session
