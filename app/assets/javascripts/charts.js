@@ -524,6 +524,7 @@ $(function () {
       options.plotOptions.spline.pointStart = 0;
       options.yAxis.title.text = 'Position';
       options.yAxis.tickInterval = 1;
+      options.xAxis.tickInterval = 1;
       options.yAxis.min = 1;
       options.yAxis.reversed = true;
       options.series = [];
