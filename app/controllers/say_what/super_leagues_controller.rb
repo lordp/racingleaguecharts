@@ -42,7 +42,7 @@ class SayWhat::SuperLeaguesController < ApplicationController
     end
 
     def super_league_params
-      params.require(:super_league).permit(:name)
+      params.require(:super_league).permit(:name, :disabled)
     end
 
 end
