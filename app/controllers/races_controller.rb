@@ -8,9 +8,9 @@ class RacesController < ApplicationController
 
   def show
     @race_sessions = if @race.time_trial
-      @race.sessions.includes(:laps).order('laps.total')
+      @race.sessions.includes(:laps, :fastest_lap).order('laps.total')
     else
-      sessions = @race.sessions.includes(:laps)
+      sessions = @race.sessions.includes(:laps, :fastest_lap)
       if params[:compare]
         sessions += Race.find(params[:compare].to_i).sessions.includes(:laps)
       end
