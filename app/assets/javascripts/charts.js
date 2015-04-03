@@ -499,6 +499,7 @@ $(function () {
       options.chart.type = 'spline';
       options.tooltip.formatter = fuel_tooltip_formatter;
       options.yAxis.title.text = 'Fuel Remaining';
+      options.plotOptions.spline.pointStart = 1;
       options.series = [];
       $.each(race.sessions, function (i, driver) {
         options.series.push({
