@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
   before_filter :build_menu
 
   def build_menu
-    @super_leagues = SuperLeague.order(:created_at).includes(:leagues => { :seasons => :races })
+    @super_leagues = SuperLeague.where(:disabled => false).order(:created_at).includes(:leagues => { :seasons => :races })
   end
 
   private
