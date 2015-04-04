@@ -37,7 +37,7 @@ class RacesController < ApplicationController
   private
 
     def find_race
-      @race = Race.find(params[:id].to_i) if params[:id]
+      @race = Race.includes(:season => { :league => :super_league }, :sessions => :driver).find(params[:id].to_i) if params[:id]
     end
 
 end
