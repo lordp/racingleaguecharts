@@ -1,5 +1,5 @@
 class Race < ActiveRecord::Base
-  attr_accessor :driver_session_ids, :existing_driver_session_ids, :ac_log
+  attr_accessor :driver_session_ids, :existing_driver_session_ids, :ac_log, :ac_log_server
 
   has_many :sessions
   belongs_to :track
@@ -223,6 +223,51 @@ class Race < ActiveRecord::Base
   def parse_assetto_corsa
     return if self.ac_log.nil?
 
+    if self.ac_log_server == '1'
+      parse_assetto_corsa_server
+    else
+      parse_assetto_corsa_player
+    end
+  end
+
+  def parse_assetto_corsa_server
+    laps = {}
+
+    File.open(self.ac_log.tempfile).each do |line|
+      /^LAP ([a-zA-Z0-9 ]+) ([0-9:.]+)$/.match(line) do |lap|
+        driver   = lap[1]
+        lap_time = lap[2]
+
+        laps[driver] ||= []
+        laps[driver] << { :time => convert_lap_to_seconds(lap_time), :pos => nil }
+      end
+
+      /^([0-9]+)\) ([a-zA-Z0-9 ]+) BEST: [0-9:.]+ TOTAL: [0-9:.]+ Laps:([0-9]+) SesID:[0-9]+$/.match(line) do |lap|
+        driver    = lap[2]
+        pos       = lap[1].to_i
+        lap_count = lap[3].to_i
+
+        if laps[driver]
+          laps[driver][lap_count - 1].update(:pos => pos)
+        end
+      end
+    end
+
+    laps.each do |driver_id, laps_info|
+      driver = Driver.find_or_create_by(:name => driver_id)
+      s = self.sessions.find_or_create_by(:driver_id => driver.id)
+      s.update_attribute(:track_id, self.track_id)
+      laps_info.each_with_index do |lap, index|
+        next if lap.nil?
+        l = s.laps.find_or_create_by(:lap_number => index)
+        l.total = lap[:time]
+        l.position = lap[:pos]
+        l.save
+      end
+    end
+  end
+
+  def parse_assetto_corsa_player
     laps = {}
     drivers = []
     found_race = false

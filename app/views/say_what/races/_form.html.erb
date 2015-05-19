@@ -62,6 +62,11 @@
   <div class="form-group">
     <%= f.file_field(:ac_log) %>
   </div>
+  <div class="checkbox">
+    <%= f.label(:ac_log_server) do %>
+      <%= f.check_box(:ac_log_server) %> Log is from the server
+    <% end %>
+  </div>
 </fieldset>
 
 <div class="form-group">

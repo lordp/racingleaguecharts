@@ -73,7 +73,7 @@ class SayWhat::RacesController < ApplicationController
     end
 
     def race_params
-      params.require(:race).permit(:name, :season_id, :track_id, :ac_log, :time_trial, :is_dry, :thing, :fia, :session_ids => [], :driver_session_ids => [], :existing_driver_session_ids => [])
+      params.require(:race).permit(:name, :season_id, :track_id, :ac_log, :ac_log_server, :time_trial, :is_dry, :thing, :fia, :session_ids => [], :driver_session_ids => [], :existing_driver_session_ids => [])
     end
 
 end
