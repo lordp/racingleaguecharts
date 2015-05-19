@@ -64,15 +64,6 @@
   </div>
 </fieldset>
 
-<fieldset>
-  <legend>Clear chart cache (tick if the charts are behaving weirdly)</legend>
-  <div class="checkbox legend-fix">
-    <%= label_tag(:clear_cache) do %>
-      <%= check_box_tag(:clear_cache, 'yes') %> Clear chart cache?
-    <% end %>
-  </div>
-</fieldset>
-
 <div class="form-group">
   <%= f.submit('Save', :class => 'btn btn-default') %> <%= cancel_link(@race) %>
 </div>
