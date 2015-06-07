@@ -234,7 +234,7 @@ class Race < ActiveRecord::Base
     laps = {}
 
     File.open(self.ac_log.tempfile).each do |line|
-      /^LAP ([a-zA-Z0-9 ]+) ([0-9:.]+)$/.match(line) do |lap|
+      /^LAP ([a-zA-Z0-9 \|_]+) ([0-9:.]+)$/.match(line) do |lap|
         driver   = lap[1]
         lap_time = lap[2]
 
@@ -242,7 +242,7 @@ class Race < ActiveRecord::Base
         laps[driver] << { :time => convert_lap_to_seconds(lap_time), :pos => nil }
       end
 
-      /^([0-9]+)\) ([a-zA-Z0-9 ]+) BEST: [0-9:.]+ TOTAL: [0-9:.]+ Laps:([0-9]+) SesID:[0-9]+$/.match(line) do |lap|
+      /^([0-9]+)\) ([a-zA-Z0-9 \|_]+) BEST: [0-9:.]+ TOTAL: [0-9:.]+ Laps:([0-9]+) SesID:[0-9]+$/.match(line) do |lap|
         driver    = lap[2]
         pos       = lap[1].to_i
         lap_count = lap[3].to_i
