@@ -247,7 +247,7 @@ class Race < ActiveRecord::Base
         pos       = lap[1].to_i
         lap_count = lap[3].to_i
 
-        if laps[driver]
+        if laps[driver] && laps[driver][lap_count - 1] && laps[driver][lap_count - 1][:pos].nil?
           laps[driver][lap_count - 1].update(:pos => pos)
         end
       end
