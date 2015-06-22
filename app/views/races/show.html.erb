@@ -62,6 +62,10 @@
           <th class="col-sm-1">Points</th>
           <% else %>
           <th class="col-sm-1">Average Lap</th>
+          <th class="col-sm-2" colspan="2">
+            Consistency
+            <%= display_help('"Top 80%" is the best 80% of the laps you completed. "Total" is all laps, including in- and out-laps, but excluding lap 1.') %>
+          </th>
           <% end %>
         </tr>
       </thead>
@@ -80,6 +84,12 @@
           <td><%= Race::POINTS[index] || 0 %></td>
           <% else %>
             <td><%= nice_time(session.average_lap) %></td>
+            <td>
+              <strong>Top 80%:</strong> <%= session.consistency(true) %>
+            </td>
+            <td>
+              <strong>Total:</strong> <%= session.consistency %>
+            </td>
           <% end %>
         </tr>
       <% end %>

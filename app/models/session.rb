@@ -88,6 +88,21 @@ class Session < ActiveRecord::Base
     laps.average("sector_#{sector}")
   end
 
+  def consistency(top80 = false)
+    # remove lap 1
+    variance_laps = laps.reject { |l| l.lap_number == 0 }
+
+    # calculate using top 80% of laps
+    if top80
+      l = variance_laps.sort_by { |l| l.total }.slice(0, laps.size * 0.8).collect(&:total)
+    else
+      l = variance_laps.collect(&:total)
+    end
+
+    mean = l.inject(0) { |sum, x| sum + x } / l.size.to_f
+    (l.inject(0) { |sum, lap| sum + (lap - mean) * (lap - mean) } / (l.size - 1)).round(3)
+  end
+
   def has_sectors?
     laps.collect(&:sector_1).compact.count > 0
   end
