@@ -40,6 +40,11 @@ class Race < ActiveRecord::Base
     'maldonado'       => 414,
   }
 
+  AC_QUALIFYING = 0
+  AC_RACE       = 1
+
+  AC_SERVER_LAP_LINE = /^LAP ([a-zA-Z0-9 \|_\.]+) ([0-9:]+)$/
+  AC_POSITION_LINE   = /^([0-9]+)\) ([a-zA-Z0-9 \|_\.]+) BEST: [0-9:]+ TOTAL: [0-9:]+ Laps:([0-9]+) SesID:[0-9]+$/
 
   def full_name
     nm = []
@@ -232,23 +237,49 @@ class Race < ActiveRecord::Base
 
   def parse_assetto_corsa_server
     laps = {}
+    grid_position = {}
+    state = nil
 
     File.open(self.ac_log.tempfile).each do |line|
-      /^LAP ([a-zA-Z0-9 \|_\.]+) ([0-9:]+)$/.match(line) do |lap|
-        driver   = lap[1]
-        lap_time = lap[2]
-
-        laps[driver] ||= []
-        laps[driver] << { :time => convert_lap_to_seconds(lap_time), :pos => nil }
+      /^TYPE=QUALIFY$/.match(line) do
+        state = AC_QUALIFYING
+        grid_position = {}
       end
 
-      /^([0-9]+)\) ([a-zA-Z0-9 \|_\.]+) BEST: [0-9:]+ TOTAL: [0-9:]+ Laps:([0-9]+) SesID:[0-9]+$/.match(line) do |lap|
-        driver    = lap[2]
-        pos       = lap[1].to_i
-        lap_count = lap[3].to_i
+      /^TYPE=RACE$/.match(line) do
+        state = AC_RACE
+        laps = {}
+      end
 
-        if laps[driver] && laps[driver][lap_count - 1] && laps[driver][lap_count - 1][:pos].nil?
-          laps[driver][lap_count - 1].update(:pos => pos)
+      if state == AC_QUALIFYING
+        AC_POSITION_LINE.match(line) do |lap|
+          driver    = lap[2]
+          pos       = lap[1].to_i
+
+          grid_position[driver] ||= nil
+          grid_position[driver] = pos
+        end
+      else
+        AC_SERVER_LAP_LINE.match(line) do |lap|
+          driver   = lap[1]
+          lap_time = lap[2]
+
+          laps[driver] ||= []
+          laps[driver] << { :time => convert_lap_to_seconds(lap_time), :pos => nil }
+        end
+
+        AC_POSITION_LINE.match(line) do |lap|
+          driver    = lap[2]
+          pos       = lap[1].to_i
+          lap_count = lap[3].to_i
+
+          if laps[driver] && laps[driver][lap_count - 1] && laps[driver][lap_count - 1][:pos].nil?
+            laps[driver][lap_count - 1].update(:pos => pos)
+          end
+        end
+
+        if line.strip == 'RESTARTING SESSION'
+          laps = {}
         end
       end
     end
@@ -256,6 +287,7 @@ class Race < ActiveRecord::Base
     laps.each do |driver_id, laps_info|
       driver = Driver.find_or_create_by(:name => driver_id)
       s = self.sessions.find_or_create_by(:driver_id => driver.id)
+      s.update_attribute(:grid_position, grid_position[driver_id]) unless grid_position[driver_id].nil?
       s.update_attribute(:track_id, self.track_id)
       laps_info.each_with_index do |lap, index|
         next if lap.nil?
