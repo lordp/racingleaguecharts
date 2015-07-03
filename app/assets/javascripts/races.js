@@ -16,6 +16,21 @@ $(function() {
     });
   });
 
+  $('.race-compare').on('click', function() {
+    params = {
+      tracks: $('#track').val() || []
+    };
+
+    if (params.tracks.length > 0) {
+      $.get('/races/search.json?' + $.param(params), function (data) {
+        $('#race_list tbody').empty().append($.map(data, function(item) {
+          return "<tr><td><a href=\"?compare=" + item.id + "\">" + item.winner + "</td><td>" + item.track + "</td><td>" + item.laps + "</td><td>" + item.created_at + "</td></tr>";
+        }).join(''));
+      });
+    }
+  });
+
+
   /*
   var client = new Faye.Client(location.protocol + '//' + location.hostname + ':3001/faye');
   client.subscribe('/livetiming', update_livetiming);

@@ -34,6 +34,14 @@ class RacesController < ApplicationController
   def livetiming
   end
 
+  def search
+    results = Race.search(params)
+
+    respond_to do |format|
+      format.json { render json: results }
+    end
+  end
+
   private
 
     def find_race
