@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.1'
+gem 'rails', '4.2.3'
 # Use postgresql as the database for Active Record
 gem 'pg'
 # Use SCSS for stylesheets
@@ -33,10 +33,10 @@ gem 'jquery-ui-rails'
 gem 'kaminari'
 gem 'kaminari-bootstrap', '~> 3.0.1'
 
-gem 'sidekiq', '~> 2.17.3'
+gem 'sidekiq', '~> 3.4.1'
 
-gem 'codemirror-rails', '~> 4.1'
-gem 'paperclip', '~> 3.5.2'
+gem 'codemirror-rails', '~> 5.3'
+gem 'paperclip', '~> 4.3'
 gem 'delayed_paperclip'
 
 gem 'tesseract-ocr'
