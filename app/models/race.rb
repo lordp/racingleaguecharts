@@ -43,8 +43,8 @@ class Race < ActiveRecord::Base
   AC_QUALIFYING = 0
   AC_RACE       = 1
 
-  AC_SERVER_LAP_LINE = /^LAP ([a-zA-Z0-9 \|_\.]+) ([0-9:]+)$/
-  AC_POSITION_LINE   = /^([0-9]+)\) ([a-zA-Z0-9 \|_\.]+) BEST: [0-9:]+ TOTAL: [0-9:]+ Laps:([0-9]+) SesID:[0-9]+$/
+  AC_SERVER_LAP_LINE = /^LAP ([a-zA-Z0-9\\ \|_\.]+) ([0-9:]+)$/
+  AC_POSITION_LINE   = /^([0-9]+)\) ([a-zA-Z0-9\\ \|_\.]+) BEST: [0-9:]+ TOTAL: [0-9:]+ Laps:([0-9]+) SesID:[0-9]+$/
 
   def full_name
     nm = []
