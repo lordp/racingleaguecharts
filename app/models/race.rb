@@ -45,7 +45,7 @@ class Race < ActiveRecord::Base
 
   AC_DRIVER = '.+' #'[a-zA-Z0-9\\ \|_\.]+'
   AC_SERVER_LAP_LINE = /^LAP (#{AC_DRIVER}) ([0-9:]+)$/
-  AC_POSITION_LINE   = /^([0-9]+)\) (#{AC_DRIVER}) BEST: [0-9:]+ TOTAL: [0-9:]+ Laps:([0-9]+) SesID:[0-9]+$/
+  AC_POSITION_LINE   = /^([0-9]+)\) (#{AC_DRIVER}) BEST: [0-9:]+ TOTAL: ([0-9:]+) Laps:([0-9]+) SesID:[0-9]+$/
 
   def full_name
     nm = []
@@ -157,6 +157,10 @@ class Race < ActiveRecord::Base
     ((time[2].to_i * 60) + time[3].gsub(/:/, '.').to_f).round(3)
   end
 
+  def calculate_delta(last_lap, this_lap)
+    (convert_lap_to_seconds(this_lap) - convert_lap_to_seconds(last_lap)).round(3)
+  end
+
   def nullify_thing
     self.thing = nil if self.thing.blank?
   end
@@ -261,21 +265,20 @@ class Race < ActiveRecord::Base
           grid_position[driver] = pos
         end
       else
-        AC_SERVER_LAP_LINE.match(line) do |lap|
-          driver   = lap[1]
-          lap_time = lap[2]
-
-          laps[driver] ||= []
-          laps[driver] << { :time => convert_lap_to_seconds(lap_time), :pos => nil }
-        end
-
         AC_POSITION_LINE.match(line) do |lap|
           driver    = lap[2]
           pos       = lap[1].to_i
-          lap_count = lap[3].to_i
+          lap_count = lap[4].to_i
+          total     = lap[3]
 
-          if laps[driver] && laps[driver][lap_count - 1] && laps[driver][lap_count - 1][:pos].nil?
-            laps[driver][lap_count - 1].update(:pos => pos)
+          next unless lap_count > 0
+
+          laps[driver] ||= []
+
+          if lap_count > 1
+            laps[driver][lap_count - 1] = { :time => calculate_delta(laps[driver][lap_count - 2][:total], total), :pos => pos, :total => total }
+          else
+            laps[driver][lap_count - 1] = { :time => convert_lap_to_seconds(total), :pos => pos, :total => total }
           end
         end
 
