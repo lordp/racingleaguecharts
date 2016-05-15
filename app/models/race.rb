@@ -246,6 +246,8 @@ class Race < ActiveRecord::Base
     state = nil
 
     File.open(self.ac_log.tempfile).each do |line|
+      line.strip!
+
       /^TYPE=QUALIFY$/.match(line) do
         state = AC_QUALIFYING
         grid_position = {}
