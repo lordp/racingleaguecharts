@@ -315,6 +315,7 @@ class Race < ActiveRecord::Base
     grid_line_found = false
     grid_position = []
     File.open(self.ac_log.tempfile).each do |line|
+      line.strip!
       found_race = true if line.match(/NAME=Race/)
       next unless found_race
 
