@@ -66,6 +66,7 @@ class SayWhat::RacesController < ApplicationController
 
     def find_race
       @race = Race.find(params[:id].to_i)
+      @race.existing_driver_session_ids = @race.sessions.collect(&:id).join(',')
     end
 
     def get_sessions
@@ -73,7 +74,7 @@ class SayWhat::RacesController < ApplicationController
     end
 
     def race_params
-      params.require(:race).permit(:name, :season_id, :track_id, :ac_log, :ac_log_server, :time_trial, :is_dry, :thing, :fia, :session_ids => [], :driver_session_ids => [], :existing_driver_session_ids => [])
+      params.require(:race).permit(:name, :season_id, :track_id, :ac_log, :ac_log_server, :time_trial, :is_dry, :thing, :fia, :existing_driver_session_ids, :session_ids => [], :driver_session_ids => [])
     end
 
 end

@@ -23,8 +23,8 @@
 
   <div class="form-group">
     <%= f.label(:existing_driver_session_ids, 'Existing Sessions') %>
-    <%= display_help('Type in session numbers given to you by those using the logging app. This is used to (re)assign existing sessions to this race, it doesn\'t create new ones.') %>
-    <%= f.select(:existing_driver_session_ids, options_from_collection_for_select(Session.all, "id", "id", @race.session_ids), {}, { :multiple => true, :class => 'form-control select2' }) %>
+    <%= display_help('Type in session numbers given to you by those using the logging app, separated by commas. This is used to (re)assign existing sessions to this race, it doesn\'t create new ones.') %>
+    <%= f.text_field(:existing_driver_session_ids, :class => 'form-control select2' ) %>
   </div>
 </fieldset>
 

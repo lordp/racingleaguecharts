@@ -76,13 +76,13 @@ class Race < ActiveRecord::Base
     end
 
     unless existing_driver_session_ids.nil?
-      existing_driver_session_ids.reject!(&:blank?).map!(&:to_i)
+      e = existing_driver_session_ids.split(/,/).reject!(&:blank?).map!(&:to_i)
 
       current = self.sessions.collect(&:id)
-      Session.find((existing_driver_session_ids - current)).each do |session|
+      Session.find((e - current)).each do |session|
         session.update_attribute(:race_id, self.id)
       end
-      Session.find((current - existing_driver_session_ids)).each do |session|
+      Session.find((current - e)).each do |session|
         session.update_attribute(:race_id, nil)
       end
     end
