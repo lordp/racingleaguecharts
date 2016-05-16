@@ -1,7 +1,8 @@
 <h1>Listing Laps</h1>
 
-<%= link_to('New Lap', new_say_what_lap_path) %>
+<p><%= link_to('New Lap', new_say_what_lap_path) %></p>
 
+<%= paginate @laps %>
 <table class="table table-bordered">
   <thead>
     <tr>
@@ -19,4 +20,4 @@
   </tbody>
 </table>
 
-<%= link_to('New Lap', new_say_what_lap_path) %>
+<%= paginate @laps %>

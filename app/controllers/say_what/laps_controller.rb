@@ -2,7 +2,7 @@ class SayWhat::LapsController < ApplicationController
   before_filter :find_lap, :only => [ :show, :edit, :update, :destroy ]
 
   def index
-    @laps = Lap.order(:total).page(params[:page].to_i).per(15)
+    @laps = Lap.page(params[:page].to_i).per(15)
   end
 
   def show
