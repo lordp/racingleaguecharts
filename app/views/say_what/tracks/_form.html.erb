@@ -9,5 +9,10 @@
 </div>
 
 <div class="form-group">
+  <%= f.label(:move_sessions_to, "Move #{@track.sessions.size} sessions to this track") %>
+  <%= f.select(:move_sessions_to, options_from_collection_for_select(Track.order(:name), "id", "name"), { :include_blank => true }, { :class => 'form-control select2' }) %>
+</div>
+
+<div class="form-group">
   <%= f.submit('Save', :class => 'btn btn-default') %> <%= cancel_link(@track) %>
 </div>

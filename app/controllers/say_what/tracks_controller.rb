@@ -25,7 +25,11 @@ class SayWhat::TracksController < ApplicationController
 
   def update
     @track.update!(track_params)
-    redirect_to(say_what_track_path(@track), :notice => 'Track was successfully updated.')
+    if params[:track][:move_sessions_to].blank?
+      redirect_to(say_what_track_path(@track), :notice => 'Track was successfully updated.')
+    else
+      redirect_to(say_what_tracks_path, :notice => 'Track was deleted and sessions moved.')
+    end
   rescue
     render "edit"
   end
@@ -42,7 +46,7 @@ class SayWhat::TracksController < ApplicationController
     end
 
     def track_params
-      params.require(:track).permit(:name, :length)
+      params.require(:track).permit(:name, :length, :move_sessions_to)
     end
 
 end
