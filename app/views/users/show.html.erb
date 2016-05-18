@@ -55,7 +55,7 @@
         </div>
       </fieldset>
     </div>
-    <%= render(:partial => 'sessions/session_list', :locals => { :sessions => @user.sessions.order(:created_at) }) %>
+    <%= render(:partial => 'sessions/session_list', :locals => { :sessions => @user.sessions.order(:created_at), :show_name => true }) %>
   </div>
   <% if current_user && current_user == @user %>
   <div class="tab-pane" id="auth">

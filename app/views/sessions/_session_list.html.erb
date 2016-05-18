@@ -1,7 +1,7 @@
 <table class="table" id="session_list">
   <thead>
   <tr>
-    <% if self.lookup_context.prefixes.first != 'drivers' %>
+    <% if defined?(show_name) %>
     <th>Driver</th>
     <% end %>
     <th>Date</th>
@@ -14,7 +14,7 @@
   <tbody>
   <% sessions.each do |session| %>
     <tr data-type="<%= session.nice_session_type.parameterize %>" data-driver="<%= session.driver.try(:name).try(:parameterize) %>" data-track="<%= session.track.try(:name).try(:parameterize) %>">
-      <% if self.lookup_context.prefixes.first != 'drivers' %>
+      <% if defined?(show_name) %>
       <td><%= session.driver.try(:name) %></td>
       <% end %>
       <td><%= session.created_at.strftime('%d %b %Y') %></td>
