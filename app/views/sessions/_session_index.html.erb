@@ -4,11 +4,11 @@
   <legend>Filters</legend>
   <div class="form-group">
     <strong>Driver: </strong>
-    <%= select_tag(:driver, options_from_collection_for_select(Driver.all, "id", "name"), { :multiple => true, :class => 'form-control select2 session-compare' }) %>
+    <%= select_tag(:driver, options_from_collection_for_select(Driver.order(:name), "id", "name"), { :multiple => true, :class => 'form-control select2 session-compare' }) %>
   </div>
   <div class="form-group">
     <strong>Track: </strong>
-    <%= select_tag(:track, options_from_collection_for_select(Track.all, "id", "name"), { :multiple => true, :class => 'form-control select2 session-compare' }) %>
+    <%= select_tag(:track, options_from_collection_for_select(Track.order(:name), "id", "name"), { :multiple => true, :class => 'form-control select2 session-compare' }) %>
   </div>
   <div class="checkbox">
     <strong>Session Type: </strong>
