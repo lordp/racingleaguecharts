@@ -1,5 +1,5 @@
 $(function() {
-  $('.session-compare').on('click', function() {
+  function fetch_sessions() {
     params = {
       drivers: $('#driver').val() || [],
       tracks: $('#track').val() || [],
@@ -13,5 +13,7 @@ $(function() {
         }).join(''));
       });
     }
-  });
+  }
+
+  $('.session-compare').on('click', fetch_sessions).on('change', fetch_sessions);
 });

@@ -1,0 +1,42 @@
+<h1>Sessions</h1>
+
+<fieldset>
+  <legend>Filters</legend>
+  <div class="form-group">
+    <strong>Driver: </strong>
+    <%= select_tag(:driver, options_from_collection_for_select(Driver.all, "id", "name"), { :multiple => true, :class => 'form-control select2 session-compare' }) %>
+  </div>
+  <div class="form-group">
+    <strong>Track: </strong>
+    <%= select_tag(:track, options_from_collection_for_select(Track.all, "id", "name"), { :multiple => true, :class => 'form-control select2 session-compare' }) %>
+  </div>
+  <div class="checkbox">
+    <strong>Session Type: </strong>
+    <%= label_tag('race') do %>
+      <%= check_box_tag('race', 1, false, { :class => 'session-compare' }) %> Race
+    <% end %>
+    <%= label_tag('qualifying') do %>
+      <%= check_box_tag('qualifying', 1, false, { :class => 'session-compare' }) %> Qualifying
+    <% end %>
+    <%= label_tag('one-shot-qualifying') do %>
+      <%= check_box_tag('one-shot-qualifying', 1, false, { :class => 'session-compare' }) %> One-shot Qualifying
+    <% end %>
+    <%= label_tag('time-trial') do %>
+      <%= check_box_tag('time-trial', 1, false, { :class => 'session-compare' }) %> Time Trial
+    <% end %>
+  </div>
+</fieldset>
+<table class="table table-striped table-condensed" id="session_list">
+  <thead>
+  <tr>
+    <th>Driver</th>
+    <th>Track</th>
+    <th>Session Type</th>
+    <th>Race</th>
+    <th>Laps</th>
+    <th>Date</th>
+  </tr>
+  </thead>
+  <tbody>
+  </tbody>
+</table>
