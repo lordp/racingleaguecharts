@@ -75,7 +75,7 @@ class Race < ActiveRecord::Base
       end
     end
 
-    unless existing_driver_session_ids.nil?
+    unless existing_driver_session_ids.blank?
       e = existing_driver_session_ids.split(/,/).reject!(&:blank?).map!(&:to_i)
 
       current = self.sessions.collect(&:id)
