@@ -264,7 +264,8 @@ function set_bar_chart_options(options) {
 // Base options
 var options = {
   chart: {
-    type: 'spline'
+    type: 'spline',
+    zoomType: 'x'
   },
   title: {
     text: ""
