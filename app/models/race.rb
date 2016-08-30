@@ -45,7 +45,7 @@ class Race < ActiveRecord::Base
 
   AC_DRIVER = '.+' #'[a-zA-Z0-9\\ \|_\.]+'
   AC_SERVER_LAP_LINE = /^LAP (#{AC_DRIVER}) ([0-9:]+)$/
-  AC_POSITION_LINE   = /^([0-9]+)\) (#{AC_DRIVER}) BEST: [0-9:]+ TOTAL: ([0-9:]+) Laps:([0-9]+) SesID:[0-9]+$/
+  AC_POSITION_LINE   = /^([0-9]+)\) (#{AC_DRIVER}) BEST: [0-9:]+ TOTAL: ([0-9:]+) Laps:([0-9]+) SesID:[0-9]+ HasFinished:(false|true)$/
 
   def full_name
     nm = []
