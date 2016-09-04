@@ -11,10 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150326025822) do
+ActiveRecord::Schema.define(version: 20160904225029) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "hstore"
 
   create_table "driver_aliases", force: :cascade do |t|
     t.integer  "driver_id"
@@ -56,6 +57,8 @@ ActiveRecord::Schema.define(version: 20150326025822) do
     t.decimal "fuel"
   end
 
+  add_index "laps", ["session_id"], name: "idx_session_id", using: :btree
+
   create_table "league_seasons", force: :cascade do |t|
     t.integer  "league_id"
     t.integer  "season_id"
@@ -70,17 +73,22 @@ ActiveRecord::Schema.define(version: 20150326025822) do
     t.integer  "super_league_id"
   end
 
+  add_index "leagues", ["super_league_id"], name: "idx_super_league_id", using: :btree
+
   create_table "races", force: :cascade do |t|
-    t.string   "name",       limit: 50
+    t.string   "name",          limit: 50
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "season_id"
     t.integer  "track_id"
     t.boolean  "time_trial"
     t.boolean  "is_dry"
-    t.string   "thing",      limit: 255
+    t.string   "thing",         limit: 255
     t.boolean  "fia"
+    t.boolean  "assetto_corsa"
   end
+
+  add_index "races", ["season_id"], name: "idx_season_id", using: :btree
 
   create_table "screenshots", force: :cascade do |t|
     t.integer  "session_id"
@@ -93,7 +101,6 @@ ActiveRecord::Schema.define(version: 20150326025822) do
     t.integer  "image_file_size"
     t.datetime "image_updated_at"
     t.boolean  "confirmed"
-    t.boolean  "career"
   end
 
   create_table "seasons", force: :cascade do |t|
@@ -103,6 +110,8 @@ ActiveRecord::Schema.define(version: 20150326025822) do
     t.datetime "updated_at",             null: false
     t.boolean  "time_trial"
   end
+
+  add_index "seasons", ["league_id"], name: "idx_league_id", using: :btree
 
   create_table "sessions", force: :cascade do |t|
     t.string   "token",             limit: 50
@@ -120,18 +129,19 @@ ActiveRecord::Schema.define(version: 20150326025822) do
     t.integer  "laps_count"
     t.integer  "screenshots_count"
     t.integer  "fastest_lap_id"
+    t.string   "vehicle"
+    t.integer  "ballast"
   end
 
   add_index "sessions", ["driver_id"], name: "sessions_driver_id", using: :btree
+  add_index "sessions", ["race_id"], name: "idx_race_id", using: :btree
 
   create_table "super_leagues", force: :cascade do |t|
     t.string   "name",       limit: 255
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
-    t.boolean  "disabled"
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
+    t.boolean  "disabled",               default: false
   end
-
-  add_index "super_leagues", ["disabled"], name: "idx_disabled", using: :btree
 
   create_table "tracks", force: :cascade do |t|
     t.string   "name",       limit: 255
