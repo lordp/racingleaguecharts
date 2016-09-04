@@ -85,4 +85,15 @@ $(function() {
     }
     return false;
   });
+
+  $('input[data-toggle-column]').on('click', function() {
+    column = $('.toggle-column-' + $(this).data('toggle-column'));
+    if (this.checked) {
+      column.show();
+    }
+    else {
+      column.hide();
+    }
+  });
+
 });

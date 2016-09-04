@@ -47,6 +47,7 @@ class Race < ActiveRecord::Base
   AC_DRIVER = '.+' #'[a-zA-Z0-9\\ \|_\.]+'
   AC_SERVER_LAP_LINE = /^LAP (#{AC_DRIVER}) ([0-9:]+)$/
   AC_POSITION_LINE   = /^([0-9]+)\) (#{AC_DRIVER}) BEST: [0-9:]+ TOTAL: ([0-9:]+) Laps:([0-9]+) SesID:[0-9]+ HasFinished:(false|true)$/
+  AC_VEHICLE = /^CAR: [\d]+ ([^ ]+) \([\d]+\) \[([^\[]+) \[[^\]]*\]\] [^\[]+ \[[^\]]*\] [\d]+ ([\d]+) kg$/
 
   def full_name
     nm = []
@@ -252,9 +253,14 @@ class Race < ActiveRecord::Base
     laps = {}
     grid_position = {}
     state = nil
+    drivers = {}
 
     File.open(self.ac_log.tempfile).each do |line|
       line.strip!
+
+      AC_VEHICLE.match(line) do |vehicle|
+        drivers[vehicle[2]] = { :vehicle => vehicle[1], :ballast => vehicle[3] }
+      end
 
       /^TYPE=QUALIFY$/.match(line) do
         state = AC_QUALIFYING
@@ -298,11 +304,14 @@ class Race < ActiveRecord::Base
       end
     end
 
+    session_update = { :track_id => self.track_id }
     laps.each do |driver_id, laps_info|
       driver = Driver.find_or_create_by(:name => driver_id)
       s = self.sessions.find_or_create_by(:driver_id => driver.id)
-      s.update_attribute(:grid_position, grid_position[driver_id]) unless grid_position[driver_id].nil?
-      s.update_attribute(:track_id, self.track_id)
+      session_update[:grid_position] = grid_position[driver_id] unless grid_position[driver_id].nil?
+      session_update[:vehicle] = drivers[driver_id][:vehicle] unless drivers[driver_id][:vehicle].nil?
+      session_update[:ballast] = drivers[driver_id][:ballast] unless drivers[driver_id][:ballast].nil?
+      s.update(session_update)
       laps_info.each_with_index do |lap, index|
         next if lap.nil?
         l = s.laps.find_or_create_by(:lap_number => index)
