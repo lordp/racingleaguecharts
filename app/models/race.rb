@@ -6,6 +6,7 @@ class Race < ActiveRecord::Base
   belongs_to :season
 
   before_save :nullify_thing
+  before_save :set_assetto_corsa
   after_save :adjust_sessions
   after_save :parse_assetto_corsa
   after_save :find_fastest_laps
@@ -166,6 +167,10 @@ class Race < ActiveRecord::Base
 
   def nullify_thing
     self.thing = nil if self.thing.blank?
+  end
+
+  def set_assetto_corsa
+    self.assetto_corsa = true unless self.ac_log.blank?
   end
 
   def scan_f1(race_number, offset = 0)
