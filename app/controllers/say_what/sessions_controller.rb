@@ -47,7 +47,7 @@ class SayWhat::SessionsController < ApplicationController
     end
 
     def session_params
-      params.require(:session).permit(:driver_id, :race_id, :track_id, :winner, :grid_position, :screenshot_ids => [])
+      params.require(:session).permit(:driver_id, :race_id, :track_id, :winner, :grid_position, :vehicle, :ballast, :screenshot_ids => [])
     end
 
 end

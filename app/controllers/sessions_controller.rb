@@ -80,7 +80,7 @@ class SessionsController < ApplicationController
     end
 
     def session_params
-      params.require(:session).permit(:token, :session_type, :driver_id, :track_id, :race_id, :winner, :screenshot_ids, :lap_text, :grid_position)
+      params.require(:session).permit(:token, :session_type, :driver_id, :track_id, :race_id, :winner, :screenshot_ids, :lap_text, :grid_position, :vehicle, :ballast)
     end
 
 end
