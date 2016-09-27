@@ -33,6 +33,7 @@
 <ul class="nav nav-tabs">
   <li class="active"><a id="tab-results" href="#container-results" data-toggle="tab">Results</a></li>
 <% unless @race.time_trial? %>
+  <li><a id="tab-qualifying" href="#container-qualifying" data-toggle="tab">Qualifying</a></li>
   <li><a id="tab-laps" href="#container-laps" data-toggle="tab">Laps</a></li>
   <li><a id="tab-gaps" href="#container-gaps" data-toggle="tab">Gaps</a></li>
   <li><a id="tab-diffs" href="#container-diffs" data-toggle="tab">Diffs</a></li>
@@ -49,48 +50,48 @@
   <div class="tab-pane active" id="container-results">
     <table class="table">
       <thead>
-        <tr>
-          <th class="col-sm-1">
-            <div class="btn-group">
-              <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fa fa-columns" aria-hidden="true"></i> <span class="caret"></span>
-              </button>
-              <ul class="dropdown-menu column-toggle-padding">
-                <li class="checkbox"><label><input type="checkbox" data-toggle-column="driver" checked="checked"> Driver</label></li>
-                <% if @race.assetto_corsa? %>
+      <tr>
+        <th class="col-sm-1">
+          <div class="btn-group">
+            <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="fa fa-columns" aria-hidden="true"></i> <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu column-toggle-padding">
+              <li class="checkbox"><label><input type="checkbox" data-toggle-column="driver" checked="checked"> Driver</label></li>
+              <% if @race.assetto_corsa? %>
                 <li class="checkbox"><label><input type="checkbox" data-toggle-column="vehicle" checked="checked"> Vehicle</label></li>
                 <li class="checkbox"><label><input type="checkbox" data-toggle-column="ballast" checked="checked"> Ballast</label></li>
-                <% end %>
-                <li class="checkbox"><label><input type="checkbox" data-toggle-column="laps" checked="checked"> Laps</label></li>
-                <li class="checkbox"><label><input type="checkbox" data-toggle-column="total-time" checked="checked"> Total Time</label></li>
-                <li class="checkbox"><label><input type="checkbox" data-toggle-column="gap" checked="checked"> Gap</label></li>
-                <li class="checkbox"><label><input type="checkbox" data-toggle-column="fastest-lap" checked="checked"> Fastest Lap</label></li>
-                <li class="checkbox"><label><input type="checkbox" data-toggle-column="average-lap" checked="checked"> Average Lap</label></li>
-                <li class="checkbox"><label><input type="checkbox" data-toggle-column="consistency" checked="checked"> Consistency</label></li>
-              </ul>
-            </div>
-          </th>
-          <th class="toggle-column-driver">Driver</th>
-          <% if @race.assetto_corsa? %>
+              <% end %>
+              <li class="checkbox"><label><input type="checkbox" data-toggle-column="laps" checked="checked"> Laps</label></li>
+              <li class="checkbox"><label><input type="checkbox" data-toggle-column="total-time" checked="checked"> Total Time</label></li>
+              <li class="checkbox"><label><input type="checkbox" data-toggle-column="gap" checked="checked"> Gap</label></li>
+              <li class="checkbox"><label><input type="checkbox" data-toggle-column="fastest-lap" checked="checked"> Fastest Lap</label></li>
+              <li class="checkbox"><label><input type="checkbox" data-toggle-column="average-lap" checked="checked"> Average Lap</label></li>
+              <li class="checkbox"><label><input type="checkbox" data-toggle-column="consistency" checked="checked"> Consistency</label></li>
+            </ul>
+          </div>
+        </th>
+        <th class="toggle-column-driver">Driver</th>
+        <% if @race.assetto_corsa? %>
           <th class="toggle-column-vehicle">Vehicle</th>
           <th class="toggle-column-ballast">Ballast</th>
-          <% end %>
-          <% unless @race.time_trial? %>
+        <% end %>
+        <% unless @race.time_trial? %>
           <th class="toggle-column-laps col-sm-1">Laps</th>
           <th class="toggle-column-total-time col-sm-1">Total Time</th>
-          <% end %>
-          <th class="toggle-column-gap col-sm-2">Gap</th>
-          <th class="toggle-column-fastest-lap col-sm-1">Fastest Lap</th>
-          <% if @race.time_trial? %>
+        <% end %>
+        <th class="toggle-column-gap col-sm-2">Gap</th>
+        <th class="toggle-column-fastest-lap col-sm-1">Fastest Lap</th>
+        <% if @race.time_trial? %>
           <th class="col-sm-1">Points</th>
-          <% else %>
+        <% else %>
           <th class="toggle-column-average-lap col-sm-1">Average Lap</th>
           <th class="toggle-column-consistency col-sm-2" colspan="2">
             Consistency
             <%= display_help('"Top 80%" is the best 80% of the laps you completed. "Total" is all laps, including in- and out-laps, but excluding lap 1.') %>
           </th>
-          <% end %>
-        </tr>
+        <% end %>
+      </tr>
       </thead>
       <tbody>
       <% @race_sessions.each_with_index do |session, index| %>
@@ -98,17 +99,17 @@
           <td><%= (index + 1).ordinalize %></td>
           <td class="toggle-column-driver"><%= session.driver.try(:name) %></td>
           <% if @race.assetto_corsa? %>
-          <td class="toggle-column-vehicle"><%= session.vehicle %></td>
-          <td class="toggle-column-ballast"><%= session.ballast %> kg</td>
+            <td class="toggle-column-vehicle"><%= session.vehicle %></td>
+            <td class="toggle-column-ballast"><%= session.ballast %> kg</td>
           <% end %>
           <% unless @race.time_trial? %>
-          <td class="toggle-column-laps"><%= session.laps.count %></td>
-          <td class="toggle-column-total-time"><%= nice_time(session.total_time) %></td>
+            <td class="toggle-column-laps"><%= session.laps.count %></td>
+            <td class="toggle-column-total-time"><%= nice_time(session.total_time) %></td>
           <% end %>
           <td class="toggle-column-gap"><%= nice_gap(@race_sessions, session, index) %></td>
           <td class="toggle-column-fastest-lap"><%= nice_time(session.fastest_lap.try(:total)) %> <% if !@race.time_trial? %>(lap <%= session.fastest_lap ? session.fastest_lap.lap_number + 1 : 1 %>)<% end %></td>
           <% if @race.time_trial? %>
-          <td><%= Race::POINTS[index] || 0 %></td>
+            <td><%= Race::POINTS[index] || 0 %></td>
           <% else %>
             <td class="toggle-column-average-lap"><%= nice_time(session.average_lap) %></td>
             <td class="toggle-column-consistency">
@@ -118,6 +119,26 @@
               <strong>Total:</strong> <%= session.consistency %>
             </td>
           <% end %>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+  <div class="tab-pane active" id="container-qualifying">
+    <table class="table">
+      <thead>
+        <tr>
+          <th class="col-sm-1"></th>
+          <th class="toggle-column-driver">Driver</th>
+          <th class="toggle-column-vehicle">Qualifying Lap</th>
+        </tr>
+      </thead>
+      <tbody>
+      <% @race_sessions.sort_by(&:grid_position).each_with_index do |session, index| %>
+        <tr>
+          <td><%= (index + 1).ordinalize %></td>
+          <td class="toggle-column-driver"><%= session.driver.try(:name) %></td>
+          <td class="toggle-column-total-time"><%= nice_time(session.qualifying_lap) %></td>
         </tr>
       <% end %>
       </tbody>
