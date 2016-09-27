@@ -46,7 +46,7 @@ class Race < ActiveRecord::Base
 
   AC_DRIVER = '.+' #'[a-zA-Z0-9\\ \|_\.]+'
   AC_SERVER_LAP_LINE = /^LAP (#{AC_DRIVER}) ([0-9:]+)$/
-  AC_POSITION_LINE   = /^([0-9]+)\) (#{AC_DRIVER}) BEST: [0-9:]+ TOTAL: ([0-9:]+) Laps:([0-9]+) SesID:[0-9]+ HasFinished:(false|true)$/
+  AC_POSITION_LINE   = /^([0-9]+)\) (#{AC_DRIVER}) BEST: ([0-9:]+) TOTAL: ([0-9:]+) Laps:([0-9]+) SesID:[0-9]+ HasFinished:(false|true)$/
   AC_VEHICLE = /^CAR: [\d]+ ([^ ]+) \([\d]+\) \[([^\[]+) \[[^\]]*\]\] [^\[]+ \[[^\]]*\] [\d]+ ([\d]+) kg$/
 
   def full_name
@@ -274,18 +274,19 @@ class Race < ActiveRecord::Base
 
       if state == AC_QUALIFYING
         AC_POSITION_LINE.match(line) do |lap|
-          driver    = lap[2]
-          pos       = lap[1].to_i
+          driver = lap[2]
+          pos    = lap[1].to_i
+          lap    = lap[3]
 
-          grid_position[driver] ||= nil
-          grid_position[driver] = pos
+          grid_position[driver] ||= {}
+          grid_position[driver] = { :position => pos, :lap_time => lap }
         end
       else
         AC_POSITION_LINE.match(line) do |lap|
           driver    = lap[2]
           pos       = lap[1].to_i
-          lap_count = lap[4].to_i
-          total     = lap[3]
+          lap_count = lap[5].to_i
+          total     = lap[4]
 
           next unless lap_count > 0
 
@@ -304,17 +305,24 @@ class Race < ActiveRecord::Base
       end
     end
 
+    driver_sessions = {}
     session_update = { :track_id => self.track_id }
-    laps.each do |driver_id, laps_info|
+    grid_position.each do |driver_id, grid_info|
       driver = Driver.find_or_create_by(:name => driver_id)
-      s = self.sessions.find_or_create_by(:driver_id => driver.id)
-      session_update[:grid_position] = grid_position[driver_id] unless grid_position[driver_id].nil?
-      session_update[:vehicle] = drivers[driver_id][:vehicle] unless drivers[driver_id][:vehicle].nil?
-      session_update[:ballast] = drivers[driver_id][:ballast] unless drivers[driver_id][:ballast].nil?
-      s.update(session_update)
+      driver_sessions[driver_id] = self.sessions.find_or_create_by(:driver_id => driver.id)
+      session_update[:qualifying_lap] = convert_lap_to_seconds(grid_info[:lap_time]) unless grid_info[:lap_time].nil?
+      session_update[:grid_position] = grid_info[:position] unless grid_info[:position].nil?
+      if drivers[driver_id]
+        session_update[:vehicle] = drivers[driver_id][:vehicle] unless drivers[driver_id][:vehicle].nil?
+        session_update[:ballast] = drivers[driver_id][:ballast] unless drivers[driver_id][:ballast].nil?
+      end
+      driver_sessions[driver_id].update(session_update)
+    end
+
+    laps.each do |driver_id, laps_info|
       laps_info.each_with_index do |lap, index|
         next if lap.nil?
-        l = s.laps.find_or_create_by(:lap_number => index)
+        l = driver_sessions[driver_id].laps.find_or_create_by(:lap_number => index)
         l.total = lap[:time]
         l.position = lap[:pos]
         l.save
