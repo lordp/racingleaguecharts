@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160904225029) do
+ActiveRecord::Schema.define(version: 20160927230419) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -131,6 +131,7 @@ ActiveRecord::Schema.define(version: 20160904225029) do
     t.integer  "fastest_lap_id"
     t.string   "vehicle"
     t.integer  "ballast"
+    t.float    "qualifying_lap"
   end
 
   add_index "sessions", ["driver_id"], name: "sessions_driver_id", using: :btree
