@@ -1,4 +1,7 @@
-<h1><%= @driver.claimed? %></h1>
+<h1><%= @driver.name || 'Unknown' %></h1>
+<% if @driver.user %>
+<h3>Claimed by <%= @driver.user.name %></h3>
+<% end %>
 
 <h2>Sessions</h2>
 <%= paginate @sessions %>

@@ -4,24 +4,15 @@ class Driver < ActiveRecord::Base
   has_many :sessions
   has_many :driver_aliases
 
-  has_one :driver_user
-  has_one :user, :through => :driver_user
+  belongs_to :user
 
   before_save :adjust_aliases
   after_save :adjust_sessions
 
   UNKNOWN_DRIVER = 430
 
-  def claimed?
-    if name.blank?
-      'Unknown'
-    else
-      name
-    end
-  end
-
   def self.unclaimed?
-    Driver.eager_load(:driver_user).where('driver_users.user_id is null').order(:name)
+    Driver.where(:user_id => nil).order(:name)
   end
 
   def adjust_sessions

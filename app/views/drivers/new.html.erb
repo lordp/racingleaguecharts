@@ -1,0 +1,6 @@
+<h1>Add Driver</h1>
+
+<%= form_for(@driver, :url => user_drivers_path(current_user)) do |f| %>
+  <%= render(:partial => 'shared/errors', :object => @driver ) %>
+  <%= render(:partial => 'form', :locals => { :f => f }) %>
+<% end %>

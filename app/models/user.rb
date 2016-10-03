@@ -5,8 +5,7 @@ class User < ActiveRecord::Base
   validates :email, :uniqueness => true, :presence => true
   validates :token, :uniqueness => true, :allow_blank => true
 
-  has_many :driver_users
-  has_many :drivers, :through => :driver_users
+  has_many :drivers
 
   has_many :sessions, :through => :drivers
 

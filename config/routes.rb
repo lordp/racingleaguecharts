@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-  resources :drivers, :only => [ :index, :show, :edit, :update ]
+  resources :drivers, :only => [ :index, :show ]
   resources :laps, :only => [ :create ]
   resources :tracks, :only => [ :index, :show ]
   resources :screenshots, :only => [ :index, :show, :edit, :update ]
@@ -12,6 +12,7 @@ Rails.application.routes.draw do
       post 'do_sign_in'
     end
     resources :sessions
+    resources :drivers
   end
 
   resources :leagues, :only => [ :index, :show ]

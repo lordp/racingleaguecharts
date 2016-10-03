@@ -10,7 +10,7 @@
   <tbody>
   <% @drivers.each do |driver| %>
     <tr>
-      <td><%= link_to(driver.claimed?, driver_path(driver)) %></td>
+      <td><%= link_to(driver.name || 'Unknown', driver_path(driver)) %></td>
       <td><%= driver.sessions.size %></td>
     </tr>
   <% end %>

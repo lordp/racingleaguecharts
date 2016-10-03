@@ -23,9 +23,22 @@ class DriversController < ApplicationController
 
   def update
     @driver.update!(driver_params)
-    redirect_to(edit_user_path(@driver.user), :notice => 'Driver updated')
+    redirect_to(edit_user_driver_path(current_user, @driver), :notice => 'Driver updated')
   rescue
     render('edit')
+  end
+
+  def new
+    @driver = current_user.drivers.new
+  end
+
+  def create
+    @driver = Driver.new(driver_params)
+    @driver.user_id = current_user.id
+    @driver.save!
+    redirect_to(edit_user_driver_path(current_user, @driver), :notice => 'Driver created')
+  rescue
+    render('new')
   end
 
   private
@@ -39,7 +52,7 @@ class DriversController < ApplicationController
     end
 
     def driver_params
-      params.require(:driver).permit(:name, :colour, :marker, :merge_session_ids, :aliases)
+      params.require(:driver).permit(:name, :colour, :marker, :aliases, :merge_session_ids => [])
     end
 
 end
