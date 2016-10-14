@@ -39,8 +39,8 @@ class UsersController < ApplicationController
   end
 
   def do_sign_in
-    user = User.find_by_email(params[:email])
-    if user && user.authenticate(params[:password])
+    user = User.find_by(:email => user_params['email'])
+    if user && user.authenticate(user_params['password'])
       session[:user_id] = user.id
       redirect_to(root_url, :notice => 'Signed in!')
     else
