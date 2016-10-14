@@ -1,0 +1,44 @@
+<h1 id="wiki_telemetry_app_usage_instructions">Telemetry App Usage Instructions</h1>
+<h2 id="wiki_register">Register</h2>
+<p>The best way to use the app is to <%= link_to('Register', sign_up_users_path) %>.</p>
+<p>Once you have registered, click on '<%= link_to('Dashboard', current_user) %>'. If you haven't claimed any drivers, click on the '<%= link_to('Edit Profile', edit_user_path(current_user)) %>' link, find the 'Claimed Drivers' part and type in a driver name. You should be presented with a list of options - if you are not, or you do not see your driver name, click on the link below to add one, then choose that driver. Click 'Save' when you are done.</p>
+<p>To get your auth token, click on the 'Auth Token' tab, and copy the 64-character string. This token used by the app to talk to the website, creating sessions and submitting lap times automatically. The token is entered in the <a href="#wiki_settings" rel="nofollow">Settings</a> window.</p>
+<h2 id="wiki_download">Download</h2>
+<p>Download the app from <a href="https://racingleaguecharts.com/racingleaguecharts.exe" rel="nofollow">here</a>, and preferably place it in a directory by itself. Double click on the file to run it.</p>
+<p>If you haven't run the app before, you should get a warning that it can't find the game config file - this is normal. Click OK. This is what the main window of the app looks like</p>
+<h2 id="wiki_main_window">Main Window</h2>
+<p><%= image_tag('rlc-main.png') %></p>
+<p>The 'Show Log' button will show a window with a text area that will eventually show a list of things that happened, including completed laps, speed and fuel values, as well as general messages. This is mostly used for Local Mode or submitting lap times should something go wrong.</p>
+<p>The 'Race' dropdown box is for pre-selecting a race to attach your session to. If you cannot see the race, clicking on the refresh button on the right of it should update the list. If you still don't see the race, complain to your nearest mod.</p>
+<p>The 'Start' button tells the app to begin listening for the telemetry output from the game. Before you click on that, you may need to adjust the settings, which you do by clicking the 'Settings' button. This should pop up a dialog box that looks like this...</p>
+<h2 id="wiki_settings">Settings</h2>
+<p><%= image_tag('rlc-settings.png') %></p>
+<h3 id="wiki_general">General</h3>
+<p>The 'Auth Token' box is the most important thing - this is obtained from the website (see the registration step above) and is used to make sure the times you are submitting at not applied to the wrong driver. Copy the token you obtained and paste it into the box. The app will then request a list of drivers you have claimed above - choose the one you want to use from the 'Name' dropdown box. If this list is empty, please <a href="#wiki_bugs.2C_suggestions.2C_questions_or_complaints" rel="nofollow">contact lordp</a>.</p>
+<h3 id="wiki_codemasters_f1">Codemasters F1</h3>
+<p>The 'Locate Config' button is used to let the app know where the game config lives. Clicking on it should open up a Windows Explorer window in the right place - select the '<strong>hardware_settings_config.xml</strong>' file. If you can't see it, navigate to the following location (for F1 2016)</p>
+<pre><code>\Documents\my games\F1 2016\hardwaresettings
+</code></pre>
+<p>If you still can't find the file, <a href="#wiki_bugs.2C_suggestions.2C_questions_or_complaints" rel="nofollow">contact lordp</a> and he'll try to diagnose the problem.</p>
+<p>Make sure you tick the box next to 'Enable' - this tells the game to output telemetry data that the app reads. The 'Port' can be ignored, unless you're using something like Rob Gray's <a href="https://github.com/robgray/F1Speed/" rel="nofollow">F1Speed</a> in conjunction with this app.</p>
+<h3 id="wiki_local_mode">Local Mode</h3>
+<p>If you enable Local Mode, the app behaves much the same, except it will not request a session nor submit lap times to the website.</p>
+<h3 id="wiki_forwarding">Forwarding</h3>
+<p>This is only for advanced users - if you use an app like Rob Gray's <a href="https://github.com/robgray/F1Speed/" rel="nofollow">F1Speed</a> or other telemetry app, this will forward any received packets to that app. Tick the 'Enable' box, and enter the host and port details for the other app.</p>
+<h3 id="wiki_save">Save</h3>
+<p>Click 'Save' to write these details to the config.ini file (same folder as the app) and game config file.</p>
+<h2 id="wiki_general_use">General Use</h2>
+<p>If you are participating in an organised race, selecting it from the select box is the next step. If there are no races listed, your league organiser may not have created one. Clicking on the refresh button should request a new list from the website.</p>
+<p>Clicking the 'Start' button will tell the app to listen for the telemetry data. The status bar of the app should say 'Waiting for data...'. Starting with F1 2016, you must run the app <strong>and</strong> click 'Start' before running the game, otherwise an error should pop up warning you of this and how to remedy the situation.</p>
+<p>In the game, once you get to the garage, the game will start sending out telemetry data - the status bar message should change to 'Data received'. If 'Local Mode' is disabled, the app will then request a session identifier from the website. The app will show this in the main window next to the 'Session' label. If the session type or track changes, a new session will be requested from the website. This includes going from qualifying to the race.</p>
+<p>As each lap is completed, the most recent lap time will be displayed next to the 'Last Lap' label.</p>
+<p>Once your race is finished, click the 'Stop' button. If applicable, tell your race organiser the session number - they can then add it to the race for <a href="https://racingleaguecharts.com/races/66?tab=laps" rel="nofollow">glorious charting fun</a>.</p>
+<h3 id="wiki_viewing_sessions">Viewing Sessions</h3>
+<p>If you want to look at your session by itself, take the number next to the 'Session' label and put it into the following URL
+  <a href="https://racingleaguecharts.com/sessions/" rel="nofollow">https://racingleaguecharts.com/sessions/</a>&lt;number&gt;</p>
+<p>(for example, <a href="https://racingleaguecharts.com/sessions/6832" rel="nofollow">https://racingleaguecharts.com/sessions/6832</a>)</p>
+<h3 id="wiki_errors">Errors</h3>
+<p>The app will try 5 times to request a session or submit a lap. If these attempts fail, the 'Session' or 'Last Lap' labels will have the word 'Error' next to them. Details of the attempts and error information should be viewable by clicking on the 'Show Log' button.</p>
+<p>If you do encounter any errors, please save a copy of the log file and <a href="#wiki_bugs.2C_suggestions.2C_questions_or_complaints" rel="nofollow">contact lordp</a>.</p>
+<h2 id="wiki_bugs.2C_suggestions.2C_questions_or_complaints">Bugs, Suggestions, Questions or Complaints</h2>
+<p>If you have any of the above to ask or report, whether it's the app or the website, please let <a href="https://reddit.com/u/lordp" rel="nofollow">lordp</a> know through Reddit or <a href="https://steamcommunity.com/id/lordpee" rel="nofollow">Steam</a>.</p>
