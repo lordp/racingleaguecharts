@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
 
   before_filter :authorize, :only => [ :edit, :update ]
+  before_filter :filter_token, :only => [ :reset_password, :do_reset_password ]
 
   def show
     @user = User.find(params[:id].to_i)
@@ -49,10 +50,37 @@ class UsersController < ApplicationController
     end
   end
 
+  def reset_password
+    if params[:token]
+      @user = User.find_by(:password_reset_token => params[:token])
+    end
+  end
+
+  def send_reset_password
+    user = User.find_by(:email => user_params['email'])
+    user.update!(:password_reset_token => user.generate_token(false))
+    UserMailer.reset_password(user).deliver_now
+  end
+
+  def do_reset_password
+    user = User.find_by(:password_reset_token => params[:token])
+    if user
+      user.update!(:password => user_params['password'], :password_reset_token => nil)
+      redirect_to(sign_in_users_path, :notice => 'Password changed')
+    end
+  rescue
+    flash.now.alert = 'Password was not changed'
+    render('reset_password')
+  end
+
   private
 
     def user_params
       params.require(:user).permit(:name, :email, :password, :password_confirmation, :driver_ids => [])
+    end
+
+    def filter_token
+      params[:token] = params[:token].gsub(/[^a-z0-9]/, '')[0..63] if params[:token]
     end
 
 end

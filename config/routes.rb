@@ -10,6 +10,12 @@ Rails.application.routes.draw do
       get 'sign_out'
       get 'sign_up', :to => 'users#new'
       post 'do_sign_in'
+      get 'reset_password'
+      post 'send_reset_password'
+    end
+    member do
+      get 'reset_password'
+      post 'do_reset_password'
     end
     resources :sessions
     resources :drivers
