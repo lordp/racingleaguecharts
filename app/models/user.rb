@@ -15,10 +15,15 @@ class User < ActiveRecord::Base
     self.drivers.include?(driver)
   end
 
-  def generate_token
+  def generate_token(update = true)
     e = self.email.split(//)
     p = self.password_digest.split(//).shuffle.slice(0, e.size - 1)
     k = SecureRandom.urlsafe_base64(15).tr('lIO0', 'sxyz')
-    self.token = OpenSSL::HMAC.hexdigest('SHA256', k, e.zip(p).flatten.join(''))
+    t = OpenSSL::HMAC.hexdigest('SHA256', k, e.zip(p).flatten.join(''))
+    if update
+      self.token = t
+    else
+      t
+    end
   end
 end
