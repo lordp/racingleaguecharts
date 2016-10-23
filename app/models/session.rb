@@ -160,7 +160,7 @@ class Session < ActiveRecord::Base
   end
 
   def self.search(params)
-    query = Session.order(:created_at)
+    query = Session.order(:created_at => :desc)
 
     if params[:session_type]
       session_types = {
