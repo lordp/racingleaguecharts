@@ -1,5 +1,7 @@
 $(function() {
   function fetch_sessions() {
+    var admin = window.location.href.match(/say_what/);
+
     params = {
       drivers: $('#driver').val() || [],
       tracks: $('#track').val() || [],
@@ -9,7 +11,7 @@ $(function() {
     if (params.drivers.length > 0 || params.tracks.length > 0 || params.session_type.length > 0) {
       $.get('/sessions/search.json?' + $.param(params), function (data) {
         $('#session_list tbody').empty().append($.map(data, function(item) {
-          return "<tr><td><a href=\"/sessions/" + item.id + "\">" + item.driver + "</a></td><td>" + item.track + "</td><td>" + item.session_type + "</td><td>" + item.race + "</td><td>" + item.laps + "</td><td>" + item.created_at + "</td></tr>";
+          return "<tr><td><a href=\"/" + (admin == null ? "" : "say_what/") + "sessions/" + item.id + "\">" + item.driver + "</a></td><td>" + item.track + "</td><td>" + item.session_type + "</td><td>" + item.race + "</td><td>" + item.laps + "</td><td>" + item.created_at + "</td></tr>";
         }).join(''));
       });
     }
