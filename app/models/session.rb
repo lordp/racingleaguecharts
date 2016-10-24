@@ -184,7 +184,7 @@ class Session < ActiveRecord::Base
 
     query.includes(:race, :driver, :track).collect do |s|
       { :id => s.id, :session_type => s.nice_session_type, :track => s.track.try(:name) || 'Unknown', :driver => s.driver.try(:name) || 'Unknown',
-        :race => s.race.try(:name) || 'Unknown', :laps => s.laps_count || 'Unknown', :created_at => s.created_at.strftime('%d %b %Y') }
+        :race => s.race.try(:name) || 'Unknown', :laps => s.laps_count || 'Unknown', :created_at => s.created_at.strftime('%d %b %Y @ %H:%M') }
     end
   end
 
