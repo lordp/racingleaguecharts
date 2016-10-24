@@ -1,5 +1,5 @@
 class Race < ActiveRecord::Base
-  attr_accessor :driver_session_ids, :existing_driver_session_ids, :ac_log, :ac_log_server
+  attr_accessor :driver_session_ids, :existing_driver_session_ids, :ac_log, :ac_log_server, :rf2_log
 
   has_many :sessions
   belongs_to :track
@@ -9,6 +9,7 @@ class Race < ActiveRecord::Base
   before_save :set_assetto_corsa
   after_save :adjust_sessions
   after_save :parse_assetto_corsa
+  after_save :parse_rfactor2
   after_save :find_fastest_laps
 
   validates :name, :presence => true
@@ -407,6 +408,30 @@ class Race < ActiveRecord::Base
       end
     end
 
+  end
+
+  def parse_rfactor2
+    return if self.rf2_log.blank?
+
+    require 'rexml/document'
+    doc = REXML::Document.new(File.new(self.rf2_log.tempfile), { :compress_whitespace => :all })
+    drivers = REXML::XPath.match(doc, '//Driver')
+    drivers.each do |driver|
+      name = driver.elements['Name'].text
+      driver_record = Driver.find_or_create_by(:name => name)
+
+      session = self.sessions.find_or_create_by(:driver_id => driver_record.id)
+      session.update(:vehicle => driver.elements['VehFile'].text, :grid_position => driver.elements['GridPos'].text)
+
+      laps = REXML::XPath.match(driver, 'Lap')
+      laps.each do |lap|
+        l = session.laps.find_or_create_by(:lap_number => lap.attributes['num'])
+        l.update(
+          :total => lap.text, :position => lap.attributes['p'], :sector_1 => lap.attributes['s1'],
+          :sector_2 => lap.attributes['s2'], :sector_3 => lap.attributes['s3'], :fuel => lap.attributes['fuel']
+        )
+      end
+    end
   end
 
   def has_sectors?

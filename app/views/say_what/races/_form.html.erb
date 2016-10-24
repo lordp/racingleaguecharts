@@ -69,6 +69,13 @@
   </div>
 </fieldset>
 
+<fieldset>
+  <legend>RF2 Log</legend>
+  <div class="form-group">
+    <%= f.file_field(:rf2_log) %>
+  </div>
+</fieldset>
+
 <div class="form-group">
   <%= f.submit('Save', :class => 'btn btn-default') %> <%= cancel_link(@race) %>
 </div>
