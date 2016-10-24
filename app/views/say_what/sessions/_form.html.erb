@@ -1,6 +1,6 @@
  <div class="form-group">
   <%= f.label(:driver_id) %> (Not listed? <%= link_to('Add them!', new_say_what_driver_path) %>)
-  <%= f.select(:driver_id, Driver.order(:name).collect { |d| [d.claimed?, d.id] }, {}, { :class => 'form-control select2' }) %>
+  <%= f.select(:driver_id, Driver.order(:name).collect { |d| [d.name, d.id] }, {}, { :class => 'form-control select2' }) %>
 </div>
 
 <div class="form-group">
